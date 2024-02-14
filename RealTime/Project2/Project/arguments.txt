@@ -1,0 +1,7 @@
+file1=sender.txt
+file2=processed.txt
+file3=final.txt
+file4=temp.txt
+helpers=5
+spy=3
+threshold=3

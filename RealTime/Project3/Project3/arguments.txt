@@ -1,0 +1,9 @@
+number_of_ants=50
+speed_min=1
+speed_max=5
+food_placing=4
+smell_distance=0.3
+pheromone_min=1
+eating_portion=2
+end_time=100
+pheromone_dist=0.2

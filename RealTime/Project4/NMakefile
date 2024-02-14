@@ -1,0 +1,19 @@
+# MPLAB IDE generated this makefile for use with Microsoft `nmake'.
+# Project: Project4.mcp
+# Date: Wed Jul 26 02:17:01 2023
+
+AS = MPASMWIN.exe
+CC = 
+LD = mplink.exe
+AR = mplib.exe
+RM = del
+
+"LCD_Application.cof" : "LCD_Application.o"
+	$(CC) /p16F877A "LCD_Application.o" /u_DEBUG /z__MPLAB_BUILD=1 /z__MPLAB_DEBUG=1 /o"LCD_Application.cof" /M"LCD_Application.map" /W /x
+
+"LCD_Application.o" : "LCD_Application.ASM" "p16f877a.inc"
+	$(AS) /q /p16F877A "LCD_Application.ASM" /l"LCD_Application.lst" /e"LCD_Application.err" /d__DEBUG=1
+
+"clean" : 
+	$(CC) "LCD_Application.o" "LCD_Application.hex" "LCD_Application.err" "LCD_Application.lst" "LCD_Application.cof"
+

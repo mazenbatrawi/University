@@ -1,0 +1,2607 @@
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
+                      00002 
+                      00003 #include p16f877a.inc                ; Include register definition file
+                      00001         LIST
+                      00002 ; P16F877A.INC  Standard Header File, Version 1.00    Microchip Technology, Inc.
+                      00398         LIST
+  00000043            00004 TTH1    equ 43h
+  00000044            00005 TH1             equ 44h
+  00000045            00006 HUN1    equ     45h
+  00000046            00007 TEN1    equ     46h
+  00000047            00008 DIG1    equ     47h
+  00000048            00009 NUM1    equ     48h
+                      00010 
+  00000049            00011 svnum   equ     49h
+  00000023            00012 TTH2    equ 23h
+  00000024            00013 TH2             equ 24h
+  00000025            00014 HUN2    equ     25h
+  00000026            00015 TEN2    equ     26h
+  00000027            00016 DIG2    equ     27h
+  00000022            00017 temp    equ 22h
+  00000028            00018 RES_MOD equ 28h
+  00000029            00019 op              equ 29h
+  00000030            00020 Temp    equ     30h
+                      00021 
+  00000033            00022 RES1    equ 33h
+  00000034            00023 RES2    equ 34h
+  00000035            00024 RES3    equ     35h
+  00000036            00025 RES4    equ     36h
+  00000037            00026 RES5    equ     37h
+  00000038            00027 RES6    equ     38h
+  00000039            00028 CARRY   equ 39h
+  00000021            00029 divFlag equ     21h
+  00000087            00030 char1   equ     87h
+  00000088            00031 char2   equ 88h
+  00000089            00032 char3   equ 89h
+  00000090            00033 char4   equ 90h
+  00000090            00034 chsNum   equ 90h
+                      00035 
+  00000060            00036 TEMPDIG1        equ 60h
+  00000061            00037 TEMPTEN1        equ 61h
+  00000062            00038 TEMPHUN1        equ 62h
+  00000063            00039 TEMPTH1         equ 63h
+  00000064            00040 TEMPTTH1        equ 64h
+                      00041 
+  00000065            00042 RES1T   equ 65h
+  00000066            00043 RES2T   equ 66h
+  00000067            00044 RES3T   equ 67h
+  00000068            00045 RES4T           equ 68h
+  00000069            00046 RES5T   equ 69h
+                      00047 
+  00000032            00048 CNT             equ 32h
+                      00049 
+                      00050 
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+  00000049            00051 OPERATION       equ     49h
+  00000050            00052 NUM2    equ     50h
+  00000051            00053 NUMOROP equ 51h
+  00000054            00054 svop equ 54h
+                      00055 
+  00000052            00056 TEMP    equ     52h
+  00000053            00057 Result  equ     53h
+  0000007D            00058 CURRMax equ     7dh
+  0000007E            00059 TEMPDIG equ     7eh
+  0000007F            00060 Cout equ 7fh
+  00000070            00061 Timer1  EQU     70h             ; 1ms count register
+  00000071            00062 TimerX  EQU     71h             ; Xms count register
+  00000074            00063 Select  EQU     74h             ; Used to set or clear RS bit
+  00000075            00064 OutCod  EQU     75h             ; Temp store for output code
+                      00065 
+  00000001            00066 RS      EQU     1               ; Register select output bit
+  00000002            00067 E       EQU     2               ; Enable display input
+0000                  00068    ORG  000
+0000   0000           00069    NOP
+                      00070         
+0001   2850           00071    GOTO init
+0004                  00072    ORG  004
+                      00073    
+                      00074          
+0004   1EFF           00075         BTFSS Cout,5
+0005   0AFF           00076         INCF Cout,1
+0006   110B           00077         BCF     INTCON,2        ; Reset TMR0 interrupt flag
+0007   0009           00078         RETFIE  
+                      00079 
+0050                  00080 init    ORG     0x0050
+0050   0000           00081          NOP
+0051   1683 1303      00082          BANKSEL TRISB
+0053   3002           00083          MOVLW b'00000010'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0054   0086           00084          MOVWF TRISB
+                      00085          
+0055   3000           00086          MOVLW b'00000000'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0056   0087           00087          MOVWF TRISC
+0057   01FE           00088          CLRF   TEMPDIG
+                      00089          
+0058   30C7           00090          MOVLW b'11000111'
+0059   1683 1303      00091          BANKSEL OPTION_REG
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+005B   0081           00092          MOVWF OPTION_REG
+005C   30A0           00093          MOVLW  b'10100000'     ; INTCON init. code
+005D   008B           00094          MOVWF  INTCON          ; Enable TMR0 interrupt
+                      00095          
+005E   1683 1303      00096          BANKSEL        TRISD
+0060   3000           00097          MOVLW  b'00000000'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0061   0088           00098          MOVWF  TRISD
+                      00099          
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0062   1283 1303      00100          BANKSEL        PORTD
+                      00101          
+0064   01C3           00102          CLRF   TTH1
+0065   01C4           00103          CLRF   TH1
+0066   01C5           00104          CLRF   HUN1
+0067   01C6           00105          CLRF   TEN1
+0068   01C7           00106          CLRF   DIG1
+0069   01A3           00107          CLRF   TTH2
+006A   01A4           00108          CLRF   TH2
+006B   01A5           00109          CLRF   HUN2
+006C   01A6           00110          CLRF   TEN2
+006D   01A7           00111          CLRF   DIG2
+006E   01C8           00112          CLRF   NUM1
+006F   01C9           00113          CLRF   OPERATION
+0070   01D0           00114          CLRF   NUM2
+0071   01D1           00115          CLRF   NUMOROP
+0072   01D2           00116          CLRF   TEMP
+0073   01D3           00117          CLRF   Result
+0074   01FD           00118          CLRF   CURRMax
+0075   01FE           00119          CLRF   TEMPDIG
+0076   01FF           00120          CLRF   Cout
+0077   01F0           00121          CLRF   Timer1
+0078   01F1           00122          CLRF   TimerX
+0079   01F4           00123          CLRF   Select  
+007A   01F5           00124          CLRF    OutCod
+007B   01A8           00125          clrf   RES_MOD
+007C   21E6           00126          CALL   inid
+007D   287E           00127          GOTO start
+                      00128          
+                      00129          
+007E   0000           00130 start   NOP     
+                      00131         ;goto div
+007F   2272           00132    CALL INTRODISPLAY
+                      00133    ;GET the 3 DIGITS of the first Number
+                      00134         
+                      00135    
+0080   01C8           00136    CLRF NUM1
+0081   01D0           00137    CLRF NUM2
+0082   01FE           00138         CLRF    TEMPDIG
+0083   01D1           00139    CLRF NUMOROP
+0084   01D3           00140    CLRF Result
+0085   20FA           00141    CALL Get3Digits
+                      00142 
+                      00143    
+0086   3014           00144     MOVLW       0X14 ;SHIFT     Cursor By one to right
+0087   10F4           00145    BCF  Select,RS
+0088   21D4           00146    CALL send
+0089   01FE           00147    CLRF TEMPDIG
+008A   3002           00148    MOVLW        2
+008B   00FD           00149    MOVWF        CURRMax
+008C   1451           00150    BSF  NUMOROP,0
+008D   20E0           00151    CALL GetDigit
+008E   087E           00152    MOVF TEMPDIG,W
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+008F   00C9           00153    MOVWF        OPERATION
+0090   00D4           00154    MOVWF svop
+0091   3014           00155     MOVLW       0X14 ;SHIFT     Cursor By one to right
+0092   10F4           00156    BCF  Select,RS
+0093   21D4           00157    CALL send
+0094   01FE           00158    CLRF TEMPDIG
+                      00159    ;GET the 3 DIGITS of the first Number
+0095   01D1           00160    CLRF NUMOROP
+0096   215E           00161    CALL Get3Digits2
+                      00162    
+0097   3014           00163    MOVLW        0X14 ;SHIFT     Cursor By one to right
+0098   10F4           00164    BCF  Select,RS
+0099   21D4           00165    CALL send
+009A   1451           00166    BSF  NUMOROP,0
+009B   3003           00167    MOVLW        D'3'
+009C   00FE           00168    MOVWF        TEMPDIG
+009D   2208           00169    CALL DISPDIG
+                      00170    
+009E   3014           00171    MOVLW        0X14 ;SHIFT     Cursor By one to right
+009F   10F4           00172    BCF  Select,RS
+00A0   21D4           00173    CALL send
+                      00174         
+00A1   0849           00175         movf OPERATION, W
+00A2   1D03           00176     btfss STATUS, Z
+00A3   2AE2           00177     goto div
+00A4   2A16           00178     goto add
+                      00179 
+00A5                  00180 AFTERCALC
+00A5   2204           00181    call clear
+00A6   21E6           00182    call inid
+00A7   2296           00183    call INTRODISPLAY2
+00A8   0853           00184    MOVF Result,W
+00A9   0087           00185    MOVWF        PORTC
+00AA   3014           00186    MOVLW        0X14 ;SHIFT     Cursor By one to right
+00AB   10F4           00187    BCF  Select,RS
+00AC   21D4           00188    CALL send
+00AD   01D1           00189    CLRF NUMOROP
+                      00190 
+00AE   0838           00191    MOVF RES6,W
+                      00192         ;sublw 48
+00AF   00FE           00193    MOVWF        TEMPDIG
+00B0   2208           00194    CALL DISPDIG
+                      00195    
+00B1   3014           00196    MOVLW        0X14 ;SHIFT     Cursor By one to right
+00B2   10F4           00197    BCF  Select,RS
+00B3   21D4           00198    CALL send
+00B4   0837           00199     MOVF        RES5,W
+                      00200         ;sublw 48
+00B5   00FE           00201    MOVWF        TEMPDIG
+00B6   2208           00202    CALL DISPDIG
+                      00203 
+00B7   3014           00204         MOVLW   0X14 ;SHIFT     Cursor By one to right
+00B8   10F4           00205    BCF  Select,RS
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00B9   21D4           00206    CALL send
+00BA   0836           00207     MOVF        RES4,W
+                      00208         ;sublw 48
+00BB   00FE           00209    MOVWF        TEMPDIG
+00BC   2208           00210    CALL DISPDIG
+                      00211 
+Warning[203]: Found opcode in column 1. (MOVLW)
+00BD   3014           00212 MOVLW   0X14 ;SHIFT     Cursor By one to right
+00BE   10F4           00213    BCF  Select,RS
+00BF   21D4           00214    CALL send
+00C0   0835           00215     MOVF        RES3,W
+                      00216         ;sublw 48
+00C1   00FE           00217    MOVWF        TEMPDIG
+00C2   2208           00218    CALL DISPDIG
+                      00219 
+Warning[203]: Found opcode in column 1. (MOVLW)
+00C3   3014           00220 MOVLW   0X14 ;SHIFT     Cursor By one to right
+00C4   10F4           00221    BCF  Select,RS
+00C5   21D4           00222    CALL send
+00C6   0834           00223     MOVF        RES2,W
+                      00224         ;sublw 48
+00C7   00FE           00225    MOVWF        TEMPDIG
+00C8   2208           00226    CALL DISPDIG
+                      00227    
+00C9   3014           00228    MOVLW        0X14 ;SHIFT     Cursor By one to right
+00CA   10F4           00229    BCF  Select,RS
+00CB   21D4           00230    CALL send
+00CC   0833           00231     MOVF        RES1,W
+                      00232 ;       sublw 48
+00CD   00FE           00233    MOVWF        TEMPDIG
+00CE   2208           00234    CALL DISPDIG
+                      00235    
+                      00236 
+                      00237 
+00CF   1EFF           00238 Loop56 BTFSS Cout,5
+00D0   28CF           00239    GOTO Loop56
+00D1   30FF           00240    MOVLW        D'255'
+00D2   21C8           00241    CALL xms
+                      00242    
+00D3   10F4           00243    BCF  Select,RS
+00D4   3001           00244    MOVLW        0x01
+00D5   21D4           00245    CALL send
+00D6   3002           00246    MOVLW        0x02
+00D7   21D4           00247    CALL send
+                      00248    
+                      00249    
+00D8   287E           00250    GOTO start
+                      00251    
+                      00252    
+                      00253 ;Procedures
+                      00254 
+00D9   087E           00255 table   MOVF    TEMPDIG,W               ; Get key count
+00DA   0782           00256         ADDWF   PCL,F           ; and calculate jump
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00DB   342B           00257         RETLW   B'00101011'     ; Code for '+'
+00DC   3425           00258         RETLW   B'00100101'     ; Code for '%'
+00DD   342F           00259         RETLW   B'00101111'     ; Code for '/'
+00DE   343D           00260         RETLW   B'00111101'     ;Code for '='
+00DF   0008           00261         RETURN
+                      00262 
+                      00263    
+00E0                  00264 GetDigit        
+00E0   1283 1303      00265      BANKSEL PORTD
+00E2   2208           00266      CALL       DISPDIG
+00E3   0181           00267      CLRF       TMR0
+00E4   01FF           00268      CLRF       Cout
+00E5   1C86           00269 CHECK1  BTFSS  PORTB,1 ;if set PortB[1] GOTO NextNum
+00E6   28E8           00270    GOTO CHECKTIMER0
+00E7   28EB           00271    GOTO INCNUM
+                      00272    
+00E8                  00273 CHECKTIMER0     ; if 2 seconds have passed got to the next digit
+00E8   1EFF           00274    BTFSS Cout,5
+00E9   28E5           00275    GOTO CHECK1
+00EA   28F9           00276    GOTO GETDIGEND
+                      00277 
+00EB                  00278 INCNUM   
+00EB   0181           00279    CLRF TMR0
+00EC   01FF           00280    CLRF Cout
+00ED   087D           00281    MOVF CURRMax,W                     ; if >2 return to 0
+00EE   027E           00282    SUBWF        TEMPDIG,W
+00EF   1903           00283    BTFSC        STATUS,Z
+00F0   28F2           00284    GOTO SET0
+00F1   28F4           00285    GOTO NORMALINC  
+00F2                  00286 SET0
+00F2   01FE           00287    CLRF TEMPDIG
+00F3   28F5           00288    GOTO DISP
+00F4                  00289 NORMALINC
+00F4   0AFE           00290    INCF TEMPDIG,1
+                      00291 
+00F5                  00292 DISP
+00F5   2208           00293    CALL DISPDIG
+00F6   1886           00294 CHECK0  BTFSC   PORTB,1
+00F7   28F6           00295                  GOTO   CHECK0
+00F8   28E5           00296    GOTO CHECK1
+                      00297  
+00F9                  00298 GETDIGEND
+00F9   0008           00299     RETURN
+                      00300  
+                      00301 
+00FA                  00302 Get3Digits
+00FA   3006           00303    MOVLW        6
+00FB   00FD           00304    MOVWF        CURRMax
+00FC   0181           00305    CLRF TMR0
+00FD   01FF           00306    CLRF Cout
+00FE   20E0           00307    CALL GetDigit
+00FF   087E           00308    MOVF TEMPDIG,W
+0100   00C3           00309    MOVWF        TTH1
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00310    ;take the first number TENS digit
+0101   3014           00311    MOVLW        0X14 ;SHIFT     Cursor By one to right
+0102   10F4           00312    BCF  Select,RS
+0103   21D4           00313    CALL send
+0104   3006           00314    MOVLW        6
+0105   0243           00315    SUBWF        TTH1,W
+0106   1D03           00316    BTFSS        STATUS,Z
+0107   290A           00317    GOTO SETTHEMAXTo9
+0108   3005           00318    MOVLW        5   
+0109   290B           00319    GOTO BeforeTen1
+010A                  00320 SETTHEMAXTo9    
+010A   3009           00321    MOVLW        9
+010B                  00322 BeforeTen1
+010B   00FD           00323    MOVWF        CURRMax
+010C   01FE           00324    CLRF         TEMPDIG
+010D   0181           00325    CLRF         TMR0
+010E   01FF           00326    CLRF         Cout
+010F   20E0           00327    CALL         GetDigit
+0110   087E           00328    MOVF         TEMPDIG,W
+0111   00C4           00329    MOVWF        TH1
+                      00330    ;take the first number digit
+0112   3014           00331     MOVLW       0X14 ;SHIFT     Cursor By one to right
+0113   10F4           00332    BCF  Select,RS
+0114   21D4           00333    CALL send
+                      00334 
+0115   3006           00335    MOVLW        6 ;comparing before
+0116   0243           00336    SUBWF        TTH1,W
+0117   1D03           00337    BTFSS        STATUS,Z
+0118   291F           00338    GOTO LESSTHAN250
+0119   3005           00339    MOVLW        5  ; comparing me
+011A   0244           00340    SUBWF        TH1,W
+011B   1D03           00341    BTFSS        STATUS,Z
+011C   291F           00342    GOTO LESSTHAN250
+011D   3005           00343    MOVLW        5 ; if i am max and everything before is max
+011E   2920           00344    GOTO BeforeDig3
+011F                  00345 LESSTHAN250     
+011F   3009           00346    MOVLW        9
+                      00347 
+0120                  00348 BeforeDig3
+0120   00FD           00349    MOVWF        CURRMax
+0121   01FE           00350    CLRF         TEMPDIG
+0122   0181           00351    CLRF         TMR0
+0123   01FF           00352    CLRF         Cout
+0124   20E0           00353    CALL         GetDigit
+0125   087E           00354    MOVF         TEMPDIG,W
+0126   00C5           00355    MOVWF        HUN1
+                      00356    ;take the first number digit
+0127   3014           00357     MOVLW       0X14 ;SHIFT     Cursor By one to right
+0128   10F4           00358    BCF  Select,RS
+0129   21D4           00359    CALL send
+012A   3006           00360         MOVLW   6 ;comparing before
+012B   0243           00361    SUBWF        TTH1,W
+012C   1D03           00362    BTFSS        STATUS,Z
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+012D   2938           00363         GOTO    LESSTHAN2502
+                      00364 
+012E   3005           00365    MOVLW        5 ;comparing before
+012F   0244           00366    SUBWF        TH1,W
+0130   1D03           00367    BTFSS        STATUS,Z
+0131   2938           00368    GOTO LESSTHAN2502
+                      00369 
+0132   3005           00370    MOVLW        5  ; comparing me
+0133   0245           00371    SUBWF        HUN1,W
+0134   1D03           00372    BTFSS        STATUS,Z
+0135   2938           00373    GOTO LESSTHAN2502
+0136   3003           00374    MOVLW        3 ; if i am max and everything before is max
+0137   2939           00375    GOTO BeforeTen12
+                      00376 
+0138                  00377 LESSTHAN2502
+0138   3009           00378    MOVLW        9
+                      00379 
+0139                  00380 BeforeTen12
+0139   00FD           00381    MOVWF        CURRMax
+013A   01FE           00382    CLRF         TEMPDIG
+013B   0181           00383    CLRF         TMR0
+013C   01FF           00384    CLRF         Cout
+013D   20E0           00385    CALL         GetDigit
+013E   087E           00386    MOVF         TEMPDIG,W
+013F   00C6           00387    MOVWF        TEN1
+                      00388    ;take the first number digit
+0140   3014           00389     MOVLW       0X14 ;SHIFT     Cursor By one to right
+0141   10F4           00390    BCF  Select,RS
+0142   21D4           00391    CALL send
+0143   3006           00392         MOVLW   6
+0144   0243           00393    SUBWF        TTH1,W
+0145   1D03           00394    BTFSS        STATUS,Z
+0146   2955           00395    GOTO LESSTHAN2503
+Warning[203]: Found opcode in column 1. (MOVLW)
+0147   3005           00396 MOVLW   5
+0148   0244           00397    SUBWF        TH1,W
+0149   1D03           00398    BTFSS        STATUS,Z
+014A   2955           00399    GOTO LESSTHAN2503
+                      00400 
+014B   3005           00401    MOVLW        5
+014C   0245           00402    SUBWF        HUN1,W
+014D   1D03           00403    BTFSS        STATUS,Z
+014E   2955           00404    GOTO LESSTHAN2503
+                      00405 
+014F   3003           00406    MOVLW        3  
+0150   0246           00407    SUBWF        TEN1,W
+0151   1D03           00408    BTFSS        STATUS,Z
+0152   2955           00409    GOTO LESSTHAN2503
+0153   3005           00410    MOVLW        5
+0154   2956           00411    GOTO BeforeDig1
+0155                  00412 LESSTHAN2503
+0155   3009           00413    MOVLW        9
+0156                  00414 BeforeDig1
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0156   00FD           00415    MOVWF        CURRMax
+0157   01FE           00416    CLRF TEMPDIG
+0158   0181           00417    CLRF TMR0
+0159   01FF           00418    CLRF Cout
+015A   20E0           00419    CALL GetDigit
+015B   087E           00420    MOVF TEMPDIG,W
+015C   00C7           00421    MOVWF        DIG1
+015D   0008           00422    RETURN
+                      00423 
+015E                  00424 Get3Digits2
+015E   3006           00425    MOVLW        6
+015F   00FD           00426    MOVWF        CURRMax
+0160   0181           00427    CLRF TMR0
+0161   01FF           00428    CLRF Cout
+0162   20E0           00429    CALL GetDigit
+0163   087E           00430    MOVF TEMPDIG,W
+0164   00A3           00431    MOVWF        TTH2
+                      00432    ;take the first number TENS digit
+0165   3014           00433    MOVLW        0X14 ;SHIFT     Cursor By one to right
+0166   10F4           00434    BCF  Select,RS
+0167   21D4           00435    CALL send
+0168   3006           00436    MOVLW        6
+0169   0223           00437    SUBWF        TTH2,W
+016A   1D03           00438    BTFSS        STATUS,Z
+016B   296E           00439    GOTO SETTHEMAXTo922
+016C   3005           00440    MOVLW        5   
+016D   296F           00441    GOTO BeforeTen122
+016E                  00442 SETTHEMAXTo922  
+016E   3009           00443    MOVLW        9
+016F                  00444 BeforeTen122
+016F   00FD           00445    MOVWF        CURRMax
+0170   01FE           00446    CLRF         TEMPDIG
+0171   0181           00447    CLRF         TMR0
+0172   01FF           00448    CLRF         Cout
+0173   20E0           00449    CALL         GetDigit
+0174   087E           00450    MOVF         TEMPDIG,W
+0175   00A4           00451    MOVWF        TH2
+                      00452    ;take the first number digit
+0176   3014           00453     MOVLW       0X14 ;SHIFT     Cursor By one to right
+0177   10F4           00454    BCF  Select,RS
+0178   21D4           00455    CALL send
+                      00456 
+0179   3006           00457    MOVLW        6 ;comparing before
+017A   0223           00458    SUBWF        TTH2,W
+017B   1D03           00459    BTFSS        STATUS,Z
+017C   2983           00460    GOTO LESSTHAN25022
+017D   3005           00461    MOVLW        5  ; comparing me
+017E   0224           00462    SUBWF        TH2,W
+017F   1D03           00463    BTFSS        STATUS,Z
+0180   2983           00464    GOTO LESSTHAN25022
+0181   3005           00465    MOVLW        5 ; if i am max and everything before is max
+0182   2984           00466    GOTO BeforeDig32
+0183                  00467 LESSTHAN25022
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0183   3009           00468    MOVLW        9
+                      00469 
+0184                  00470 BeforeDig32
+0184   00FD           00471    MOVWF        CURRMax
+0185   01FE           00472    CLRF         TEMPDIG
+0186   0181           00473    CLRF         TMR0
+0187   01FF           00474    CLRF         Cout
+0188   20E0           00475    CALL         GetDigit
+0189   087E           00476    MOVF         TEMPDIG,W
+018A   00A5           00477    MOVWF        HUN2
+                      00478    ;take the first number digit
+018B   3014           00479     MOVLW       0X14 ;SHIFT     Cursor By one to right
+018C   10F4           00480    BCF  Select,RS
+018D   21D4           00481    CALL send
+018E   3006           00482         MOVLW   6 ;comparing before
+018F   0223           00483    SUBWF        TTH2,W
+0190   1D03           00484    BTFSS        STATUS,Z
+0191   299C           00485         GOTO    LESSTHAN250222
+                      00486 
+0192   3005           00487    MOVLW        5 ;comparing before
+0193   0224           00488    SUBWF        TH2,W
+0194   1D03           00489    BTFSS        STATUS,Z
+0195   299C           00490    GOTO LESSTHAN250222
+                      00491 
+0196   3005           00492    MOVLW        5  ; comparing me
+0197   0225           00493    SUBWF        HUN2,W
+0198   1D03           00494    BTFSS        STATUS,Z
+0199   299C           00495    GOTO LESSTHAN250222
+019A   3003           00496    MOVLW        3 ; if i am max and everything before is max
+019B   299D           00497    GOTO BeforeTen1222
+                      00498 
+019C                  00499 LESSTHAN250222
+019C   3009           00500    MOVLW        9
+                      00501 
+019D                  00502 BeforeTen1222
+019D   00FD           00503    MOVWF        CURRMax
+019E   01FE           00504    CLRF         TEMPDIG
+019F   0181           00505    CLRF         TMR0
+01A0   01FF           00506    CLRF         Cout
+01A1   20E0           00507    CALL         GetDigit
+01A2   087E           00508    MOVF         TEMPDIG,W
+01A3   00A6           00509    MOVWF        TEN2
+                      00510    ;take the first number digit
+01A4   3014           00511     MOVLW       0X14 ;SHIFT     Cursor By one to right
+01A5   10F4           00512    BCF  Select,RS
+01A6   21D4           00513    CALL send
+01A7   3006           00514         MOVLW   6
+01A8   0223           00515    SUBWF        TTH2,W
+01A9   1D03           00516    BTFSS        STATUS,Z
+01AA   29B9           00517    GOTO LESSTHAN25032
+Warning[203]: Found opcode in column 1. (MOVLW)
+01AB   3005           00518 MOVLW   5
+01AC   0224           00519    SUBWF        TH2,W
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+01AD   1D03           00520    BTFSS        STATUS,Z
+01AE   29B9           00521    GOTO LESSTHAN25032
+                      00522 
+01AF   3005           00523    MOVLW        5
+01B0   0225           00524    SUBWF        HUN2,W
+01B1   1D03           00525    BTFSS        STATUS,Z
+01B2   29B9           00526    GOTO LESSTHAN25032
+                      00527 
+01B3   3003           00528    MOVLW        3  
+01B4   0226           00529    SUBWF        TEN2,W
+01B5   1D03           00530    BTFSS        STATUS,Z
+01B6   29B9           00531    GOTO LESSTHAN25032
+01B7   3005           00532    MOVLW        5
+01B8   29BA           00533    GOTO BeforeDig12
+01B9                  00534 LESSTHAN25032
+01B9   3009           00535    MOVLW        9
+01BA                  00536 BeforeDig12
+01BA   00FD           00537    MOVWF        CURRMax
+01BB   01FE           00538    CLRF TEMPDIG
+01BC   0181           00539    CLRF TMR0
+01BD   01FF           00540    CLRF Cout
+01BE   20E0           00541    CALL GetDigit
+01BF   087E           00542    MOVF TEMPDIG,W
+01C0   00A7           00543    MOVWF        DIG2
+01C1   0008           00544    RETURN
+                      00545 
+                      00546 
+                      00547    
+                      00548 
+01C2   30F9           00549 onems   MOVLW   D'249'          ; Count for 1ms delay 
+01C3   00F0           00550         MOVWF   Timer1          ; Load count
+01C4   0000           00551 loop1   NOP                     ; Pad for 4 cycle loop
+01C5   0BF0           00552         DECFSZ  Timer1,F                ; Count
+01C6   29C4           00553         GOTO    loop1           ; until Z
+01C7   0008           00554         RETURN                  ; and finish
+                      00555 
+                      00556 ;--------------------------------------------------------------
+                      00557 ;       Delay Xms
+                      00558 ;       Receives count in W, uses Onems
+                      00559 ;--------------------------------------------------------------
+01C8   00F1           00560 xms     MOVWF   TimerX          ; Count for X ms
+01C9   21C2           00561 loopX   CALL    onems           ; Delay 1ms
+01CA   0BF1           00562         DECFSZ  TimerX,F                ; Repeat X times 
+01CB   29C9           00563         GOTO    loopX           ; until Z
+01CC   0008           00564         RETURN                  ; and finish
+                      00565 
+                      00566 ;--------------------------------------------------------------
+                      00567 ;       Generate data/command clock siganl E
+                      00568 ;--------------------------------------------------------------
+01CD                  00569 pulseE  
+01CD   1283 1303      00570         BANKSEL PORTD
+01CF   1508           00571         BSF     PORTD,E         ; Set E high
+01D0   21C2           00572         CALL    onems           ; Delay 1ms
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+01D1   1108           00573         BCF     PORTD,E         ; Reset E low
+01D2   21C2           00574         CALL    onems           ; Delay 1ms
+01D3   0008           00575         RETURN                  ; done
+                      00576 
+                      00577 ;--------------------------------------------------------------
+                      00578 ;       Send a command byte in two nibbles from RB4 - RB7
+                      00579 ;       Receives command in W, uses PulseE and Onems
+                      00580 ;--------------------------------------------------------------
+01D4                  00581 send    
+01D4   1283 1303      00582    BANKSEL      PORTD
+01D6   00F5           00583         MOVWF   OutCod          ; Store output code
+01D7   39F0           00584         ANDLW   0F0             ; Clear low nybble
+01D8   0088           00585         MOVWF   PORTD           ; Output high nybble
+01D9   18F4           00586         BTFSC   Select,RS       ; Test RS bit
+01DA   1488           00587         BSF     PORTD,RS        ; and set for data
+01DB   21CD           00588         CALL    pulseE          ; and clock display register
+01DC   21C2           00589         CALL    onems           ; wait 1ms for display
+                      00590 
+01DD   0EF5           00591         SWAPF   OutCod,F                ; Swap low and high nybbles 
+01DE   0875           00592         MOVF    OutCod,W        ; Retrieve output code
+01DF   39F0           00593         ANDLW   0F0             ; Clear low nybble
+01E0   0088           00594         MOVWF   PORTD           ; Output low nybble
+01E1   18F4           00595         BTFSC   Select,RS       ; Test RS bit
+01E2   1488           00596         BSF     PORTD,RS        ; and set for data
+01E3   21CD           00597         CALL    pulseE          ; and clock display register
+01E4   21C2           00598         CALL    onems           ; wait 1ms for display
+01E5   0008           00599         RETURN                  ; done
+                      00600 
+                      00601 ;--------------------------------------------------------------
+                      00602 ;       Initialise the display
+                      00603 ;       Uses Send
+                      00604 ;--------------------------------------------------------------
+01E6                  00605 inid    
+01E6   1283 1303      00606    BANKSEL      PORTD
+01E8   0188           00607         CLRF    PORTD
+01E9   3064           00608         MOVLW   D'100'          ; Load count for 100ms delay
+01EA   21C8           00609         CALL    xms             ; and wait for display start
+01EB   30F0           00610         MOVLW   0F0             ; Mask for select code
+01EC   00F4           00611         MOVWF   Select          ; High nybble not masked
+                      00612 
+01ED   3030           00613         MOVLW   0x30            ; Load initial nibble
+01EE   0088           00614         MOVWF   PORTD           ; and output it to display
+01EF   21CD           00615         CALL    pulseE          ; Latch initial code
+01F0   3005           00616         MOVLW   D'5'            ; Set delay 5ms
+01F1   21C8           00617         CALL    xms             ; and wait
+01F2   21CD           00618         CALL    pulseE          ; Latch initial code again
+01F3   21C2           00619         CALL    onems           ; Wait 1ms
+01F4   21CD           00620         CALL    pulseE          ; Latch initial code again
+01F5   1208           00621         BCF     PORTD,4         ; Set 4-bit mode
+01F6   21CD           00622         CALL    pulseE          ; Latch it
+                      00623         
+01F7   3028           00624         MOVLW   0x28            ; Set 4-bit mode, 2 lines
+01F8   21D4           00625         CALL    send            ; and send code
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+01F9   3008           00626         MOVLW   0x08            ; Switch off display
+01FA   21D4           00627         CALL    send            ; and send code
+01FB   3001           00628         MOVLW   0x01            ; Code to clear display
+01FC   21D4           00629         CALL    send            ; and send code
+01FD   3006           00630         MOVLW   0x06            ; Enable cursor auto inc  
+01FE   21D4           00631         CALL    send            ; and send code
+01FF   3080           00632         MOVLW   0x80            ; Zero display address
+0200   21D4           00633         CALL    send            ; and send code
+0201   300C           00634         MOVLW   0x0C            ; Turn on display  
+0202   21D4           00635         CALL    send            ; and send code
+                      00636 
+0203   0008           00637         RETURN                  ; Done  
+                      00638         
+0204   3001           00639 clear   MOVLW   01              ; code to clear display
+0205   10F4           00640         BCF     Select,RS       ; Select data mode
+0206   21D4           00641         CALL    send            ; and send code
+0207   0008           00642         RETURN
+                      00643                 
+0208                  00644 DISPDIG
+0208   1283 1303      00645    BANKSEL      NUMOROP
+020A   1851           00646    BTFSC        NUMOROP,0
+020B   2A0F           00647    GOTO SENDOP
+020C   087E           00648    MOVF TEMPDIG,W
+020D   3E30           00649    ADDLW        0x30
+020E   2A10           00650    GOTO BEFORESEND
+020F                  00651 SENDOP
+020F   20D9           00652    CALL table
+0210                  00653 BEFORESEND
+0210   14F4           00654    BSF  Select,RS
+0211   21D4           00655    CALL send
+0212   3010           00656    MOVLW        0x10
+0213   10F4           00657    BCF  Select,RS
+0214   21D4           00658    CALL send
+0215   0008           00659    RETURN
+                      00660    
+0216                  00661 add     
+                      00662         
+                      00663 
+                      00664         
+                      00665 
+0216   01B3           00666         CLRF    RES1
+0217   01B4           00667         CLRF    RES2
+0218   01B5           00668         CLRF    RES3
+0219   01B6           00669         CLRF    RES4
+021A   01B7           00670         CLRF    RES5
+021B   01B8           00671         CLRF    RES6
+021C   01B9           00672         CLRF    CARRY
+021D   3000           00673         MOVLW   0
+021E   00B9           00674         MOVWF   CARRY
+                      00675 
+021F   0180           00676         CLRF    W       
+0220   0847           00677         movf    DIG1, W          ; Move value of a into W register
+0221   0727           00678     addwf       DIG2, W         ; Add b to W register
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0222   0739           00679     addwf       CARRY, W         ; Add c to W register
+                      00680         ;movlw  48
+                      00681         ;sublw  W
+0223   00B3           00682     movwf       RES1            ; Store the final result in z
+0224   0833           00683         movf    RES1, W
+0225   3C09           00684         sublw   d'9'
+0226   1C03           00685         btfss   STATUS, C
+0227   2A2B           00686         goto    fixRes1
+0228   3000           00687         movlw   d'0'
+0229   00B9           00688         movwf   CARRY
+022A   2A2F           00689         goto    getRes2
+                      00690                 
+022B                  00691 fixRes1
+022B   300A           00692         movlw   d'10'
+022C   02B3           00693         subwf   RES1, F
+022D   3001           00694         movlw   d'1'
+022E   00B9           00695         movwf   CARRY   
+022F                  00696 getRes2
+022F   0180           00697         CLRF    W       
+0230   0846           00698         movf    TEN1, W          ; Move value of a into W register
+0231   0726           00699     addwf       TEN2, W         ; Add b to W register
+0232   0739           00700     addwf       CARRY, W         ; Add c to W register
+                      00701 ;       movlw   48
+                      00702         ;sublw  W
+0233   00B4           00703     movwf       RES2            ; Store the final result in z
+0234   0834           00704         movf    RES2, W
+0235   3C09           00705         sublw   d'9'
+0236   1C03           00706         btfss   STATUS, C
+0237   2A3B           00707         goto    fixRes2
+0238   3000           00708         movlw   d'0'
+0239   00B9           00709         movwf   CARRY
+023A   2A3F           00710         goto    getRes3
+                      00711 
+023B                  00712 fixRes2
+023B   300A           00713         movlw   d'10'
+023C   02B4           00714         subwf   RES2, F
+023D   3001           00715         movlw   d'1'
+023E   00B9           00716         movwf   CARRY   
+023F                  00717 getRes3
+023F   0180           00718         CLRF    W       
+0240   0845           00719         movf    HUN1, W          ; Move value of a into W register
+0241   0725           00720     addwf       HUN2, W         ; Add b to W register
+0242   0739           00721     addwf       CARRY, W         ; Add c to W register
+                      00722 ;       movlw   48
+                      00723 ;       sublw   W
+0243   00B5           00724     movwf       RES3            ; Store the final result in z
+0244   0835           00725         movf    RES3, W
+0245   3C09           00726         sublw   d'9'
+0246   1C03           00727         btfss   STATUS, C
+0247   2A4B           00728         goto    fixRes3
+0248   3000           00729         movlw   d'0'
+0249   00B9           00730         movwf   CARRY
+024A   2A4F           00731         goto    getRes4
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00732 
+024B                  00733 fixRes3
+024B   300A           00734         movlw   d'10'
+024C   02B5           00735         subwf   RES3, F
+024D   3001           00736         movlw   d'1'
+024E   00B9           00737         movwf   CARRY   
+024F                  00738 getRes4
+024F   0180           00739         CLRF    W       
+0250   0844           00740         movf    TH1, W          ; Move value of a into W register
+0251   0724           00741     addwf       TH2, W         ; Add b to W register
+0252   0739           00742     addwf       CARRY, W         ; Add c to W register
+                      00743 ;       movlw   48
+                      00744 ;       sublw   W
+0253   00B6           00745     movwf       RES4           ; Store the final result in z
+0254   0836           00746         movf    RES4, W
+0255   3C09           00747         sublw   d'9'
+0256   1C03           00748         btfss   STATUS, C
+0257   2A5B           00749         goto    fixRes4
+0258   3000           00750         movlw   d'0'
+0259   00B9           00751         movwf   CARRY
+025A   2A5F           00752         goto    getRes5
+                      00753 
+025B                  00754 fixRes4
+025B   300A           00755         movlw   d'10'
+025C   02B6           00756         subwf   RES4, F
+025D   3001           00757         movlw   d'1'
+025E   00B9           00758         movwf   CARRY   
+025F                  00759 getRes5
+025F   0180           00760         CLRF    W       
+0260   0843           00761         movf    TTH1, W          ; Move value of a into W register
+0261   0723           00762     addwf       TTH2, W         ; Add b to W register
+0262   0739           00763     addwf       CARRY, W         ; Add c to W register
+                      00764 ;       movlw   48
+                      00765 ;       sublw   W
+0263   00B7           00766     movwf       RES5          ; Store the final result in z
+0264   0837           00767         movf    RES5, W
+0265   3C09           00768         sublw   d'9'
+0266   1C03           00769         btfss   STATUS, C
+0267   2A6B           00770         goto    fixRes5
+0268   3000           00771         movlw   d'0'
+0269   00B9           00772         movwf   CARRY
+026A   2A6F           00773         goto    getRes6
+                      00774 
+026B                  00775 fixRes5
+026B   300A           00776         movlw   d'10'
+026C   02B7           00777         subwf   RES5, F
+026D   3001           00778         movlw   d'1'
+026E   00B9           00779         movwf   CARRY
+                      00780 
+026F                  00781 getRes6
+026F   0839           00782         movf    CARRY, W
+0270   00B8           00783         movwf   RES6
+0271   28A5           00784         GOTO    AFTERCALC       
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00785 
+                      00786 
+0272                  00787 INTRODISPLAY 
+0272   01D1           00788    CLRF NUMOROP
+0273   14F4           00789    BSF  Select,RS
+0274   3045           00790    MOVLW d'69' ; Print character "E" Enter Operation
+0275   21D4           00791    CALL send
+                      00792  
+0276   306E           00793  MOVLW d'110' ; Print character "n"
+0277   21D4           00794  CALL   send
+                      00795  
+0278   3074           00796  MOVLW d'116' ; Print character "t"
+0279   21D4           00797  CALL   send
+                      00798  
+027A   3065           00799  MOVLW d'101' ; Print character "e"
+027B   21D4           00800  CALL   send
+                      00801  
+027C   3072           00802  MOVLW d'114' ; Print character "r"
+027D   21D4           00803  CALL   send
+                      00804  
+027E   3000           00805  MOVLW d'0' ; Print caracter " "
+027F   21D4           00806  CALL   send
+                      00807  
+0280   304F           00808  MOVLW d'79' ; Print caracter "O"
+0281   21D4           00809  CALL   send
+                      00810  
+0282   3070           00811  MOVLW d'112' ; Print character "p"
+0283   21D4           00812  CALL   send
+                      00813 
+0284   3065           00814  MOVLW d'101' ; Print character "e"
+0285   21D4           00815  CALL   send
+                      00816  
+0286   3072           00817  MOVLW d'114' ; Print character "r"
+0287   21D4           00818  CALL   send
+                      00819  
+0288   3061           00820  MOVLW d'97' ; Print character "a"
+0289   21D4           00821  CALL   send 
+                      00822  
+028A   3074           00823  MOVLW d'116' ; Print character "t"
+028B   21D4           00824  CALL   send
+                      00825  
+028C   3069           00826  MOVLW d'105' ; Print character "i"
+028D   21D4           00827  CALL   send
+                      00828  
+028E   306F           00829  MOVLW d'111' ; Print character "o"
+028F   21D4           00830  CALL   send
+                      00831  
+0290   306E           00832  MOVLW d'110' ; Print character "n"
+0291   21D4           00833  CALL   send
+                      00834  
+0292   10F4           00835  BCF    Select,RS
+0293   30C0           00836  MOVLW  0xC0
+0294   21D4           00837  CALL   send
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 17
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00838  
+0295   0008           00839    RETURN
+                      00840 
+0296                  00841 INTRODISPLAY2 
+                      00842 
+0296   01D1           00843    CLRF NUMOROP
+0297   14F4           00844    BSF  Select,RS
+                      00845 
+0298   3052           00846    MOVLW d'82' ; Print character "R" Enter Operation
+0299   21D4           00847    CALL send
+                      00848  
+                      00849  
+029A   3045           00850  MOVLW d'69' ; Print character "E"
+029B   21D4           00851  CALL   send
+                      00852  
+029C   3053           00853  MOVLW d'83' ; Print character "S"
+029D   21D4           00854  CALL   send
+                      00855  
+029E   3055           00856  MOVLW d'85' ; Print character "U"
+029F   21D4           00857  CALL   send
+                      00858  
+02A0   304C           00859  MOVLW d'76' ; Print character "L"
+02A1   21D4           00860  CALL   send
+                      00861  
+02A2   3054           00862  MOVLW d'84' ; Print caracter "T"
+02A3   21D4           00863  CALL   send
+                      00864  
+02A4   303A           00865  MOVLW d'58' ; Print caracter ":"
+02A5   21D4           00866  CALL   send
+                      00867  
+02A6   10F4           00868  BCF    Select,RS
+02A7   30C0           00869  MOVLW  0xC0
+02A8   21D4           00870  CALL   send
+                      00871 
+Warning[203]: Found opcode in column 1. (BSF)
+02A9   14F4           00872 BSF     Select,RS
+                      00873 
+Warning[203]: Found opcode in column 1. (MOVLW)
+02AA   303D           00874 MOVLW d'61' ; Print caracter "="
+02AB   21D4           00875  CALL   send
+                      00876 
+                      00877    
+                      00878    
+02AC   0838           00879    MOVF RES6,W
+                      00880         ;sublw 48
+02AD   00FE           00881    MOVWF        TEMPDIG
+02AE   2208           00882    CALL DISPDIG
+                      00883    
+02AF   3014           00884    MOVLW        0X14 ;SHIFT     Cursor By one to right
+02B0   10F4           00885    BCF  Select,RS
+02B1   21D4           00886    CALL send
+02B2   0837           00887     MOVF        RES5,W
+                      00888         ;sublw 48
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 18
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+02B3   00FE           00889    MOVWF        TEMPDIG
+02B4   2208           00890    CALL DISPDIG
+                      00891 
+02B5   3014           00892         MOVLW   0X14 ;SHIFT     Cursor By one to right
+02B6   10F4           00893    BCF  Select,RS
+02B7   21D4           00894    CALL send
+02B8   0836           00895     MOVF        RES4,W
+                      00896         ;sublw 48
+02B9   00FE           00897    MOVWF        TEMPDIG
+02BA   2208           00898    CALL DISPDIG
+                      00899 
+Warning[203]: Found opcode in column 1. (MOVLW)
+02BB   3014           00900 MOVLW   0X14 ;SHIFT     Cursor By one to right
+02BC   10F4           00901    BCF  Select,RS
+02BD   21D4           00902    CALL send
+02BE   0835           00903     MOVF        RES3,W
+                      00904         ;sublw 48
+02BF   00FE           00905    MOVWF        TEMPDIG
+02C0   2208           00906    CALL DISPDIG
+                      00907 
+Warning[203]: Found opcode in column 1. (MOVLW)
+02C1   3014           00908 MOVLW   0X14 ;SHIFT     Cursor By one to right
+02C2   10F4           00909    BCF  Select,RS
+02C3   21D4           00910    CALL send
+02C4   0834           00911     MOVF        RES2,W
+                      00912         ;sublw 48
+02C5   00FE           00913    MOVWF        TEMPDIG
+02C6   2208           00914    CALL DISPDIG
+                      00915    
+02C7   3014           00916    MOVLW        0X14 ;SHIFT     Cursor By one to right
+02C8   10F4           00917    BCF  Select,RS
+02C9   21D4           00918    CALL send
+02CA   0833           00919     MOVF        RES1,W
+                      00920 ;       sublw 48
+02CB   00FE           00921    MOVWF        TEMPDIG
+02CC   2208           00922    CALL DISPDIG
+                      00923    
+                      00924    
+Warning[202]: Argument out of range.  Least significant bits used.
+02CD   30B8           00925    MOVLW D'3000'                ; Load count for 100ms delay
+02CE   21C8           00926    CALL xms             ; and wait for display start
+02CF   21C9           00927  CALL   loopX
+Warning[203]: Found opcode in column 1. (goto)
+02D0   2C29           00928 goto INTRODISPLAY3
+                      00929  
+02D1   0008           00930    RETURN
+                      00931 
+02D2                  00932 CHECKZERO
+02D2   0827           00933         movf    DIG2, W
+02D3   1D03           00934         btfss   STATUS, Z
+02D4   0008           00935         RETURN
+02D5   0826           00936         movf    TEN2, W
+02D6   1D03           00937         btfss   STATUS, Z
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 19
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+02D7   0008           00938         RETURN
+02D8   0825           00939         movf    HUN2, W
+02D9   1D03           00940         btfss   STATUS, Z
+02DA   0008           00941         RETURN
+02DB   0824           00942         movf    TH2, W
+02DC   1D03           00943         btfss   STATUS, Z
+02DD   0008           00944         RETURN
+02DE   0823           00945         movf    TTH2, W
+02DF   1D03           00946         btfss   STATUS, Z
+02E0   0008           00947         RETURN
+02E1   2D09           00948         goto    MATH_ERROR
+                      00949 
+02E2                  00950 div
+02E2   22D2           00951         call    CHECKZERO
+02E3   3001           00952         MOVLW   0x01
+02E4   00A1           00953         MOVWF   divFlag
+02E5   01B3           00954         clrf    RES1
+02E6   01B4           00955         clrf    RES2
+02E7   01B5           00956         clrf    RES3
+02E8   01B6           00957         clrf    RES4
+02E9   01B7           00958         clrf    RES5
+02EA   01B8           00959         clrf    RES6
+02EB   01E5           00960         clrf    RES1T
+02EC   01E6           00961         clrf    RES2T
+02ED   01E7           00962         clrf    RES3T
+02EE   01E8           00963         clrf    RES4T
+02EF   01E9           00964         clrf    RES5T
+                      00965 
+02F0   0847           00966         MOVF    DIG1,W
+02F1   00E0           00967         MOVWF   TEMPDIG1
+02F2   0846           00968         MOVF    TEN1,W
+02F3   00E1           00969         MOVWF   TEMPTEN1
+02F4   0845           00970         MOVF    HUN1,W
+02F5   00E2           00971         MOVWF   TEMPHUN1
+02F6   0844           00972         MOVF    TH1,W
+02F7   00E3           00973         MOVWF   TEMPTH1
+02F8   0843           00974         MOVF    TTH1,W
+02F9   00E4           00975         MOVWF   TEMPTTH1
+                      00976 
+Warning[207]: Found label after column 1. (DivLoop)
+02FA                  00977         DivLoop:
+02FA   1403           00978                 BSF             STATUS,C                        ; Negative detect flag  
+02FB   0823           00979                 MOVF    TTH2,W          ; get first number
+02FC   0264           00980                 SUBWF   TEMPTTH1,W              ; subtract second
+02FD   00E9           00981                 MOVWF   RES5T           ; and store result
+02FE   1C03           00982                 BTFSS   STATUS,C                        ; answer negative?
+02FF   2BC6           00983                 GOTO    exitDiv                         ; yes, minus result
+                      00984         
+0300   1403           00985                 BSF             STATUS,C                        ; Negative detect flag          
+0301   0824           00986                 MOVF    TH2,W                   ; get first number
+0302   0263           00987                 SUBWF   TEMPTH1,W                       ; subtract second
+0303   00E8           00988                 MOVWF   RES4T                   ; and store result
+0304   1C03           00989                 BTFSS   STATUS,C                        ; answer negative?
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 20
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0305   2B07           00990                 GOTO    takeFromTenThoDiv       ; yes, minus result
+0306   2B11           00991                 GOTO    subHunDiv
+                      00992 
+0307                  00993 takeFromTenThoDiv:
+0307   0869           00994         MOVF    RES5T,W         ; 
+0308   1903           00995         BTFSC   STATUS,Z                        ; check if Z
+0309   2BC6           00996         GOTO    exitDiv
+Message[305]: Using default destination of 1 (file).
+030A   03B7           00997         DECF    RES5
+030B   0863           00998         MOVF    TEMPTH1,W
+030C   3E0A           00999         ADDLW   D'10'
+030D   00B0           01000         MOVWF   Temp
+030E   0824           01001         MOVF    TH2,W           ; get first number
+030F   0230           01002         SUBWF   Temp,W                  ; subtract second
+0310   00E8           01003         MOVWF   RES4T           ; and store result
+                      01004         
+0311                  01005 subHunDiv:
+0311   1403           01006         BSF             STATUS,C                        ; Negative detect flag          
+0312   0825           01007         MOVF    HUN2,W                  ; get first number
+0313   0262           01008         SUBWF   TEMPHUN1,W                      ; subtract second
+0314   00E7           01009         MOVWF   RES3T                   ; and store result
+0315   1C03           01010         BTFSS   STATUS,C                        ; answer negative?
+0316   2B18           01011         GOTO    takeFromThoDiv          ; yes, minus result
+0317   2B2F           01012         GOTO    subTenDiv
+                      01013 
+0318                  01014 takeFromThoDiv:
+0318   0868           01015         MOVF    RES4T,W         ; 
+0319   1903           01016         BTFSC   STATUS,Z        ; check if Z
+031A   2B23           01017         GOTO    takeFromTenTho2Div
+Message[305]: Using default destination of 1 (file).
+031B   03E8           01018         DECF    RES4T
+031C   0862           01019         MOVF    TEMPHUN1,W
+031D   3E0A           01020         ADDLW   D'10'
+031E   00B0           01021         MOVWF   Temp
+031F   0825           01022         MOVF    HUN2,W          ; get first number
+0320   0230           01023         SUBWF   Temp,W          ; subtract second
+0321   00E7           01024         MOVWF   RES3T           ; and store result
+0322   2B2F           01025         GOTO    subTenDiv
+                      01026 
+0323                  01027 takeFromTenTho2Div:
+0323   0869           01028         MOVF    RES5T,W         ; 
+0324   1903           01029         BTFSC   STATUS,Z        ; check if Z
+0325   2BC6           01030         GOTO    exitDiv
+Message[305]: Using default destination of 1 (file).
+0326   03E9           01031         DECF    RES5T
+0327   3009           01032         MOVLW   D'9'
+0328   00E8           01033         MOVWF   RES4T           ; and store result
+0329   0862           01034         MOVF    TEMPHUN1,W
+032A   3E0A           01035         ADDLW   D'10'
+032B   00B0           01036         MOVWF   Temp
+032C   0825           01037         MOVF    HUN2,W          ; get first number
+032D   0230           01038         SUBWF   Temp,W          ; subtract second
+032E   00E7           01039         MOVWF   RES3T           ; and store result
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 21
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      01040 
+                      01041         
+032F                  01042 subTenDiv:      
+032F   1403           01043         BSF             STATUS,C                        ; Negative detect flag          
+0330   0826           01044         MOVF    TEN2,W                  ; get first number
+0331   0261           01045         SUBWF   TEMPTEN1,W                      ; subtract second
+0332   00E6           01046         MOVWF   RES2T                   ; and store result
+                      01047         
+0333   1C03           01048         BTFSS   STATUS,C                        ; answer negative?
+0334   2B36           01049         GOTO    takeFromHunDiv          ; yes, minus result
+0335   2B5C           01050         GOTO    subUnitDiv
+                      01051 
+0336                  01052 takeFromHunDiv:
+0336   0867           01053         MOVF    RES3T,W         ; 
+0337   1903           01054         BTFSC   STATUS,Z        ; check if Z
+0338   2B41           01055         GOTO    takeFromTho2Div
+Message[305]: Using default destination of 1 (file).
+0339   03E7           01056         DECF    RES3T
+033A   0861           01057         MOVF    TEMPTEN1,W
+033B   3E0A           01058         ADDLW   D'10'
+033C   00B0           01059         MOVWF   Temp
+033D   0826           01060         MOVF    TEN2,W          ; get first number
+033E   0230           01061         SUBWF   Temp,W          ; subtract second
+033F   00E6           01062         MOVWF   RES2T           ; and store result
+0340   2B5C           01063         GOTO    subUnitDiv
+                      01064         
+0341                  01065 takeFromTho2Div:
+0341   0868           01066         MOVF    RES4T,W         ; 
+0342   1903           01067         BTFSC   STATUS,Z        ; check if Z
+0343   2B4E           01068         GOTO    takeFromTenTho3Div
+Message[305]: Using default destination of 1 (file).
+0344   03E8           01069         DECF    RES4T
+0345   3009           01070         MOVLW   D'9'
+0346   00E7           01071         MOVWF   RES3T
+0347   0861           01072         MOVF    TEMPTEN1,W
+0348   3E0A           01073         ADDLW   D'10'
+0349   00B0           01074         MOVWF   Temp
+034A   0826           01075         MOVF    TEN2,W          ; get first number
+034B   0230           01076         SUBWF   Temp,W          ; subtract second
+034C   00E6           01077         MOVWF   RES2T           ; and store result
+034D   2B5C           01078         GOTO    subUnitDiv
+                      01079 
+034E                  01080 takeFromTenTho3Div:
+034E   0869           01081         MOVF    RES5T,W         ; 
+034F   1903           01082         BTFSC   STATUS,Z        ; check if Z
+0350   2BC6           01083         GOTO    exitDiv
+Message[305]: Using default destination of 1 (file).
+0351   03E9           01084         DECF    RES5T
+0352   3009           01085         MOVLW   D'9'
+0353   00E8           01086         MOVWF   RES4T           ; and store result
+0354   3009           01087         MOVLW   D'9'
+0355   00E7           01088         MOVWF   RES3T           ; and store result
+0356   0861           01089         MOVF    TEMPTEN1,W
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 22
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0357   3E0A           01090         ADDLW   D'10'
+0358   00B0           01091         MOVWF   Temp
+0359   0826           01092         MOVF    TEN2,W          ; get first number
+035A   0230           01093         SUBWF   Temp,W          ; subtract second
+035B   00E6           01094         MOVWF   RES2T           ; and store result
+                      01095         
+035C                  01096 subUnitDiv:
+035C   1403           01097         BSF             STATUS,C                ; Negative detect flag          
+035D   0827           01098         MOVF    DIG2,W          ; get first number
+035E   0260           01099         SUBWF   TEMPDIG1,W              ; subtract second
+035F   00E5           01100         MOVWF   RES1T           ; and store 
+                      01101 
+0360   1C03           01102         BTFSS   STATUS,C                ; answer negative?
+0361   2B63           01103         GOTO    takeFromTenDiv          ; yes, minus result
+0362   2B9A           01104         GOTO    subDoneDiv
+                      01105 
+0363                  01106 takeFromTenDiv:
+0363   0866           01107         MOVF    RES2T,W         ; 
+0364   1903           01108         BTFSC   STATUS,Z                        ; check if Z
+0365   2B6E           01109         GOTO    takeFromHun2Div
+Message[305]: Using default destination of 1 (file).
+0366   03E6           01110         DECF    RES2T
+0367   0860           01111         MOVF    TEMPDIG1,W
+0368   3E0A           01112         ADDLW   D'10'
+0369   00B0           01113         MOVWF   Temp
+036A   0827           01114         MOVF    DIG2,W                  ; get first number
+036B   0230           01115         SUBWF   Temp,W                          ; subtract second
+036C   00E5           01116         MOVWF   RES1T                   ; and store result
+036D   2B9A           01117         GOTO    subDoneDiv
+                      01118         
+036E                  01119 takeFromHun2Div:
+036E   0867           01120         MOVF    RES3T,W         ; 
+036F   1903           01121         BTFSC   STATUS,Z                ; check if Z
+0370   2B7B           01122         GOTO    takeFromTho3Div
+Message[305]: Using default destination of 1 (file).
+0371   03E7           01123         DECF    RES3T
+0372   3009           01124         MOVLW   D'9'
+0373   00E6           01125         MOVWF   RES2T   
+0374   0860           01126         MOVF    TEMPDIG1,W
+0375   3E0A           01127         ADDLW   D'10'
+0376   00B0           01128         MOVWF   Temp
+0377   0827           01129         MOVF    DIG2,W          ; get first number
+0378   0230           01130         SUBWF   Temp,W                  ; subtract second
+0379   00E5           01131         MOVWF   RES1T           ; and store result
+037A   2B9A           01132         GOTO    subDoneDiv
+                      01133         
+037B                  01134 takeFromTho3Div:
+037B   0868           01135         MOVF    RES4T,W         ; 
+037C   1903           01136         BTFSC   STATUS,Z                ; check if Z
+037D   2B8A           01137         GOTO    takeFromTenTho4Div
+Message[305]: Using default destination of 1 (file).
+037E   03E8           01138         DECF    RES4T
+037F   3009           01139         MOVLW   D'9'
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 23
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0380   00E7           01140         MOVWF   RES3T
+0381   3009           01141         MOVLW   D'9'
+0382   00E6           01142         MOVWF   RES2T
+                      01143         
+0383   0860           01144     MOVF        TEMPDIG1,W
+0384   3E0A           01145         ADDLW   D'10'
+0385   00B0           01146         MOVWF   Temp
+0386   0827           01147         MOVF    DIG2,W          ; get first number
+0387   0230           01148         SUBWF   Temp,W          ; subtract second
+0388   00E5           01149         MOVWF   RES1T           ; and store result
+0389   2B9A           01150         GOTO    subDoneDiv
+                      01151 
+038A                  01152 takeFromTenTho4Div:
+038A   0869           01153         MOVF    RES5T,W         ; 
+038B   1903           01154         BTFSC   STATUS,Z        ; check if Z
+038C   2BC6           01155         GOTO    exitDiv
+Message[305]: Using default destination of 1 (file).
+038D   03E9           01156         DECF    RES5T
+038E   3009           01157         MOVLW   D'9'
+038F   00E8           01158         MOVWF   RES4T           ; and store result
+0390   3009           01159         MOVLW   D'9'
+0391   00E7           01160         MOVWF   RES3T           ; and store result
+0392   3009           01161         MOVLW   D'9'
+0393   00E6           01162         MOVWF   RES2T           ; and store result      
+0394   0860           01163         MOVF    TEMPDIG1,W
+0395   3E0A           01164         ADDLW   D'10'
+0396   00B0           01165         MOVWF   Temp
+0397   0827           01166         MOVF    DIG2,W          ; get first number
+0398   0230           01167         SUBWF   Temp,W          ; subtract second
+0399   00E5           01168         MOVWF   RES1T           ; and store result
+                      01169         
+039A                  01170 subDoneDiv:
+039A   0865           01171         MOVF    RES1T,W
+039B   00E0           01172         MOVWF   TEMPDIG1
+039C   0866           01173         MOVF    RES2T,W
+039D   00E1           01174         MOVWF   TEMPTEN1
+039E   0867           01175         MOVF    RES3T,W
+039F   00E2           01176         MOVWF   TEMPHUN1
+03A0   0868           01177         MOVF    RES4T,W
+03A1   00E3           01178         MOVWF   TEMPTH1
+03A2   0869           01179         MOVF    RES5T,W
+03A3   00E4           01180         MOVWF   TEMPTTH1
+                      01181         
+                      01182 
+Message[305]: Using default destination of 1 (file).
+03A4   0AB3           01183         INCF    RES1
+03A5   1403           01184         BSF             STATUS,C                        ; Negative detect flag
+03A6   300A           01185         MOVLW   D'10'
+03A7   0233           01186         SUBWF   RES1,W
+03A8   1C03           01187         BTFSS   STATUS,C                ; answer positive?
+03A9   2AFA           01188         GOTO    DivLoop
+03AA   2BAB           01189         GOTO    addTenDiv
+                      01190         
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 24
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      01191 
+03AB                  01192 addTenDiv:
+03AB   00B3           01193         MOVWF   RES1
+Message[305]: Using default destination of 1 (file).
+03AC   0AB4           01194         INCF    RES2
+03AD   1403           01195         BSF             STATUS,C                        ; Negative detect flag
+03AE   300A           01196         MOVLW   D'10'
+03AF   0234           01197         SUBWF   RES2,W
+03B0   1C03           01198         BTFSS   STATUS,C                ; answer positive?
+03B1   2AFA           01199         GOTO    DivLoop
+03B2   2BB3           01200         GOTO    addHunDiv
+                      01201 
+                      01202 
+03B3                  01203 addHunDiv:
+03B3   00B4           01204         MOVWF   RES2
+Message[305]: Using default destination of 1 (file).
+03B4   0AB5           01205         INCF    RES3
+03B5   1403           01206         BSF             STATUS,C                        ; Negative detect flag
+03B6   300A           01207         MOVLW   D'10'
+03B7   0235           01208         SUBWF   RES3,W
+03B8   1C03           01209         BTFSS   STATUS,C                ; answer positive?
+03B9   2AFA           01210         GOTO    DivLoop
+03BA   2BBB           01211         GOTO    addThoDiv
+                      01212 
+                      01213 
+03BB                  01214 addThoDiv:
+03BB   00B5           01215         MOVWF   RES3
+Message[305]: Using default destination of 1 (file).
+03BC   0AB6           01216         INCF    RES4
+03BD   1403           01217         BSF             STATUS,C                        ; Negative detect flag
+03BE   300A           01218         MOVLW   D'10'
+03BF   0236           01219         SUBWF   RES4,W
+03C0   1C03           01220         BTFSS   STATUS,C                ; answer positive?
+03C1   2AFA           01221         GOTO    DivLoop
+03C2   2BC3           01222         GOTO    addTenThoDiv
+                      01223 
+                      01224 
+03C3                  01225 addTenThoDiv:
+03C3   00B6           01226         MOVWF   RES4
+Message[305]: Using default destination of 1 (file).
+03C4   0AB7           01227         INCF    RES5
+03C5   2AFA           01228         GOTO    DivLoop
+                      01229 
+03C6                  01230 exitDiv:
+03C6   0849           01231         movf    OPERATION, W
+03C7   3C01           01232         sublw   d'1'
+03C8   1D03           01233     btfss STATUS, Z
+03C9   28A5           01234     goto AFTERCALC
+                      01235         
+03CA   3000           01236         MOVLW   0
+03CB   00B9           01237         MOVWF   CARRY
+                      01238 
+03CC   0180           01239         CLRF    W       
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 25
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+03CD   0865           01240         movf    RES1T, W          ; Move value of a into W register
+03CE   0727           01241     addwf       DIG2, W         ; Add b to W register
+03CF   0739           01242     addwf       CARRY, W         ; Add c to W register
+                      01243         ;movlw  48
+                      01244         ;sublw  W
+03D0   00E5           01245     movwf       RES1T            ; Store the final result in z
+03D1   0865           01246         movf    RES1T, W
+03D2   3C09           01247         sublw   d'9'
+03D3   1C03           01248         btfss   STATUS, C
+03D4   2BD8           01249         goto    fixRes11
+03D5   3000           01250         movlw   d'0'
+03D6   00B9           01251         movwf   CARRY
+03D7   2BDC           01252         goto    getRes22
+                      01253                 
+03D8                  01254 fixRes11
+03D8   300A           01255         movlw   d'10'
+03D9   02E5           01256         subwf   RES1T, F
+03DA   3001           01257         movlw   d'1'
+03DB   00B9           01258         movwf   CARRY   
+03DC                  01259 getRes22
+03DC   0180           01260         CLRF    W       
+03DD   0866           01261         movf    RES2T, W          ; Move value of a into W register
+03DE   0726           01262     addwf       TEN2, W         ; Add b to W register
+03DF   0739           01263     addwf       CARRY, W         ; Add c to W register
+                      01264 ;       movlw   48
+                      01265         ;sublw  W
+03E0   00E6           01266     movwf       RES2T            ; Store the final result in z
+03E1   0866           01267         movf    RES2T, W
+03E2   3C09           01268         sublw   d'9'
+03E3   1C03           01269         btfss   STATUS, C
+03E4   2BE8           01270         goto    fixRes22
+03E5   3000           01271         movlw   d'0'
+03E6   00B9           01272         movwf   CARRY
+03E7   2BEC           01273         goto    getRes33
+                      01274 
+03E8                  01275 fixRes22
+03E8   300A           01276         movlw   d'10'
+03E9   02E6           01277         subwf   RES2T, F
+03EA   3001           01278         movlw   d'1'
+03EB   00B9           01279         movwf   CARRY   
+03EC                  01280 getRes33
+03EC   0180           01281         CLRF    W       
+03ED   0867           01282         movf    RES3T, W          ; Move value of a into W register
+03EE   0725           01283     addwf       HUN2, W         ; Add b to W register
+03EF   0739           01284     addwf       CARRY, W         ; Add c to W register
+                      01285 ;       movlw   48
+                      01286 ;       sublw   W
+03F0   00E7           01287     movwf       RES3T            ; Store the final result in z
+03F1   0867           01288         movf    RES3T, W
+03F2   3C09           01289         sublw   d'9'
+03F3   1C03           01290         btfss   STATUS, C
+03F4   2BF8           01291         goto    fixRes33
+03F5   3000           01292         movlw   d'0'
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 26
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+03F6   00B9           01293         movwf   CARRY
+03F7   2BFC           01294         goto    getRes44
+                      01295 
+03F8                  01296 fixRes33
+03F8   300A           01297         movlw   d'10'
+03F9   02E7           01298         subwf   RES3T, F
+03FA   3001           01299         movlw   d'1'
+03FB   00B9           01300         movwf   CARRY   
+03FC                  01301 getRes44
+03FC   0180           01302         CLRF    W       
+03FD   0868           01303         movf    RES4T, W          ; Move value of a into W register
+03FE   0724           01304     addwf       TH2, W         ; Add b to W register
+03FF   0739           01305     addwf       CARRY, W         ; Add c to W register
+                      01306 ;       movlw   48
+                      01307 ;       sublw   W
+0400   00E8           01308     movwf       RES4T          ; Store the final result in z
+0401   0868           01309         movf    RES4T, W
+0402   3C09           01310         sublw   d'9'
+0403   1C03           01311         btfss   STATUS, C
+0404   2C08           01312         goto    fixRes44
+0405   3000           01313         movlw   d'0'
+0406   00B9           01314         movwf   CARRY
+0407   2C0C           01315         goto    getRes55
+                      01316 
+0408                  01317 fixRes44
+0408   300A           01318         movlw   d'10'
+0409   02E8           01319         subwf   RES4T, F
+040A   3001           01320         movlw   d'1'
+040B   00B9           01321         movwf   CARRY   
+040C                  01322 getRes55
+040C   0180           01323         CLRF    W       
+040D   0869           01324         movf    RES5T, W          ; Move value of a into W register
+040E   0723           01325     addwf       TTH2, W         ; Add b to W register
+040F   0739           01326     addwf       CARRY, W         ; Add c to W register
+                      01327 ;       movlw   48
+                      01328 ;       sublw   W
+0410   00E9           01329     movwf       RES5T          ; Store the final result in z
+0411   0869           01330         movf    RES5T, W
+0412   3C09           01331         sublw   d'9'
+0413   1C03           01332         btfss   STATUS, C
+0414   2C18           01333         goto    fixRes55
+0415   3000           01334         movlw   d'0'
+0416   00B9           01335         movwf   CARRY
+0417   2C1C           01336         goto    getRes66
+                      01337 
+0418                  01338 fixRes55
+0418   300A           01339         movlw   d'10'
+0419   02E9           01340         subwf   RES5T, F
+041A   3001           01341         movlw   d'1'
+041B   00B9           01342         movwf   CARRY
+                      01343 
+041C                  01344 getRes66
+041C   3000           01345         movlw   0
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 27
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+041D   00B8           01346         movwf   RES6
+041E   0869           01347         movf    RES5T, W
+041F   00B7           01348         movwf   RES5
+0420   0868           01349         movf    RES4T, W
+0421   00B6           01350         movwf   RES4
+0422   0867           01351         movf    RES3T, W
+0423   00B5           01352         movwf   RES3
+0424   0866           01353         movf    RES2T, W
+0425   00B4           01354         movwf   RES2
+0426   0865           01355         movf    RES1T, W
+0427   00B3           01356         movwf   RES1
+0428   28A5           01357         GOTO AFTERCALC
+                      01358 
+0429                  01359 INTRODISPLAY3
+Warning[203]: Found opcode in column 1. (CALL)
+0429   21E6           01360 CALL    inid
+                      01361 
+042A   01D1           01362    CLRF NUMOROP
+042B   14F4           01363    BSF  Select,RS
+                      01364 
+042C   304B           01365  MOVLW d'75' ; Print character "K"
+042D   21D4           01366  CALL   send
+                      01367  
+042E   3045           01368  MOVLW d'69' ; Print character "E"
+042F   21D4           01369  CALL   send
+                      01370  
+0430   3045           01371  MOVLW d'69' ; Print character "E"
+0431   21D4           01372  CALL   send
+                      01373  
+0432   3050           01374  MOVLW d'80' ; Print character "P"
+0433   21D4           01375  CALL   send
+                      01376  
+0434   303F           01377  MOVLW d'63' ; Print character "?"
+0435   21D4           01378  CALL   send
+                      01379  
+0436   3020           01380  MOVLW d'32' ; Print character " "
+0437   21D4           01381  CALL   send
+                      01382  
+0438   305B           01383  MOVLW d'91' ; Print caracter "["
+0439   21D4           01384  CALL   send
+                      01385  
+043A   3031           01386  MOVLW d'49' ; Print caracter "1"
+043B   21D4           01387  CALL   send
+                      01388  
+043C   303A           01389  MOVLW d'58' ; Print caracter ":"
+043D   21D4           01390  CALL   send
+                      01391  
+043E   3059           01392  MOVLW d'89' ; Print caracter "Y"
+043F   21D4           01393  CALL   send
+                      01394  
+0440   302C           01395  MOVLW d'44' ; Print caracter ","
+0441   21D4           01396  CALL   send
+                      01397  
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 28
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0442   3020           01398  MOVLW d'32' ; Print caracter " "
+0443   21D4           01399  CALL   send
+                      01400  
+0444   3032           01401  MOVLW d'50' ; Print caracter "2"
+0445   21D4           01402  CALL   send
+                      01403  
+0446   303A           01404  MOVLW d'58' ; Print caracter ":"
+0447   21D4           01405  CALL   send
+                      01406  
+0448   304E           01407  MOVLW d'78' ; Print caracter "N"
+0449   21D4           01408  CALL   send
+                      01409  
+044A   305D           01410  MOVLW d'93' ; Print caracter "]"
+044B   21D4           01411  CALL   send
+                      01412  
+044C   10F4           01413  BCF    Select,RS
+044D   30C0           01414  MOVLW  0xC0
+044E   21D4           01415  CALL   send
+                      01416 
+044F   01FE           01417         CLRF    TEMPDIG
+0450   3001           01418         movlw   1
+0451   00FE           01419         movwf   TEMPDIG
+0452   01D1           01420    CLRF NUMOROP
+                      01421   
+0453   3002           01422    MOVLW        2
+0454   00FD           01423    MOVWF        CURRMax
+0455   0181           01424    CLRF TMR0
+0456   01FF           01425    CLRF Cout
+0457   2528           01426    CALL GetDigit2
+0458   087E           01427         movf    TEMPDIG, W
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0459   0087           01428    movwf char1
+045A   3002           01429     movlw 2
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+045B   0088           01430     movwf char2
+                      01431 
+                      01432     ; Compare char1 and char2
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+045C   0807           01433     movf char1, W    ; Move char1 to the W (working) register
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+045D   0608           01434     xorwf char2, W   ; XOR char2 with the value in the W register
+                      01435     
+045E   1903 2C67      01436     bz  startagain      
+0460   1D03 2C6A      01437     bnz savenum
+                      01438     
+                      01439     
+                      01440     
+                      01441     
+0462   3014           01442    MOVLW        0X14 ;SHIFT     Cursor By one to right
+0463   10F4           01443    BCF  Select,RS
+                      01444    
+                      01445  ; CALL send
+                      01446  
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 29
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      01447  
+                      01448  
+                      01449    ; movlw 2
+                      01450     
+                      01451  
+                      01452  
+Warning[203]: Found opcode in column 1. (BSF)
+0464   14F4           01453 BSF     Select,RS
+0465   01D1           01454    CLRF NUMOROP
+                      01455 
+                      01456 
+                      01457 
+                      01458  
+0466   0008           01459    RETURN
+                      01460 
+                      01461 
+                      01462 
+0467                  01463 startagain
+0467   2204           01464         call clear
+0468   21E6           01465    CALL inid
+0469   207E           01466    call start
+                      01467    
+                      01468 
+046A                  01469 savenum
+046A   2204           01470         call clear
+046B   21E6           01471    CALL inid
+                      01472    
+046C   01D1           01473    CLRF NUMOROP
+046D   14F4           01474    BSF  Select,RS
+                      01475    
+                      01476    
+046E   3014           01477        MOVLW    0X14 ;SHIFT     Cursor By one to right
+046F   10F4           01478    BCF  Select,RS
+0470   21D4           01479    CALL send
+0471   0843           01480     MOVF        TTH1,W
+                      01481         ;sublw 48
+0472   00FE           01482    MOVWF        TEMPDIG
+0473   2208           01483    CALL DISPDIG
+                      01484    
+                      01485    
+0474   3014           01486       MOVLW     0X14 ;SHIFT     Cursor By one to right
+0475   10F4           01487    BCF  Select,RS
+0476   21D4           01488    CALL send
+0477   0844           01489     MOVF        TH1,W
+                      01490         ;sublw 48
+0478   00FE           01491    MOVWF        TEMPDIG
+0479   2208           01492    CALL DISPDIG
+                      01493    
+                      01494    
+047A   3014           01495       MOVLW     0X14 ;SHIFT     Cursor By one to right
+047B   10F4           01496    BCF  Select,RS
+047C   21D4           01497    CALL send
+047D   0845           01498     MOVF        HUN1,W
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 30
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      01499         ;sublw 48
+047E   00FE           01500    MOVWF        TEMPDIG
+047F   2208           01501    CALL DISPDIG
+                      01502 
+                      01503    
+0480   3014           01504       MOVLW     0X14 ;SHIFT     Cursor By one to right
+0481   10F4           01505    BCF  Select,RS
+0482   21D4           01506    CALL send
+0483   0846           01507     MOVF        TEN1,W
+                      01508         ;sublw 48
+0484   00FE           01509    MOVWF        TEMPDIG
+0485   2208           01510    CALL DISPDIG
+                      01511    
+                      01512    
+0486   3014           01513       MOVLW     0X14 ;SHIFT     Cursor By one to right
+0487   10F4           01514    BCF  Select,RS
+0488   21D4           01515    CALL send
+0489   0847           01516     MOVF        DIG1,W
+                      01517         ;sublw 48
+048A   00FE           01518    MOVWF        TEMPDIG
+048B   2208           01519    CALL DISPDIG
+                      01520  
+                      01521  
+                      01522   
+048C   3014           01523     MOVLW       0X14 ;SHIFT     Cursor By one to right
+048D   10F4           01524    BCF  Select,RS
+048E   21D4           01525    CALL send
+048F   01FE           01526    CLRF TEMPDIG
+0490   3002           01527    MOVLW        2
+0491   00FD           01528    MOVWF        CURRMax
+0492   1451           01529    BSF  NUMOROP,0
+0493   20E0           01530    CALL GetDigit
+0494   087E           01531    MOVF TEMPDIG,W
+0495   00C9           01532    MOVWF        OPERATION
+0496   3014           01533     MOVLW       0X14 ;SHIFT     Cursor By one to right
+0497   10F4           01534    BCF  Select,RS
+0498   21D4           01535    CALL send
+0499   01FE           01536    CLRF TEMPDIG
+                      01537    ;GET the 3 DIGITS of the first Number
+049A   01D1           01538    CLRF NUMOROP
+                      01539 
+                      01540    
+049B   3014           01541       MOVLW     0X14 ;SHIFT     Cursor By one to right
+049C   10F4           01542    BCF  Select,RS
+049D   21D4           01543    CALL send
+049E   0823           01544     MOVF        TTH2,W
+                      01545         ;sublw 48
+049F   00FE           01546    MOVWF        TEMPDIG
+04A0   2208           01547    CALL DISPDIG
+                      01548    
+                      01549    
+04A1   3014           01550       MOVLW     0X14 ;SHIFT     Cursor By one to right
+04A2   10F4           01551    BCF  Select,RS
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 31
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+04A3   21D4           01552    CALL send
+04A4   0824           01553     MOVF        TH2,W
+                      01554         ;sublw 48
+04A5   00FE           01555    MOVWF        TEMPDIG
+04A6   2208           01556    CALL DISPDIG
+                      01557    
+                      01558    
+04A7   3014           01559       MOVLW     0X14 ;SHIFT     Cursor By one to right
+04A8   10F4           01560    BCF  Select,RS
+04A9   21D4           01561    CALL send
+04AA   0825           01562     MOVF        HUN2,W
+                      01563         ;sublw 48
+04AB   00FE           01564    MOVWF        TEMPDIG
+04AC   2208           01565    CALL DISPDIG
+                      01566    
+04AD   3014           01567       MOVLW     0X14 ;SHIFT     Cursor By one to right
+04AE   10F4           01568    BCF  Select,RS
+04AF   21D4           01569    CALL send
+04B0   0826           01570     MOVF        TEN2,W
+                      01571         ;sublw 48
+04B1   00FE           01572    MOVWF        TEMPDIG
+04B2   2208           01573    CALL DISPDIG
+                      01574    
+                      01575    
+04B3   3014           01576       MOVLW     0X14 ;SHIFT     Cursor By one to right
+04B4   10F4           01577    BCF  Select,RS
+04B5   21D4           01578    CALL send
+04B6   0827           01579     MOVF        DIG2,W
+                      01580         ;sublw 48
+04B7   00FE           01581    MOVWF        TEMPDIG
+04B8   2208           01582    CALL DISPDIG
+                      01583    
+                      01584    
+                      01585    
+                      01586    
+                      01587    
+                      01588    
+                      01589    
+04B9   10F4           01590    BCF  Select,RS
+04BA   30C0           01591  MOVLW  0xC0
+04BB   21D4           01592  CALL   send
+                      01593 
+Warning[203]: Found opcode in column 1. (BSF)
+04BC   14F4           01594 BSF     Select,RS
+                      01595 
+Warning[203]: Found opcode in column 1. (MOVLW)
+04BD   303D           01596 MOVLW d'61' ; Print caracter "="
+04BE   21D4           01597  CALL   send
+                      01598  
+                      01599  
+                      01600  
+                      01601  
+                      01602  
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 32
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      01603  
+                      01604 
+                      01605   
+04BF   3000           01606     movlw 0
+Warning[219]: Invalid RAM location specified.
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+04C0   0090           01607     movwf char4
+                      01608 
+                      01609     ; Compare char1 and char2
+Warning[219]: Invalid RAM location specified.
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+04C1   0810           01610     movf char4, W    ; Move char1 to the W (working) register
+04C2   0649           01611     xorwf OPERATION, W   ; XOR char2 with the value in the W register
+                      01612     
+04C3   1903 2A16      01613     bz add     
+04C5   1D03 2AE2      01614     bnz div 
+                      01615 
+                      01616  
+                      01617 
+                      01618  
+                      01619  
+                      01620  
+                      01621    
+04C7   0853           01622     MOVF        Result,W
+04C8   0087           01623    MOVWF        PORTC
+04C9   3014           01624    MOVLW        0X14 ;SHIFT     Cursor By one to right
+04CA   10F4           01625    BCF  Select,RS
+04CB   21D4           01626    CALL send
+04CC   01D1           01627    CLRF NUMOROP
+                      01628 
+04CD   0838           01629    MOVF RES6,W
+                      01630         ;sublw 48
+04CE   00FE           01631    MOVWF        TEMPDIG
+04CF   2208           01632    CALL DISPDIG
+                      01633    
+04D0   3014           01634    MOVLW        0X14 ;SHIFT     Cursor By one to right
+04D1   10F4           01635    BCF  Select,RS
+04D2   21D4           01636    CALL send
+04D3   0837           01637     MOVF        RES5,W
+                      01638         ;sublw 48
+04D4   00FE           01639    MOVWF        TEMPDIG
+04D5   2208           01640    CALL DISPDIG
+                      01641 
+04D6   3014           01642         MOVLW   0X14 ;SHIFT     Cursor By one to right
+04D7   10F4           01643    BCF  Select,RS
+04D8   21D4           01644    CALL send
+04D9   0836           01645     MOVF        RES4,W
+                      01646         ;sublw 48
+04DA   00FE           01647    MOVWF        TEMPDIG
+04DB   2208           01648    CALL DISPDIG
+                      01649 
+Warning[203]: Found opcode in column 1. (MOVLW)
+04DC   3014           01650 MOVLW   0X14 ;SHIFT     Cursor By one to right
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 33
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+04DD   10F4           01651    BCF  Select,RS
+04DE   21D4           01652    CALL send
+04DF   0835           01653     MOVF        RES3,W
+                      01654         ;sublw 48
+04E0   00FE           01655    MOVWF        TEMPDIG
+04E1   2208           01656    CALL DISPDIG
+                      01657 
+Warning[203]: Found opcode in column 1. (MOVLW)
+04E2   3014           01658 MOVLW   0X14 ;SHIFT     Cursor By one to right
+04E3   10F4           01659    BCF  Select,RS
+04E4   21D4           01660    CALL send
+04E5   0834           01661     MOVF        RES2,W
+                      01662         ;sublw 48
+04E6   00FE           01663    MOVWF        TEMPDIG
+04E7   2208           01664    CALL DISPDIG
+                      01665    
+04E8   3014           01666    MOVLW        0X14 ;SHIFT     Cursor By one to right
+04E9   10F4           01667    BCF  Select,RS
+04EA   21D4           01668    CALL send
+04EB   0833           01669     MOVF        RES1,W
+                      01670 ;       sublw 48
+04EC   00FE           01671    MOVWF        TEMPDIG
+04ED   2208           01672    CALL DISPDIG
+                      01673    
+                      01674    
+                      01675    
+04EE   0181           01676    CLRF TMR0
+04EF   01FF           01677    CLRF Cout
+                      01678 
+                      01679    
+04F0   1EFF           01680 Loop57 BTFSS Cout,5
+04F1   2CF0           01681    GOTO Loop57
+04F2   30FF           01682    MOVLW        D'255'
+04F3   21C8           01683    CALL xms
+                      01684    
+04F4   10F4           01685    BCF  Select,RS
+04F5   3001           01686    MOVLW        0x01
+04F6   21D4           01687    CALL send
+04F7   3002           01688    MOVLW        0x02
+04F8   21D4           01689    CALL send
+                      01690    
+                      01691    
+04F9   10F4           01692  BCF    Select,RS
+04FA   30C0           01693  MOVLW  0xC0
+04FB   21D4           01694  CALL   send
+                      01695 
+                      01696 
+Warning[202]: Argument out of range.  Least significant bits used.
+04FC   30B8           01697    MOVLW D'3000'                ; Load count for 100ms delay
+04FD   21C8           01698    CALL xms             ; and wait for display start
+04FE   21C9           01699   CALL  loopX
+                      01700 
+                      01701  
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 34
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+04FF   2C29           01702       GOTO      INTRODISPLAY3
+                      01703       
+                      01704       
+                      01705       
+                      01706       
+                      01707       
+                      01708       
+                      01709       
+                      01710       
+0500                  01711 rrr: 
+0500   3000           01712       movlw 0
+Warning[219]: Invalid RAM location specified.
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0501   0090           01713     movwf char4
+                      01714 
+                      01715     ; Compare char1 and char2
+Warning[219]: Invalid RAM location specified.
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0502   0810           01716     movf char4, W    ; Move char1 to the W (working) register
+0503   0649           01717     xorwf OPERATION, W   ; XOR char2 with the value in the W register
+                      01718     
+0504   1903 2A16      01719     bz add 
+0506   1D03 2A16      01720     bnz add 
+0508   0008           01721     return
+                      01722       
+                      01723       
+Warning[207]: Found label after column 1. (MATH_ERROR)
+0509                  01724    MATH_ERROR   
+0509   2204           01725       CALL      clear
+050A   21E6           01726       CALL      inid
+                      01727 
+050B   01D1           01728       CLRF      NUMOROP
+050C   14F4           01729       BSF       Select,RS
+                      01730 
+050D   304D           01731     MOVLW d'77' ; Print character "M"
+050E   21D4           01732     CALL        send
+                      01733     
+050F   3041           01734     MOVLW d'65' ; Print character "A"
+0510   21D4           01735     CALL        send
+                      01736     
+0511   3054           01737     MOVLW d'84' ; Print character "T"
+0512   21D4           01738     CALL        send
+                      01739     
+0513   3048           01740     MOVLW d'72' ; Print character "H"
+0514   21D4           01741     CALL        send
+                      01742     
+0515   3020           01743     MOVLW d'32' ; Print character " "
+0516   21D4           01744     CALL        send
+                      01745     
+0517   3045           01746     MOVLW d'69' ; Print character "E"
+0518   21D4           01747     CALL        send
+                      01748     
+0519   3052           01749     MOVLW d'82' ; Print caracter "R"
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 35
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+051A   21D4           01750     CALL        send
+                      01751     
+051B   3052           01752     MOVLW d'82' ; Print caracter "R"
+051C   21D4           01753     CALL        send
+                      01754     
+051D   304F           01755     MOVLW d'79' ; Print caracter "O"
+051E   21D4           01756     CALL        send
+                      01757     
+051F   3052           01758     MOVLW d'82' ; Print caracter "R"
+0520   21D4           01759     CALL        send
+                      01760     
+                      01761     
+0521   10F4           01762     BCF         Select,RS
+0522   30C0           01763     MOVLW       0xC0
+0523   21D4           01764     CALL        send
+                      01765     
+Warning[202]: Argument out of range.  Least significant bits used.
+0524   30D0           01766     MOVLW       D'2000'         ; Load count for 100ms delay
+0525   21C8           01767     CALL        xms             ; and wait for display start
+0526   21C9           01768     CALL        loopX
+0527   2850           01769     GOTO        init   
+                      01770       
+0528                  01771 GetDigit2       
+0528   1283 1303      01772      BANKSEL PORTD
+052A   2544           01773      CALL       DISPDIG2
+052B   0181           01774      CLRF       TMR0
+052C   01FF           01775      CLRF       Cout
+052D   1C86           01776 CHECK12 BTFSS  PORTB,1 ;if set PortB[1] GOTO NextNum
+052E   2D30           01777    GOTO CHECKTIMER02
+052F   2D33           01778    GOTO INCNUM2
+                      01779    
+0530                  01780 CHECKTIMER02    ; if 2 seconds have passed got to the next digit
+0530   1EFF           01781    BTFSS Cout,5
+0531   2D2D           01782    GOTO CHECK12
+0532   2D43           01783    GOTO GETDIGEND2
+                      01784 
+0533                  01785 INCNUM2   
+0533   0181           01786    CLRF TMR0
+0534   01FF           01787    CLRF Cout
+0535   087D           01788    MOVF CURRMax,W                     ; if >2 return to 1
+0536   027E           01789    SUBWF        TEMPDIG,W
+0537   1903           01790    BTFSC        STATUS,Z
+0538   2D3A           01791    GOTO SET02
+0539   2D3E           01792    GOTO NORMALINC2 
+053A                  01793 SET02
+053A   01FE           01794    CLRF TEMPDIG
+053B   3001           01795         movlw   1
+053C   00FE           01796         movwf   TEMPDIG
+053D   2D3F           01797    GOTO DISP2
+053E                  01798 NORMALINC2
+053E   0AFE           01799    INCF TEMPDIG,1
+                      01800 
+053F                  01801 DISP2
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 36
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+053F   2544           01802    CALL DISPDIG2
+0540   1886           01803 CHECK02 BTFSC   PORTB,1
+0541   2D40           01804                  GOTO   CHECK02
+0542   2D2D           01805    GOTO CHECK12
+                      01806  
+0543                  01807 GETDIGEND2
+0543   0008           01808     RETURN              
+0544                  01809 DISPDIG2
+0544   1283 1303      01810    BANKSEL      NUMOROP
+0546   1851           01811    BTFSC        NUMOROP,0
+0547   2D4B           01812    GOTO SENDOP2
+0548   087E           01813    MOVF TEMPDIG,W
+0549   3E30           01814    ADDLW        0x30
+054A   2D4C           01815    GOTO BEFORESEND2
+054B                  01816 SENDOP2
+054B   20D9           01817    CALL table
+054C                  01818 BEFORESEND2
+054C   14F4           01819    BSF  Select,RS
+054D   21D4           01820    CALL send
+054E   3010           01821    MOVLW        0x10
+054F   10F4           01822    BCF  Select,RS
+0550   21D4           01823    CALL send
+0551   0008           01824    RETURN     
+                      01825       
+                      01826    END
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 37
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ACKDT                             00000005
+ACKEN                             00000004
+ACKSTAT                           00000006
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000006
+ADCS1                             00000007
+ADDEN                             00000003
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+AFTERCALC                         000000A5
+BCLIE                             00000003
+BCLIF                             00000003
+BEFORESEND                        00000210
+BEFORESEND2                       0000054C
+BF                                00000000
+BRGH                              00000002
+BeforeDig1                        00000156
+BeforeDig12                       000001BA
+BeforeDig3                        00000120
+BeforeDig32                       00000184
+BeforeTen1                        0000010B
+BeforeTen12                       00000139
+BeforeTen122                      0000016F
+BeforeTen1222                     0000019D
+C                                 00000000
+C1INV                             00000004
+C1OUT                             00000006
+C2INV                             00000005
+C2OUT                             00000007
+CARRY                             00000039
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCP2CON                           0000001D
+CCP2IE                            00000000
+CCP2IF                            00000000
+CCP2M0                            00000000
+CCP2M1                            00000001
+CCP2M2                            00000002
+CCP2M3                            00000003
+CCP2X                             00000005
+CCP2Y                             00000004
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 38
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CCPR1H                            00000016
+CCPR1L                            00000015
+CCPR2H                            0000001C
+CCPR2L                            0000001B
+CHECK0                            000000F6
+CHECK02                           00000540
+CHECK1                            000000E5
+CHECK12                           0000052D
+CHECKTIMER0                       000000E8
+CHECKTIMER02                      00000530
+CHECKZERO                         000002D2
+CHS0                              00000003
+CHS1                              00000004
+CHS2                              00000005
+CIS                               00000003
+CKE                               00000006
+CKP                               00000004
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             0000009C
+CMIE                              00000006
+CMIF                              00000006
+CNT                               00000032
+CREN                              00000004
+CSRC                              00000007
+CURRMax                           0000007D
+CVR0                              00000000
+CVR1                              00000001
+CVR2                              00000002
+CVR3                              00000003
+CVRCON                            0000009D
+CVREN                             00000007
+CVROE                             00000006
+CVRR                              00000005
+Cout                              0000007F
+D                                 00000005
+DATA_ADDRESS                      00000005
+DC                                00000001
+DIG1                              00000047
+DIG2                              00000027
+DISP                              000000F5
+DISP2                             0000053F
+DISPDIG                           00000208
+DISPDIG2                          00000544
+D_A                               00000005
+DivLoop                           000002FA
+E                                 00000002
+EEADR                             0000010D
+EEADRH                            0000010F
+EECON1                            0000018C
+EECON2                            0000018D
+EEDATA                            0000010C
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 39
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+EEDATH                            0000010E
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+GCEN                              00000007
+GETDIGEND                         000000F9
+GETDIGEND2                        00000543
+GIE                               00000007
+GO                                00000002
+GO_DONE                           00000002
+Get3Digits                        000000FA
+Get3Digits2                       0000015E
+GetDigit                          000000E0
+GetDigit2                         00000528
+HUN1                              00000045
+HUN2                              00000025
+I2C_DATA                          00000005
+I2C_READ                          00000002
+I2C_START                         00000003
+I2C_STOP                          00000004
+IBF                               00000007
+IBOV                              00000005
+INCNUM                            000000EB
+INCNUM2                           00000533
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+INTRODISPLAY                      00000272
+INTRODISPLAY2                     00000296
+INTRODISPLAY3                     00000429
+IRP                               00000007
+LESSTHAN250                       0000011F
+LESSTHAN2502                      00000138
+LESSTHAN25022                     00000183
+LESSTHAN250222                    0000019C
+LESSTHAN2503                      00000155
+LESSTHAN25032                     000001B9
+Loop56                            000000CF
+Loop57                            000004F0
+MATH_ERROR                        00000509
+NORMALINC                         000000F4
+NORMALINC2                        0000053E
+NOT_A                             00000005
+NOT_ADDRESS                       00000005
+NOT_BO                            00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000002
+NOT_PD                            00000003
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 40
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_RC8                           00000006
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_TX8                           00000006
+NOT_W                             00000002
+NOT_WRITE                         00000002
+NUM1                              00000048
+NUM2                              00000050
+NUMOROP                           00000051
+OBF                               00000006
+OERR                              00000001
+OPERATION                         00000049
+OPTION_REG                        00000081
+OutCod                            00000075
+P                                 00000004
+PCFG0                             00000000
+PCFG1                             00000001
+PCFG2                             00000002
+PCFG3                             00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PEN                               00000002
+PIE1                              0000008C
+PIE2                              0000008D
+PIR1                              0000000C
+PIR2                              0000000D
+PORTA                             00000005
+PORTB                             00000006
+PORTC                             00000007
+PORTD                             00000008
+PORTE                             00000009
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSPIE                             00000007
+PSPIF                             00000007
+PSPMODE                           00000004
+R                                 00000002
+RBIE                              00000003
+RBIF                              00000000
+RC8_9                             00000006
+RC9                               00000006
+RCD8                              00000000
+RCEN                              00000003
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 41
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RCSTA                             00000018
+RD                                00000000
+READ_WRITE                        00000002
+RES1                              00000033
+RES1T                             00000065
+RES2                              00000034
+RES2T                             00000066
+RES3                              00000035
+RES3T                             00000067
+RES4                              00000036
+RES4T                             00000068
+RES5                              00000037
+RES5T                             00000069
+RES6                              00000038
+RES_MOD                           00000028
+RP0                               00000005
+RP1                               00000006
+RS                                00000001
+RSEN                              00000001
+RX9                               00000006
+RX9D                              00000000
+R_W                               00000002
+Result                            00000053
+S                                 00000003
+SEN                               00000000
+SENDOP                            0000020F
+SENDOP2                           0000054B
+SET0                              000000F2
+SET02                             0000053A
+SETTHEMAXTo9                      0000010A
+SETTHEMAXTo922                    0000016E
+SMP                               00000007
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+SSPADD                            00000093
+SSPBUF                            00000013
+SSPCON                            00000014
+SSPCON2                           00000091
+SSPEN                             00000005
+SSPIE                             00000003
+SSPIF                             00000003
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+SSPM3                             00000003
+SSPOV                             00000006
+SSPSTAT                           00000094
+STATUS                            00000003
+SYNC                              00000004
+Select                            00000074
+T0CS                              00000005
+T0IE                              00000005
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 42
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1INSYNC                          00000002
+T1OSCEN                           00000003
+T1SYNC                            00000002
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TEMP                              00000052
+TEMPDIG                           0000007E
+TEMPDIG1                          00000060
+TEMPHUN1                          00000062
+TEMPTEN1                          00000061
+TEMPTH1                           00000063
+TEMPTTH1                          00000064
+TEN1                              00000046
+TEN2                              00000026
+TH1                               00000044
+TH2                               00000024
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISB                             00000086
+TRISC                             00000087
+TRISD                             00000088
+TRISE                             00000089
+TRISE0                            00000000
+TRISE1                            00000001
+TRISE2                            00000002
+TRMT                              00000001
+TTH1                              00000043
+TTH2                              00000023
+TX8_9                             00000006
+TX9                               00000006
+TX9D                              00000000
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 43
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TXD8                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+Temp                              00000030
+Timer1                            00000070
+TimerX                            00000071
+UA                                00000001
+W                                 00000000
+WCOL                              00000007
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_ALL                           00001FFF
+_CP_OFF                           00003FFF
+_DEBUG_OFF                        00003FFF
+_DEBUG_ON                         000037FF
+_HS_OSC                           00003FFE
+_LP_OSC                           00003FFC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_WRT_1FOURTH                      00003BFF
+_WRT_256                          00003DFF
+_WRT_HALF                         000039FF
+_WRT_OFF                          00003FFF
+_XT_OSC                           00003FFD
+__16F877A                         00000001
+__DEBUG                           1
+add                               00000216
+addHunDiv                         000003B3
+addTenDiv                         000003AB
+addTenThoDiv                      000003C3
+addThoDiv                         000003BB
+char1                             00000087
+char2                             00000088
+char3                             00000089
+char4                             00000090
+chsNum                            00000090
+clear                             00000204
+div                               000002E2
+divFlag                           00000021
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 44
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+exitDiv                           000003C6
+fixRes1                           0000022B
+fixRes11                          000003D8
+fixRes2                           0000023B
+fixRes22                          000003E8
+fixRes3                           0000024B
+fixRes33                          000003F8
+fixRes4                           0000025B
+fixRes44                          00000408
+fixRes5                           0000026B
+fixRes55                          00000418
+getRes2                           0000022F
+getRes22                          000003DC
+getRes3                           0000023F
+getRes33                          000003EC
+getRes4                           0000024F
+getRes44                          000003FC
+getRes5                           0000025F
+getRes55                          0000040C
+getRes6                           0000026F
+getRes66                          0000041C
+inid                              000001E6
+init                              00000050
+loop1                             000001C4
+loopX                             000001C9
+onems                             000001C2
+op                                00000029
+pulseE                            000001CD
+rrr                               00000500
+savenum                           0000046A
+send                              000001D4
+start                             0000007E
+startagain                        00000467
+subDoneDiv                        0000039A
+subHunDiv                         00000311
+subTenDiv                         0000032F
+subUnitDiv                        0000035C
+svnum                             00000049
+svop                              00000054
+table                             000000D9
+takeFromHun2Div                   0000036E
+takeFromHunDiv                    00000336
+takeFromTenDiv                    00000363
+takeFromTenTho2Div                00000323
+takeFromTenTho3Div                0000034E
+takeFromTenTho4Div                0000038A
+takeFromTenThoDiv                 00000307
+takeFromTho2Div                   00000341
+takeFromTho3Div                   0000037B
+takeFromThoDiv                    00000318
+temp                              00000022
+xms                               000001C8
+MPASM  5.50               LCD_APPLICATION.ASM   7-28-2023  16:39:00         PAGE 45
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+
+0000 : XX--XXXX-------- ---------------- ---------------- ----------------
+0040 : ---------------- XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0080 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+00C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0100 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0140 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0180 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+01C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0200 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0240 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0280 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+02C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0300 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0340 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0380 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+03C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0400 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0440 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0480 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+04C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0500 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0540 : XXXXXXXXXXXXXXXX XX-------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:  1288
+Program Memory Words Free:  6904
+
+
+Errors   :     0
+Warnings :    24 reported,     0 suppressed
+Messages :    27 reported,     0 suppressed
+
+

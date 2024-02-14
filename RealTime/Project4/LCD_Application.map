@@ -1,0 +1,246 @@
+MPLINK 4.48, Linker
+Linker Map File - Created Fri Jul 28 16:39:03 2023
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000004
+                   .org_2       code   0x000004    program   0x000008
+                   .org_3       code   0x000050    program   0x000a04
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000001      
+                            0x000004    0x000007      
+                            0x000050    0x000551      
+            1288 out of 8454 program addresses used, program memory utilization is 15%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                AFTERCALC   0x0000a5    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               BEFORESEND   0x000210    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+              BEFORESEND2   0x00054c    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               BeforeDig1   0x000156    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+              BeforeDig12   0x0001ba    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               BeforeDig3   0x000120    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+              BeforeDig32   0x000184    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               BeforeTen1   0x00010b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+              BeforeTen12   0x000139    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+             BeforeTen122   0x00016f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+            BeforeTen1222   0x00019d    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                   CHECK0   0x0000f6    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  CHECK02   0x000540    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                   CHECK1   0x0000e5    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  CHECK12   0x00052d    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+              CHECKTIMER0   0x0000e8    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+             CHECKTIMER02   0x000530    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                CHECKZERO   0x0002d2    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                     DISP   0x0000f5    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    DISP2   0x00053f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  DISPDIG   0x000208    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 DISPDIG2   0x000544    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  DivLoop   0x0002fa    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                GETDIGEND   0x0000f9    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               GETDIGEND2   0x000543    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               Get3Digits   0x0000fa    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+              Get3Digits2   0x00015e    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 GetDigit   0x0000e0    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                GetDigit2   0x000528    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                   INCNUM   0x0000eb    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  INCNUM2   0x000533    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+             INTRODISPLAY   0x000272    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+            INTRODISPLAY2   0x000296    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+            INTRODISPLAY3   0x000429    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+              LESSTHAN250   0x00011f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+             LESSTHAN2502   0x000138    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+            LESSTHAN25022   0x000183    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+           LESSTHAN250222   0x00019c    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+             LESSTHAN2503   0x000155    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+            LESSTHAN25032   0x0001b9    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                   Loop56   0x0000cf    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                   Loop57   0x0004f0    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               MATH_ERROR   0x000509    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                NORMALINC   0x0000f4    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               NORMALINC2   0x00053e    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                   SENDOP   0x00020f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  SENDOP2   0x00054b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                     SET0   0x0000f2    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    SET02   0x00053a    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+             SETTHEMAXTo9   0x00010a    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+           SETTHEMAXTo922   0x00016e    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                      add   0x000216    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                addHunDiv   0x0003b3    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                addTenDiv   0x0003ab    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+             addTenThoDiv   0x0003c3    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                addThoDiv   0x0003bb    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    clear   0x000204    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                      div   0x0002e2    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  exitDiv   0x0003c6    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  fixRes1   0x00022b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 fixRes11   0x0003d8    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  fixRes2   0x00023b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 fixRes22   0x0003e8    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  fixRes3   0x00024b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 fixRes33   0x0003f8    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  fixRes4   0x00025b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 fixRes44   0x000408    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  fixRes5   0x00026b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 fixRes55   0x000418    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  getRes2   0x00022f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 getRes22   0x0003dc    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  getRes3   0x00023f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 getRes33   0x0003ec    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  getRes4   0x00024f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 getRes44   0x0003fc    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  getRes5   0x00025f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 getRes55   0x00040c    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  getRes6   0x00026f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 getRes66   0x00041c    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                     inid   0x0001e6    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                     init   0x000050    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    loop1   0x0001c4    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    loopX   0x0001c9    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    onems   0x0001c2    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                   pulseE   0x0001cd    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                      rrr   0x000500    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  savenum   0x00046a    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                     send   0x0001d4    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    start   0x00007e    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               startagain   0x000467    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               subDoneDiv   0x00039a    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                subHunDiv   0x000311    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                subTenDiv   0x00032f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               subUnitDiv   0x00035c    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    table   0x0000d9    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+          takeFromHun2Div   0x00036e    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+           takeFromHunDiv   0x000336    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+           takeFromTenDiv   0x000363    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+       takeFromTenTho2Div   0x000323    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+       takeFromTenTho3Div   0x00034e    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+       takeFromTenTho4Div   0x00038a    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+        takeFromTenThoDiv   0x000307    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+          takeFromTho2Div   0x000341    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+          takeFromTho3Div   0x00037b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+           takeFromThoDiv   0x000318    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                      xms   0x0001c8    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     init   0x000050    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    start   0x00007e    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                AFTERCALC   0x0000a5    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                   Loop56   0x0000cf    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    table   0x0000d9    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 GetDigit   0x0000e0    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                   CHECK1   0x0000e5    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+              CHECKTIMER0   0x0000e8    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                   INCNUM   0x0000eb    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                     SET0   0x0000f2    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                NORMALINC   0x0000f4    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                     DISP   0x0000f5    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                   CHECK0   0x0000f6    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                GETDIGEND   0x0000f9    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               Get3Digits   0x0000fa    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+             SETTHEMAXTo9   0x00010a    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               BeforeTen1   0x00010b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+              LESSTHAN250   0x00011f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               BeforeDig3   0x000120    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+             LESSTHAN2502   0x000138    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+              BeforeTen12   0x000139    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+             LESSTHAN2503   0x000155    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               BeforeDig1   0x000156    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+              Get3Digits2   0x00015e    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+           SETTHEMAXTo922   0x00016e    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+             BeforeTen122   0x00016f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+            LESSTHAN25022   0x000183    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+              BeforeDig32   0x000184    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+           LESSTHAN250222   0x00019c    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+            BeforeTen1222   0x00019d    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+            LESSTHAN25032   0x0001b9    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+              BeforeDig12   0x0001ba    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    onems   0x0001c2    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    loop1   0x0001c4    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                      xms   0x0001c8    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    loopX   0x0001c9    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                   pulseE   0x0001cd    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                     send   0x0001d4    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                     inid   0x0001e6    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    clear   0x000204    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  DISPDIG   0x000208    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                   SENDOP   0x00020f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               BEFORESEND   0x000210    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                      add   0x000216    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  fixRes1   0x00022b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  getRes2   0x00022f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  fixRes2   0x00023b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  getRes3   0x00023f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  fixRes3   0x00024b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  getRes4   0x00024f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  fixRes4   0x00025b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  getRes5   0x00025f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  fixRes5   0x00026b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  getRes6   0x00026f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+             INTRODISPLAY   0x000272    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+            INTRODISPLAY2   0x000296    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                CHECKZERO   0x0002d2    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                      div   0x0002e2    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  DivLoop   0x0002fa    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+        takeFromTenThoDiv   0x000307    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                subHunDiv   0x000311    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+           takeFromThoDiv   0x000318    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+       takeFromTenTho2Div   0x000323    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                subTenDiv   0x00032f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+           takeFromHunDiv   0x000336    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+          takeFromTho2Div   0x000341    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+       takeFromTenTho3Div   0x00034e    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               subUnitDiv   0x00035c    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+           takeFromTenDiv   0x000363    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+          takeFromHun2Div   0x00036e    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+          takeFromTho3Div   0x00037b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+       takeFromTenTho4Div   0x00038a    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               subDoneDiv   0x00039a    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                addTenDiv   0x0003ab    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                addHunDiv   0x0003b3    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                addThoDiv   0x0003bb    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+             addTenThoDiv   0x0003c3    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  exitDiv   0x0003c6    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 fixRes11   0x0003d8    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 getRes22   0x0003dc    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 fixRes22   0x0003e8    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 getRes33   0x0003ec    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 fixRes33   0x0003f8    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 getRes44   0x0003fc    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 fixRes44   0x000408    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 getRes55   0x00040c    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 fixRes55   0x000418    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 getRes66   0x00041c    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+            INTRODISPLAY3   0x000429    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               startagain   0x000467    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  savenum   0x00046a    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                   Loop57   0x0004f0    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                      rrr   0x000500    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               MATH_ERROR   0x000509    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                GetDigit2   0x000528    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  CHECK12   0x00052d    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+             CHECKTIMER02   0x000530    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  INCNUM2   0x000533    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    SET02   0x00053a    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               NORMALINC2   0x00053e    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                    DISP2   0x00053f    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  CHECK02   0x000540    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+               GETDIGEND2   0x000543    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                 DISPDIG2   0x000544    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+                  SENDOP2   0x00054b    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+              BEFORESEND2   0x00054c    program     static C:\Users\mass\Desktop\Project 4\LCD_Application.ASM
+
+

@@ -1,0 +1,51 @@
+Message[302] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 84 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 87 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 92 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 98 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[203] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 212 : Found opcode in column 1. (MOVLW)
+Warning[203] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 220 : Found opcode in column 1. (MOVLW)
+Warning[203] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 396 : Found opcode in column 1. (MOVLW)
+Warning[203] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 518 : Found opcode in column 1. (MOVLW)
+Warning[203] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 872 : Found opcode in column 1. (BSF)
+Warning[203] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 874 : Found opcode in column 1. (MOVLW)
+Warning[203] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 900 : Found opcode in column 1. (MOVLW)
+Warning[203] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 908 : Found opcode in column 1. (MOVLW)
+Warning[202] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 925 : Argument out of range.  Least significant bits used.
+Warning[203] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 928 : Found opcode in column 1. (goto)
+Warning[207] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 977 : Found label after column 1. (DivLoop)
+Message[305] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 997 : Using default destination of 1 (file).
+Message[305] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1018 : Using default destination of 1 (file).
+Message[305] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1031 : Using default destination of 1 (file).
+Message[305] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1056 : Using default destination of 1 (file).
+Message[305] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1069 : Using default destination of 1 (file).
+Message[305] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1084 : Using default destination of 1 (file).
+Message[305] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1110 : Using default destination of 1 (file).
+Message[305] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1123 : Using default destination of 1 (file).
+Message[305] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1138 : Using default destination of 1 (file).
+Message[305] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1156 : Using default destination of 1 (file).
+Message[305] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1183 : Using default destination of 1 (file).
+Message[305] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1194 : Using default destination of 1 (file).
+Message[305] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1205 : Using default destination of 1 (file).
+Message[305] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1216 : Using default destination of 1 (file).
+Message[305] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1227 : Using default destination of 1 (file).
+Warning[203] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1360 : Found opcode in column 1. (CALL)
+Message[302] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1428 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1430 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1433 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1434 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[203] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1453 : Found opcode in column 1. (BSF)
+Warning[203] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1594 : Found opcode in column 1. (BSF)
+Warning[203] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1596 : Found opcode in column 1. (MOVLW)
+Warning[219] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1607 : Invalid RAM location specified.
+Message[302] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1607 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[219] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1610 : Invalid RAM location specified.
+Message[302] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1610 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[203] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1650 : Found opcode in column 1. (MOVLW)
+Warning[203] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1658 : Found opcode in column 1. (MOVLW)
+Warning[202] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1697 : Argument out of range.  Least significant bits used.
+Warning[219] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1713 : Invalid RAM location specified.
+Message[302] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1713 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[219] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1716 : Invalid RAM location specified.
+Message[302] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1716 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[207] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1724 : Found label after column 1. (MATH_ERROR)
+Warning[202] C:\USERS\MASS\DESKTOP\PROJECT 4\LCD_APPLICATION.ASM 1766 : Argument out of range.  Least significant bits used.
