@@ -1,0 +1,715 @@
+`timescale 1ns/1ns
+
+module extender (input [4:0] opcode, input [9:0] input_10bits, input [16:0] input_17bits, output reg [23:0] output_24bits);
+	always @(*) begin
+		if(opcode >= 5'b01100) begin
+			output_24bits[23:17] = {7{input_17bits[16]}};
+			output_24bits[16:0] = input_17bits;
+		end
+		else begin
+			output_24bits[23:10] = {14{input_10bits[9]}};
+			output_24bits[9:0] = input_10bits;
+		end
+	end
+	
+endmodule
+
+module extender_testbench();
+	reg [4:0] opcode;
+	reg [9:0] input_10bits;
+	reg [16:0] input_17bits; 
+	reg [23:0] output_24bits;
+	
+	extender ext(opcode, input_10bits, input_17bits, output_24bits);
+	
+	initial begin
+		opcode = 0;
+		input_10bits = 0;
+		input_17bits = 0;
+		#5
+		opcode = 5'b01100;
+		input_10bits = 10'b0101010101;
+		input_17bits = 17'b00000011101010100;
+		#30
+		opcode = 5'b01100;
+		input_10bits = 10'b1101010100;
+		input_17bits = 17'b10000011101010100;
+	end
+endmodule
+
+/////////////////////////////////////////////////////////////////////////
+
+module PC_reg (input clk, input r0w1, input reset, input [23:0] PC_in, output reg [23:0] PC_out); 
+	reg [23:0] PC_val;
+	always @(posedge clk) begin
+		if(reset == 1) begin 
+			PC_val <= 0;	
+		end	
+		if(r0w1 == 0) begin
+			PC_out <= PC_val;
+		end
+		else begin
+			PC_val <= PC_in;
+		end
+	end
+endmodule
+
+
+module status_register (input clk, input reset, input r0w1, input [7:0] status_reg_in, output reg [7:0] status_reg_out);
+	reg [7:0] stat_reg;
+	always @(posedge clk) begin
+		if(reset == 1)	begin
+			stat_reg = 8'd0;
+		end
+		if(r0w1 == 0) begin
+			status_reg_out <= stat_reg;
+		end
+		else begin
+			stat_reg <= status_reg_in;
+		end
+	end	
+	
+endmodule
+
+/////////////////////////////////////////////////////////////////////////
+
+module instruction_memory ( input reset, input [23:0] address, output reg [23:0] instruction);
+	reg [23:0] mem [511:0];
+	
+	always@(*) begin
+		if(reset == 1) begin
+			mem[0] = 24'b000100000010100000000011;
+			mem[3] = 24'b000100000010010000000110;
+		end
+		instruction = mem[address]; 
+	end
+	
+endmodule
+
+/////////////////////////////////////////////////////////////////////////
+
+module data_memory (input clk, input reset, input [23:0] address, input [23:0] data_in, input mem_rd, input mem_wr, output reg [23:0] data_out);
+	reg [23:0] mem[511:0];
+	
+	always @(posedge clk) begin	
+		if(reset == 1) begin
+			mem = '{512{24'd0}};
+		end
+		if(mem_rd == 1) begin
+			data_out = mem[address];
+		end							
+		else if(mem_wr == 1) begin
+			mem[address] = data_in;
+		end
+	end
+endmodule
+
+module data_memory_testbench();
+	reg clk, mem_rd, mem_wr, reset; 
+	reg [23:0] address, data_in, data_out; 
+	
+ 	data_memory dm(clk, reset, address, data_in, mem_rd, mem_wr, data_out);	  
+	
+	initial begin
+		clk = 0; mem_rd = 0; mem_wr = 0; reset = 1;
+		address = 0; data_in = 0;
+		
+		#5 
+		clk = ~clk;
+		reset = 0;
+		mem_wr = 1;
+		mem_rd = 0;
+		data_in = 12;
+		address = 2;
+		
+		#20 
+		clk = ~clk;
+		
+		#5 
+		clk = ~clk;
+		reset = 0;
+		mem_wr = 0;
+		mem_rd = 1;
+		address = 2;
+		
+	end	 
+endmodule
+
+/////////////////////////////////////////////////////////////////////////
+
+module register_file(input clk, input reset, input regwrite, input [2:0] ra, input [2:0] rb, input [2:0] rw, input [23:0] busw, output reg [23:0] busa, output reg [23:0] busb);  
+	reg [23:0] registers[7:0];
+	
+	always @(posedge clk) begin
+		if(reset == 1) begin
+			registers = {24'd0, 24'd1, 24'd2, 24'd3, 24'd4, 24'd5, 24'd6, 24'd7};
+		end
+		if(regwrite && rw != 0) begin
+			registers[rw] = busw;
+		end
+		busa = registers[ra];
+		busb = registers[rb];
+	end		 
+	
+endmodule
+
+/////////////////////////////////////////////////////////////////////////
+
+module shifter(input [16:0] in, output reg [23:0] out);
+	assign out[23:7] = in;
+	assign out[6:0] = 7'b0000000;
+endmodule
+
+module shifter_testbench();
+	reg [16:0] in;
+	reg [23:0] out;
+	
+	shifter sh(in, out);
+	
+	initial begin
+		in = 0;
+		
+		#5 in = 17'b01011100001110111;
+	end
+endmodule
+
+/////////////////////////////////////////////////////////////////////////
+
+module ALU(a, b, ALU_op, out, sf, status_reg); 
+	input [23:0] a, b;	 
+	output reg [7:0] status_reg;
+	output reg [23:0] out;
+	input [4:0] ALU_op;
+	input sf;
+	
+	always @(*) begin
+		case (ALU_op)
+			5'b00000:
+				out = a & b;
+			5'b00001:
+				out = a > b ? a : b;
+			5'b00010: 	  
+				;
+				//load handled in mem;
+			5'b00011:
+				out = a + b;
+			5'b00100:
+				out = a - b;
+			5'b00101:
+				status_reg[0] = a < b ? 1'b1 : 1'b0;
+			5'b00110:
+				;  
+				// handled in stage 2
+			5'b00111:
+				out = a & b;
+			5'b01000:
+				out = a + b;
+			5'b01001:
+				out = a + b;
+			5'b01010:
+				out = a + b;	
+			5'b01011:
+				out = a - b;
+			5'b01100:
+				;
+				// jmp handled in stage 2
+			5'b01101:
+				;
+				//jal handled in 5 and 2
+			5'b01110:
+				;
+				// LUI built in a seperate module
+			default:
+				;
+		endcase
+		//another flag is passed not SF (can use status register)
+		if (sf == 1 && out == 0) begin
+			status_reg = 1;
+		end
+		else if (sf == 1) begin
+			status_reg[0] = 0;
+		end
+		
+		if(out == 0) begin
+			status_reg[1] = 1;
+		end
+		else begin
+			status_reg[1] = 0;
+		end
+		
+		
+	end
+endmodule
+
+module ALU_testbench();
+	reg [23:0] a, b;	 
+	reg [7:0] status_reg;
+	reg [23:0] out;
+	reg [4:0] ALU_op;
+	reg sf;
+	
+	ALU alu1(a, b, ALU_op, out, sf, status_reg);
+	
+	initial begin
+		a = 0; b = 0; ALU_op = 0; sf = 0;
+		
+		#5
+		a = 5;
+		b = 7;
+		ALU_op = 5'b00000;
+		sf = 0;
+		
+		#15
+		ALU_op = 5'b00001;
+		a = 3; b = 12;
+		sf = 0;
+		
+		#15
+		ALU_op = 5'b00011;
+		a = 3; b = 12;
+		sf = 0;
+		
+		#15
+		ALU_op = 5'b00100;
+		a = 3; b = 3;
+		sf = 1;
+	end
+endmodule
+
+///////////////////////////////////////////////////////////////////////////////
+	 
+module control_unit(clk, reset, opcode, cond,reg_dst, reg_wr, pc_src, ALU_src, ALU_op, mem_rd, mem_wr, WB_data);
+	input [4:0] opcode;						 
+	input [1:0] cond;
+	input clk, reset;
+	reg [7:0] status_reg;
+	output reg reg_wr;
+	output reg [1:0] pc_src, WB_data, reg_dst;
+	output reg ALU_src, mem_rd, mem_wr;
+	output reg [4:0] ALU_op; 
+	
+	generate
+		status_register streg(clk, reset, 1'b0, 8'd0, status_reg); //will there be a timing issue here?
+	
+		always @(*) begin
+			if(cond == 2'b00 || (cond == 2'b01 && status_reg[0] == 1'b1) || (cond == 2'b10 && status_reg[0] == 1'b0))
+			begin
+				case(opcode)
+					5'b00000: begin
+						reg_dst = 2'b01;
+						reg_wr = 1'b1;
+						pc_src = 2'b00;
+						ALU_src = 1'b0;
+						ALU_op = 5'b00000;
+						mem_rd = 1'b0;
+						mem_wr = 1'b0;	
+						WB_data = 2'b00; 
+						end
+					5'b00001: begin
+						reg_dst = 2'b01;
+						reg_wr = 1'b1;
+						pc_src = 2'b00;
+						ALU_src = 1'b0;
+						ALU_op = 5'b00001;
+						mem_rd = 1'b0;
+						mem_wr = 1'b0;
+						WB_data = 2'b00;
+					end
+					5'b00010: begin
+						reg_dst = 2'b01;
+						reg_wr = 1'b1;
+						pc_src = 2'b00;
+						ALU_src = 1'b0;
+						ALU_op = 5'b00010;
+						mem_rd = 1'b1;
+						mem_wr = 1'b0;
+						WB_data = 2'b01;
+						end
+					5'b00011: begin
+						reg_dst = 2'b01;
+						reg_wr = 1'b1;
+						pc_src = 2'b00;
+						ALU_src = 1'b0;
+						ALU_op = 5'b00011;
+						mem_rd = 1'b0;
+						mem_wr = 1'b0;
+						WB_data = 2'b00;
+						end
+					5'b00100: begin
+						reg_dst = 2'b01;
+						reg_wr = 1'b1;
+						pc_src = 2'b00;
+						ALU_src = 1'b0;
+						ALU_op = 5'b00100;
+						mem_rd = 1'b0;
+						mem_wr = 1'b0;
+						WB_data = 2'b00;
+						end
+					5'b00101: begin
+						reg_dst = 2'b00; //don't care
+						reg_wr = 1'b0;
+						pc_src = 2'b00;
+						ALU_src = 1'b0;
+						ALU_op = 5'b00101;
+						mem_rd = 1'b0;
+						mem_wr = 1'b0;
+						WB_data = 2'b00; //don't care
+						end
+					5'b00110: begin
+						reg_dst = 2'b00; //don't care
+						reg_wr = 1'b0;
+						pc_src = 2'b01;
+						ALU_src = 1'b0; // don't care
+						ALU_op = 5'b00110; //don't care
+						mem_rd = 1'b0;
+						mem_wr = 1'b0;
+						WB_data = 2'b00; //don't care  
+						end
+					5'b00111: begin
+						reg_dst = 2'b00;
+						reg_wr = 1'b1;
+						pc_src = 2'b00;
+						ALU_src = 1'b1;
+						ALU_op = 5'b00111;
+						mem_rd = 1'b0;
+						mem_wr = 1'b0;
+						WB_data = 2'b00;
+						end
+					5'b01000: begin
+						reg_dst = 2'b00;
+						reg_wr = 1'b1;
+						pc_src = 2'b00;
+						ALU_src = 1'b1;
+						ALU_op = 5'b01000;
+						mem_rd = 1'b0;
+						mem_wr = 1'b0;
+						WB_data = 2'b00;
+						end
+					5'b01001: begin
+						reg_dst = 2'b00;
+						reg_wr = 1'b1;
+						pc_src = 2'b00;
+						ALU_src = 1'b1;
+						ALU_op = 5'b01001;
+						mem_rd = 1'b1;
+						mem_wr = 1'b0;
+						WB_data = 2'b01;
+					end
+					5'b01010: begin
+						reg_dst = 2'b00; //don't care
+						reg_wr = 1'b0;
+						pc_src = 2'b00;
+						ALU_src = 1'b1;
+						ALU_op = 5'b01010;
+						mem_rd = 1'b0;
+						mem_wr = 1'b1;
+						WB_data = 2'b00; //don't care 
+					end
+					5'b01011: begin
+						reg_dst = 2'b00; //don't care
+						reg_wr = 1'b0;
+						pc_src = 2'b10;
+						ALU_src = 1'b0;
+						ALU_op = 5'b01011;
+						mem_rd = 1'b0;
+						mem_wr = 1'b0;
+						WB_data = 2'b00; //don't care 
+					end
+					5'b01100: begin
+						reg_dst = 2'b00; //don't care
+						reg_wr = 1'b0;
+						pc_src = 2'b10;
+						ALU_src = 1'b0;	//don't care
+						ALU_op = 5'b01100; //don't care
+						mem_rd = 1'b0;
+						mem_wr = 1'b0;
+						WB_data = 2'b00; //don't care 
+					end	
+					5'b01101: begin
+						reg_dst = 2'b10;
+						reg_wr = 1'b1;
+						pc_src = 2'b10;
+						ALU_src = 1'b0;	//don't care
+						ALU_op = 5'b01111; 
+						mem_rd = 1'b0;
+						mem_wr = 1'b0;
+						WB_data = 2'b10; //don't care 
+					end
+					5'b01110: begin	//get back to lui
+						reg_dst = 2'b11;
+						reg_wr = 1'b1;
+						pc_src = 2'b00;
+						ALU_src = 1'b0;	//don't care
+						ALU_op = 5'b01110; //don't care
+						mem_rd = 1'b0;
+						mem_wr = 1'b0;
+						WB_data = 2'b11;
+					end
+					
+				endcase
+			end
+			else begin
+				reg_dst = 2'b00; //don't care
+				reg_wr = 1'b0;
+				pc_src = 2'b00;
+				ALU_src = 1'b0; //don't care
+				ALU_op = 5'b01111; //don't care
+				mem_rd = 1'b0;
+				mem_wr = 1'b0;	
+				WB_data = 2'b00; //don't care
+			end
+		end
+	endgenerate
+	
+endmodule
+	
+
+
+
+
+module stage_1 (clk, reset, instruction, PC_out); 
+	reg [23:0] PC;
+	input clk, reset;
+	output reg [23:0] instruction, PC_out;
+	
+	
+	generate   
+	
+		PC_reg pcreg(clk, 1'b0, reset, 24'd0, PC); 
+		instruction_memory im (reset, PC, instruction);
+		assign PC_out = PC;
+	endgenerate
+	
+	
+endmodule  
+   
+
+
+
+module get_values (clk, inst, cond, opcode, sf, rd, rs, rt, imm_10, imm_17);
+	input clk;
+	input [23:0] inst;
+	output reg [1:0] cond;
+	output reg [4:0] opcode;
+	output reg sf;
+	output reg [2:0] rd, rs, rt;
+	output reg [9:0] imm_10;
+	output reg [16:0] imm_17;
+	
+	always @(posedge clk) begin
+		cond = inst[23:22];
+		opcode = inst[21:17]; 
+		
+		if(opcode <= 5'b00100)begin
+			sf = inst[16];
+			rd = inst[15:13];
+			rs = inst[12:10];
+			rt = inst[9:7];
+		end
+		else if(opcode == 5'b00101) begin
+			sf = inst[16];
+			rd = 3'b000;
+			rs = inst[12:10];
+			rt = inst[9:7];
+		end
+	   	else if(opcode == 5'b00110) begin
+			sf = inst[16];
+			rd = 3'b000;
+			rs = inst[12:10];
+			rt = 3'b000;
+		end
+		else if(opcode <= 5'b01011) begin
+			sf = inst[16];
+			rt = inst[15:13];
+			rs = inst[12:10];
+			imm_10 = inst[9:0];
+		end					   
+		else begin 
+			imm_17 = inst[16:0];
+		end
+	end
+	
+endmodule
+
+	
+
+
+
+module stage_2 (clk, reset, inst, bus_w, extender_out, shifter_out, bus_a, bus_b, ALU_src, mem_rd, mem_wr, pc_src, WB_data, ALU_op, sf, rw, reg_wr);
+	input clk, reset;
+	input [23:0] inst, bus_w, shifter_out;
+	output reg [23:0] extender_out, bus_a, bus_b; 
+	reg[7:0] status_reg;
+	
+	reg [1:0] cond;
+	reg [4:0] opcode;
+	output reg sf;
+	reg [2:0] rd, rs, rt;
+	reg [9:0] imm_10;
+	reg [16:0] imm_17; 
+	
+	output reg reg_wr;
+	reg [1:0] reg_dst;
+	
+	output reg ALU_src, mem_rd, mem_wr;
+	output reg [1:0] pc_src, WB_data;
+	output reg [4:0] ALU_op;
+	
+	output reg [2:0] rw;
+	
+	
+	
+	generate
+	
+	get_values gv(clk, inst, cond, opcode, sf, rd, rs, rt, imm_10, imm_17);
+	
+	control_unit cu(clk, reset, opcode, cond, reg_dst, reg_wr, pc_src, ALU_src, ALU_op, mem_rd, mem_wr, WB_data); 
+	
+	extender ex(opcode, imm_10, imm_17, extender_out);
+	
+	shifter shft(imm_17, shifter_out);
+	
+	register_file rf (clk, reset, reg_wr, rs, rt, (reg_dst[1] == 1'b1)? 3'b111: (reg_dst[0] == 1'b1)? rd: rt, bus_w, bus_a, bus_b);
+	
+	assign rw = (reg_dst[1] == 1'b1)? 3'b111: (reg_dst[0] == 1'b1)? rd: rt;
+
+	status_register streg(clk, reset, 1'b0, 8'd0, status_reg);
+	
+	
+	endgenerate	
+	
+	
+endmodule
+
+	
+	
+															
+
+
+module stage_3 (input clk, input [1:0] pc_src, input [23:0] extender_out, input [23:0] pc_in, input [23:0] bus_a, input [23:0] bus_b, input sf, input ALU_src, input [4:0] ALU_op, output reg [23:0] ALU_res);
+	reg [7:0] zf;
+	reg [7:0] dummy_rd;	
+	reg[23:0] pc_out;
+	
+	generate
+		ALU	 alu(bus_a, (ALU_src == 0)? bus_b: extender_out, ALU_op, ALU_res, sf, zf);
+		status_register sr(clk, 1'b0, 1'b1, zf, dummy_rd);  
+		
+		//0 -> PC_in + 3 normal, branch
+		//1 -> bus_a  00110
+		//2 -> PC + extender_out j, jal, branch
+		
+		always @(posedge clk) begin
+			if(pc_src == 0 || (pc_src == 3 && zf[1] == 0)) begin
+				pc_out = pc_in + 3;
+			end
+			else if (pc_src == 1) begin
+				pc_out = bus_a;
+			end
+			else if(pc_src == 2) begin
+				pc_out = pc_in + extender_out;
+			end
+			else if(pc_src == 3 && zf[1] == 1) begin
+			   	pc_out = pc_in + extender_out * 3;
+			end
+		end
+	endgenerate
+	
+endmodule
+
+
+module stage_4 (input clk, input reset, input [23:0] address, input [23:0] data_in, input mem_rd, input mem_wr, output reg [23:0] data_out);
+	  data_memory dm(clk, reset, address, data_in, mem_rd, mem_wr, data_out);
+endmodule
+
+			
+
+module stage_5 (clk, ALU_res, Mem_res, PC_3, WB_data, mux_out);
+	input clk;
+	input [23:0] ALU_res, Mem_res, PC_3;
+	input [1:0] WB_data;
+	output reg [23:0] mux_out;
+	
+	always @(posedge clk) begin
+		if(WB_data == 2'b00) begin
+			mux_out = ALU_res;
+		end
+		else if(WB_data == 2'b01) begin
+			mux_out = Mem_res;
+		end
+		else if(WB_data == 2'b10) begin
+			mux_out = PC_3;
+		end
+	end
+
+endmodule
+
+
+
+module datapath_reset (input clk);
+	reg [23:0] instruction, PC_out_1;
+	reg [23:0] bus_w, extender_out, shifter_out, bus_a, bus_b;    
+	reg sf;
+	reg [23:0] ALU_res, mem_data_out, mux_out;
+	reg [2:0] rw;
+	reg [23:0] bus_aa, bus_bb;
+	
+	//control signals
+	reg ALU_src, mem_rd, mem_wr, reg_wr;
+	reg [1:0] pc_src, WB_data;
+	reg [4:0] ALU_op;
+	
+	
+	generate   
+		stage_1 st1(clk, 1'b1, instruction, PC_out_1);
+	   	stage_2 st2(clk, 1'b1, instruction, bus_w, extender_out, shifter_out, bus_a, bus_b, ALU_src, mem_rd, mem_wr, pc_src, WB_data, ALU_op, sf, rw, reg_wr);
+		stage_3 st3(clk, pc_src, extender_out, PC_out_1, bus_a, bus_b, sf, ALU_src, ALU_op, ALU_res);
+		stage_4 st4(clk, 1'b1, ALU_res, bus_b, mem_rd, mem_wr, mem_data_out);
+		stage_5 st5(clk, ALU_res, mem_data_out, (PC_out_1 + 24'd3), WB_data, mux_out); 
+		register_file rf(clk, 1'b0, reg_wr, 3'd0, 3'd0, rw, mux_out, bus_aa, bus_bb);
+	
+	endgenerate
+	
+endmodule 
+
+
+module datapath_normal (input clk);
+	reg [23:0] instruction, PC_out_1;
+	reg [23:0] bus_w, extender_out, shifter_out, bus_a, bus_b;   
+	reg sf;
+	reg [23:0] ALU_res, mem_data_out, mux_out;
+	reg [2:0] rw;
+	reg [23:0] bus_aa, bus_bb;
+	
+	//control signals
+	reg ALU_src, mem_rd, mem_wr, reg_wr;
+	reg [1:0] pc_src, WB_data;
+	reg [4:0] ALU_op;
+	
+	
+	generate   
+		stage_1 st1(clk, 1'b0, instruction, PC_out_1);
+	   	stage_2 st2(clk, 1'b0, instruction, bus_w, extender_out, shifter_out, bus_a, bus_b, ALU_src, mem_rd, mem_wr, pc_src, WB_data, ALU_op, sf, rw, reg_wr);
+		stage_3 st3(clk, pc_src, extender_out, PC_out_1, bus_a, bus_b, sf, ALU_src, ALU_op, ALU_res);
+		stage_4 st4(clk, 1'b0, ALU_res, bus_b, mem_rd, mem_wr, mem_data_out);
+		stage_5 st5(clk, ALU_res, mem_data_out, (PC_out_1 + 24'd3), WB_data, mux_out); 
+		register_file rf(clk, 1'b0, reg_wr, 3'd0, 3'd0, rw, mux_out, bus_aa, bus_bb);
+	
+	endgenerate
+	
+endmodule
+
+
+module datapath_testbench;
+	reg clk;
+	
+	datapath_reset dp(clk);	
+	datapath_normal dp2(clk);
+	
+	initial begin
+		clk = 0;
+		#5 clk = ~clk;
+		#5 clk = ~clk;
+	end
+	
+endmodule
