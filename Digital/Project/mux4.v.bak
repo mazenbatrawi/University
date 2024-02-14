@@ -1,0 +1,28 @@
+module mux4(a,b,cin,s1,s0,outp);
+input [3:0] a,b;
+input s1,s0,cin;
+wire [3:0] sum,bcd_result,min,max;
+wire car1,car2,car3;
+output reg [3:0]outp;
+fbAS(a,b,cin,sum);
+BCDAS(a,b,cin,bcd_result);
+maximum(a,b,max);
+minimum(a,b,min);
+always @ (s1,s0)
+begin
+	if (s1==0)
+		begin
+		if (s0==0)
+			outp=sum;
+		else 
+			outp = bcd_result;
+		end
+	else
+		begin
+		if (s0==0)
+			outp=max;
+		else
+			outp=min;
+		end
+end
+endmodule
