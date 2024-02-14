@@ -1,0 +1,327 @@
+Version 9.0 Build 132 02/25/2009 SJ Web Edition
+11
+3344
+OFF
+OFF
+OFF
+ON
+ON
+ON
+FV_OFF
+Level2
+0
+0
+VRSM_ON
+VHSM_ON
+0
+-- Start Library Paths --
+-- End Library Paths --
+-- Start VHDL Libraries --
+-- End VHDL Libraries --
+# entity
+fbAS
+# storage
+db|digital_project.(1).cnf
+db|digital_project.(1).cnf
+# logic_option {
+AUTO_RAM_RECOGNITION
+ON
+}
+# case_sensitive
+# source_file
+fbAS.v
+f6dfa0f6d0efaa73e0126a9749294336
+8
+# internal_option {
+HDL_INITIAL_FANOUT_LIMIT
+OFF
+AUTO_RESOURCE_SHARING
+OFF
+AUTO_RAM_RECOGNITION
+ON
+AUTO_ROM_RECOGNITION
+ON
+IGNORE_VERILOG_INITIAL_CONSTRUCTS
+OFF
+VERILOG_CONSTANT_LOOP_LIMIT
+5000
+VERILOG_NON_CONSTANT_LOOP_LIMIT
+250
+}
+# macro_sequence
+
+# end
+# entity
+FA
+# storage
+db|digital_project.(2).cnf
+db|digital_project.(2).cnf
+# logic_option {
+AUTO_RAM_RECOGNITION
+ON
+}
+# case_sensitive
+# source_file
+FA.v
+a9b784dd4a2f96c52c3fd8f2824f7640
+8
+# internal_option {
+HDL_INITIAL_FANOUT_LIMIT
+OFF
+AUTO_RESOURCE_SHARING
+OFF
+AUTO_RAM_RECOGNITION
+ON
+AUTO_ROM_RECOGNITION
+ON
+IGNORE_VERILOG_INITIAL_CONSTRUCTS
+OFF
+VERILOG_CONSTANT_LOOP_LIMIT
+5000
+VERILOG_NON_CONSTANT_LOOP_LIMIT
+250
+}
+# macro_sequence
+
+# end
+# entity
+BCDAS
+# storage
+db|digital_project.(3).cnf
+db|digital_project.(3).cnf
+# logic_option {
+AUTO_RAM_RECOGNITION
+ON
+}
+# case_sensitive
+# source_file
+BCDAS.v
+be3be834f76e40d128fec67a6243f27a
+8
+# internal_option {
+HDL_INITIAL_FANOUT_LIMIT
+OFF
+AUTO_RESOURCE_SHARING
+OFF
+AUTO_RAM_RECOGNITION
+ON
+AUTO_ROM_RECOGNITION
+ON
+IGNORE_VERILOG_INITIAL_CONSTRUCTS
+OFF
+VERILOG_CONSTANT_LOOP_LIMIT
+5000
+VERILOG_NON_CONSTANT_LOOP_LIMIT
+250
+}
+# macro_sequence
+
+# end
+# entity
+maximum
+# storage
+db|digital_project.(4).cnf
+db|digital_project.(4).cnf
+# logic_option {
+AUTO_RAM_RECOGNITION
+ON
+}
+# case_sensitive
+# source_file
+maximum.v
+ae3dcdf91922cf44745427a9ade1e059
+8
+# internal_option {
+HDL_INITIAL_FANOUT_LIMIT
+OFF
+AUTO_RESOURCE_SHARING
+OFF
+AUTO_RAM_RECOGNITION
+ON
+AUTO_ROM_RECOGNITION
+ON
+IGNORE_VERILOG_INITIAL_CONSTRUCTS
+OFF
+VERILOG_CONSTANT_LOOP_LIMIT
+5000
+VERILOG_NON_CONSTANT_LOOP_LIMIT
+250
+}
+# hierarchies {
+maximum:inst7
+}
+# macro_sequence
+
+# end
+# entity
+minimum
+# storage
+db|digital_project.(5).cnf
+db|digital_project.(5).cnf
+# logic_option {
+AUTO_RAM_RECOGNITION
+ON
+}
+# case_sensitive
+# source_file
+minimum.v
+3a54b54050ad5dde8d1ec851ac877eba
+8
+# internal_option {
+HDL_INITIAL_FANOUT_LIMIT
+OFF
+AUTO_RESOURCE_SHARING
+OFF
+AUTO_RAM_RECOGNITION
+ON
+AUTO_ROM_RECOGNITION
+ON
+IGNORE_VERILOG_INITIAL_CONSTRUCTS
+OFF
+VERILOG_CONSTANT_LOOP_LIMIT
+5000
+VERILOG_NON_CONSTANT_LOOP_LIMIT
+250
+}
+# hierarchies {
+minimum:inst8
+}
+# macro_sequence
+
+# end
+# entity
+mux4
+# storage
+db|digital_project.(0).cnf
+db|digital_project.(0).cnf
+# logic_option {
+AUTO_RAM_RECOGNITION
+ON
+}
+# case_sensitive
+# source_file
+mux4.v
+cd53431d35aa42faf784977f1cfa58b6
+8
+# internal_option {
+HDL_INITIAL_FANOUT_LIMIT
+OFF
+AUTO_RESOURCE_SHARING
+OFF
+AUTO_RAM_RECOGNITION
+ON
+AUTO_ROM_RECOGNITION
+ON
+IGNORE_VERILOG_INITIAL_CONSTRUCTS
+OFF
+VERILOG_CONSTANT_LOOP_LIMIT
+5000
+VERILOG_NON_CONSTANT_LOOP_LIMIT
+250
+}
+# hierarchies {
+mux4:inst9
+}
+# macro_sequence
+
+# end
+# entity
+fas
+# storage
+db|digital_project.(7).cnf
+db|digital_project.(7).cnf
+# case_insensitive
+# source_file
+fas.bdf
+d0fd71ab3dbca4745013e6d4dc4fdcb
+26
+# internal_option {
+BLOCK_DESIGN_NAMING
+AUTO
+}
+# hierarchies {
+four_as:inst11|fas:inst
+four_as:inst11|fas:inst1
+four_as:inst11|fas:inst2
+four_as:inst11|fas:inst3
+bcdas_schema:inst|four_as:inst7|fas:inst
+bcdas_schema:inst|four_as:inst7|fas:inst1
+bcdas_schema:inst|four_as:inst7|fas:inst2
+bcdas_schema:inst|four_as:inst7|fas:inst3
+bcdas_schema:inst|four_as:inst2|fas:inst
+bcdas_schema:inst|four_as:inst2|fas:inst1
+bcdas_schema:inst|four_as:inst2|fas:inst2
+bcdas_schema:inst|four_as:inst2|fas:inst3
+bcdas_schema:inst|four_as:inst|fas:inst
+bcdas_schema:inst|four_as:inst|fas:inst1
+bcdas_schema:inst|four_as:inst|fas:inst2
+bcdas_schema:inst|four_as:inst|fas:inst3
+}
+# macro_sequence
+
+# end
+# entity
+four_as
+# storage
+db|digital_project.(8).cnf
+db|digital_project.(8).cnf
+# case_insensitive
+# source_file
+four_as.bdf
+6415ef15ebcd15f7194a246d1f2e69
+26
+# internal_option {
+BLOCK_DESIGN_NAMING
+AUTO
+}
+# hierarchies {
+four_as:inst11
+bcdas_schema:inst|four_as:inst7
+bcdas_schema:inst|four_as:inst2
+bcdas_schema:inst|four_as:inst
+}
+# macro_sequence
+
+# end
+# entity
+bcdas_schema
+# storage
+db|digital_project.(9).cnf
+db|digital_project.(9).cnf
+# case_insensitive
+# source_file
+bcdas_schema.bdf
+eb73133e30bdcd5ca853d739abb3e38b
+26
+# internal_option {
+BLOCK_DESIGN_NAMING
+AUTO
+}
+# hierarchies {
+bcdas_schema:inst
+}
+# macro_sequence
+
+# end
+# entity
+w_system
+# storage
+db|digital_project.(6).cnf
+db|digital_project.(6).cnf
+# case_insensitive
+# source_file
+w_system.bdf
+647aa8361073468368263cd9ad1ec9f
+26
+# internal_option {
+BLOCK_DESIGN_NAMING
+AUTO
+}
+# hierarchies {
+|
+}
+# macro_sequence
+
+# end
+# complete
+

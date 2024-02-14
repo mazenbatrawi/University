@@ -1,0 +1,412 @@
+|w_system
+fbas_car <= four_as:inst11.cout
+cin => four_as:inst11.Cin
+cin => bcdas_schema:inst.cin
+a[0] => four_as:inst11.A[0]
+a[0] => bcdas_schema:inst.A[0]
+a[0] => maximum:inst7.a[0]
+a[0] => minimum:inst8.a[0]
+a[1] => four_as:inst11.A[1]
+a[1] => bcdas_schema:inst.A[1]
+a[1] => maximum:inst7.a[1]
+a[1] => minimum:inst8.a[1]
+a[2] => four_as:inst11.A[2]
+a[2] => bcdas_schema:inst.A[2]
+a[2] => maximum:inst7.a[2]
+a[2] => minimum:inst8.a[2]
+a[3] => four_as:inst11.A[3]
+a[3] => bcdas_schema:inst.A[3]
+a[3] => maximum:inst7.a[3]
+a[3] => minimum:inst8.a[3]
+b[0] => four_as:inst11.B[0]
+b[0] => bcdas_schema:inst.B[0]
+b[0] => maximum:inst7.b[0]
+b[0] => minimum:inst8.b[0]
+b[1] => four_as:inst11.B[1]
+b[1] => bcdas_schema:inst.B[1]
+b[1] => maximum:inst7.b[1]
+b[1] => minimum:inst8.b[1]
+b[2] => four_as:inst11.B[2]
+b[2] => bcdas_schema:inst.B[2]
+b[2] => maximum:inst7.b[2]
+b[2] => minimum:inst8.b[2]
+b[3] => four_as:inst11.B[3]
+b[3] => bcdas_schema:inst.B[3]
+b[3] => maximum:inst7.b[3]
+b[3] => minimum:inst8.b[3]
+fbas_overflow <= four_as:inst11.sum_overf
+bcdas_car <= bcdas_schema:inst.bcd_car
+Result[0] <= mux4:inst9.outp[0]
+Result[1] <= mux4:inst9.outp[1]
+Result[2] <= mux4:inst9.outp[2]
+Result[3] <= mux4:inst9.outp[3]
+s1 => mux4:inst9.s1
+s0 => mux4:inst9.s0
+
+
+|w_system|four_as:inst11
+cout <= fas:inst.cout
+A[0] => fas:inst3.a
+A[1] => fas:inst2.a
+A[2] => fas:inst1.a
+A[3] => fas:inst.a
+B[0] => fas:inst3.b
+B[1] => fas:inst2.b
+B[2] => fas:inst1.b
+B[3] => fas:inst.b
+Cin => fas:inst.cin
+Cin => fas:inst1.cin
+Cin => fas:inst2.cin
+Cin => fas:inst3.cin
+Cin => fas:inst3.carn
+sum_overf <= inst4.DB_MAX_OUTPUT_PORT_TYPE
+sum[0] <= fas:inst3.sum
+sum[1] <= fas:inst2.sum
+sum[2] <= fas:inst1.sum
+sum[3] <= fas:inst.sum
+
+
+|w_system|four_as:inst11|fas:inst
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|four_as:inst11|fas:inst1
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|four_as:inst11|fas:inst2
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|four_as:inst11|fas:inst3
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|bcdas_schema:inst
+bcd_car <= four_as:inst7.cout
+cin => inst5.IN0
+cin => inst5.IN1
+cin => four_as:inst.Cin
+cin => inst1.IN0
+cin => inst1.IN1
+A[0] => four_as:inst2.A[0]
+A[1] => four_as:inst2.A[1]
+A[2] => four_as:inst2.A[2]
+A[3] => four_as:inst2.A[3]
+B[0] => four_as:inst.B[0]
+B[1] => four_as:inst.B[1]
+B[2] => four_as:inst.B[2]
+B[3] => four_as:inst.B[3]
+result[0] <= four_as:inst7.sum[0]
+result[1] <= four_as:inst7.sum[1]
+result[2] <= four_as:inst7.sum[2]
+result[3] <= four_as:inst7.sum[3]
+
+
+|w_system|bcdas_schema:inst|four_as:inst7
+cout <= fas:inst.cout
+A[0] => fas:inst3.a
+A[1] => fas:inst2.a
+A[2] => fas:inst1.a
+A[3] => fas:inst.a
+B[0] => fas:inst3.b
+B[1] => fas:inst2.b
+B[2] => fas:inst1.b
+B[3] => fas:inst.b
+Cin => fas:inst.cin
+Cin => fas:inst1.cin
+Cin => fas:inst2.cin
+Cin => fas:inst3.cin
+Cin => fas:inst3.carn
+sum_overf <= inst4.DB_MAX_OUTPUT_PORT_TYPE
+sum[0] <= fas:inst3.sum
+sum[1] <= fas:inst2.sum
+sum[2] <= fas:inst1.sum
+sum[3] <= fas:inst.sum
+
+
+|w_system|bcdas_schema:inst|four_as:inst7|fas:inst
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|bcdas_schema:inst|four_as:inst7|fas:inst1
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|bcdas_schema:inst|four_as:inst7|fas:inst2
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|bcdas_schema:inst|four_as:inst7|fas:inst3
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|bcdas_schema:inst|four_as:inst2
+cout <= fas:inst.cout
+A[0] => fas:inst3.a
+A[1] => fas:inst2.a
+A[2] => fas:inst1.a
+A[3] => fas:inst.a
+B[0] => fas:inst3.b
+B[1] => fas:inst2.b
+B[2] => fas:inst1.b
+B[3] => fas:inst.b
+Cin => fas:inst.cin
+Cin => fas:inst1.cin
+Cin => fas:inst2.cin
+Cin => fas:inst3.cin
+Cin => fas:inst3.carn
+sum_overf <= inst4.DB_MAX_OUTPUT_PORT_TYPE
+sum[0] <= fas:inst3.sum
+sum[1] <= fas:inst2.sum
+sum[2] <= fas:inst1.sum
+sum[3] <= fas:inst.sum
+
+
+|w_system|bcdas_schema:inst|four_as:inst2|fas:inst
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|bcdas_schema:inst|four_as:inst2|fas:inst1
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|bcdas_schema:inst|four_as:inst2|fas:inst2
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|bcdas_schema:inst|four_as:inst2|fas:inst3
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|bcdas_schema:inst|four_as:inst
+cout <= fas:inst.cout
+A[0] => fas:inst3.a
+A[1] => fas:inst2.a
+A[2] => fas:inst1.a
+A[3] => fas:inst.a
+B[0] => fas:inst3.b
+B[1] => fas:inst2.b
+B[2] => fas:inst1.b
+B[3] => fas:inst.b
+Cin => fas:inst.cin
+Cin => fas:inst1.cin
+Cin => fas:inst2.cin
+Cin => fas:inst3.cin
+Cin => fas:inst3.carn
+sum_overf <= inst4.DB_MAX_OUTPUT_PORT_TYPE
+sum[0] <= fas:inst3.sum
+sum[1] <= fas:inst2.sum
+sum[2] <= fas:inst1.sum
+sum[3] <= fas:inst.sum
+
+
+|w_system|bcdas_schema:inst|four_as:inst|fas:inst
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|bcdas_schema:inst|four_as:inst|fas:inst1
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|bcdas_schema:inst|four_as:inst|fas:inst2
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|bcdas_schema:inst|four_as:inst|fas:inst3
+sum <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+a => inst1.IN0
+a => inst4.IN1
+b => inst.IN0
+cin => inst.IN1
+carn => inst2.IN1
+carn => inst3.IN1
+cout <= inst5.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|mux4:inst9
+d1[0] => outp~3.DATAB
+d1[1] => outp~2.DATAB
+d1[2] => outp~1.DATAB
+d1[3] => outp~0.DATAB
+d2[0] => outp~3.DATAA
+d2[1] => outp~2.DATAA
+d2[2] => outp~1.DATAA
+d2[3] => outp~0.DATAA
+d3[0] => outp~7.DATAB
+d3[1] => outp~6.DATAB
+d3[2] => outp~5.DATAB
+d3[3] => outp~4.DATAB
+d4[0] => outp~7.DATAA
+d4[1] => outp~6.DATAA
+d4[2] => outp~5.DATAA
+d4[3] => outp~4.DATAA
+s1 => outp~11.OUTPUTSELECT
+s1 => outp~10.OUTPUTSELECT
+s1 => outp~9.OUTPUTSELECT
+s1 => outp~8.OUTPUTSELECT
+s0 => outp~0.OUTPUTSELECT
+s0 => outp~1.OUTPUTSELECT
+s0 => outp~2.OUTPUTSELECT
+s0 => outp~3.OUTPUTSELECT
+s0 => outp~7.OUTPUTSELECT
+s0 => outp~6.OUTPUTSELECT
+s0 => outp~5.OUTPUTSELECT
+s0 => outp~4.OUTPUTSELECT
+outp[0] <= outp~11.DB_MAX_OUTPUT_PORT_TYPE
+outp[1] <= outp~10.DB_MAX_OUTPUT_PORT_TYPE
+outp[2] <= outp~9.DB_MAX_OUTPUT_PORT_TYPE
+outp[3] <= outp~8.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|maximum:inst7
+a[0] => max~3.DATAB
+a[0] => LessThan0.IN4
+a[1] => max~2.DATAB
+a[1] => LessThan0.IN3
+a[2] => max~1.DATAB
+a[2] => LessThan0.IN2
+a[3] => max~0.DATAB
+a[3] => LessThan0.IN1
+b[0] => max~3.DATAA
+b[0] => LessThan0.IN8
+b[1] => max~2.DATAA
+b[1] => LessThan0.IN7
+b[2] => max~1.DATAA
+b[2] => LessThan0.IN6
+b[3] => max~0.DATAA
+b[3] => LessThan0.IN5
+max[0] <= max~3.DB_MAX_OUTPUT_PORT_TYPE
+max[1] <= max~2.DB_MAX_OUTPUT_PORT_TYPE
+max[2] <= max~1.DB_MAX_OUTPUT_PORT_TYPE
+max[3] <= max~0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|w_system|minimum:inst8
+a[0] => min~3.DATAB
+a[0] => LessThan0.IN4
+a[1] => min~2.DATAB
+a[1] => LessThan0.IN3
+a[2] => min~1.DATAB
+a[2] => LessThan0.IN2
+a[3] => min~0.DATAB
+a[3] => LessThan0.IN1
+b[0] => min~3.DATAA
+b[0] => LessThan0.IN8
+b[1] => min~2.DATAA
+b[1] => LessThan0.IN7
+b[2] => min~1.DATAA
+b[2] => LessThan0.IN6
+b[3] => min~0.DATAA
+b[3] => LessThan0.IN5
+min[0] <= min~3.DB_MAX_OUTPUT_PORT_TYPE
+min[1] <= min~2.DB_MAX_OUTPUT_PORT_TYPE
+min[2] <= min~1.DB_MAX_OUTPUT_PORT_TYPE
+min[3] <= min~0.DB_MAX_OUTPUT_PORT_TYPE
+
+
