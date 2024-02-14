@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="778.0" style="-fx-background-color: #f1faee;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ProductQueries">
+   <children>
+      <RadioButton fx:id="rb1" layoutX="51.0" layoutY="104.0" mnemonicParsing="false" text="Average price of products" />
+      <RadioButton fx:id="rb2" layoutX="51.0" layoutY="190.0" mnemonicParsing="false" text="Maximum and minimum product price" />
+      <RadioButton fx:id="rb3" layoutX="51.0" layoutY="281.0" mnemonicParsing="false" text="Show products with prices greater than a value" />
+      <TextField fx:id="value" layoutX="74.0" layoutY="307.0" promptText="Put the value here" />
+      <Button layoutX="550.0" layoutY="445.0" mnemonicParsing="false" onAction="#run" prefHeight="26.0" prefWidth="143.0" text="Execute" />
+      <Button layoutX="99.0" layoutY="471.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="158.0" text="Back" />
+      <Text layoutX="224.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quereis On Products">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <TableView fx:id="table" layoutX="459.0" layoutY="83.0" prefHeight="328.0" prefWidth="263.0" />
+      <ImageView fx:id="back_image" fitHeight="26.0" fitWidth="35.0" layoutX="51.0" layoutY="471.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@back.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="exec_image" fitHeight="26.0" fitWidth="35.0" layoutX="494.0" layoutY="445.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@play.png" />
+         </image>
+      </ImageView>
+      <RadioButton fx:id="rb4" layoutX="46.0" layoutY="384.0" mnemonicParsing="false" text="Show products that expired" />
+   </children>
+</AnchorPane>
