@@ -1,0 +1,39 @@
+[file, path] = uigetfile('*.*');
+if ~isequal(file, 0)
+    path = fullfile(path, file);
+    [y, fs] = audioread(path);
+    sound(y, fs)
+    n = length(y);
+    x = fs + 50 - mod(fs, 50);
+    xx = fs + 500 - mod(fs, 500);
+    ms20 = (x / 50);
+    ms2 = (xx / 500);
+    y_axis = xcorr(y, (ms20), "coeff");
+    x_axis = (-ms20 : ms20) / fs;
+    subplot(3, 1, 1), plot(x_axis, y_axis);
+    title("Autocorrelation");
+    xlabel("Delay (s)");
+    ylabel("Correlation coefficient");
+    subplot(3, 1, 2), plot(abs(fft(y)));
+    title("Fourier Transform");
+    xlabel("Frequency (Hz)");
+    ylabel("Amplitude");
+    subplot(3, 1, 3), plot(y);
+    title("Time Domain");
+    xlabel("Time (s)");
+    ylabel("Amplitude");
+    y_axis = y_axis(ms20 + 1 : 2 * ms20 + 1);
+    [rmax, tx] = max(y_axis(ms2 : ms20));
+    Fx = fs / (ms2 + tx - 1);
+    if(85 <= Fx) && (Fx <= 155)
+        disp("Male voice detected")
+    elseif(165 <= Fx) && (Fx <= 255)
+        disp("Female voice detected")
+    elseif(Fx > 255)
+        disp("Child voice detected")
+    else
+        disp("Cant recognize the speaker's gender")
+    end
+else
+    disp('Nothing selected')
+end
