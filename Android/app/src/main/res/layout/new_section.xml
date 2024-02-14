@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#B9D2EE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_border_layout"
+            app:srcCompat="@drawable/icons8_back_48" />
+
+        <ScrollView
+            android:id="@+id/scrollView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:text="Instructor Email"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:id="@+id/instructortv"
+                        android:translationY="10dp" />
+
+                    <EditText
+                        android:id="@+id/instructor_email"
+                        android:layout_width="333dp"
+                        android:layout_height="53dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:background="@drawable/edittext"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/mainColor" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:text="Max Trainees"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:id="@+id/maxtv"
+                        android:translationY="10dp" />
+
+                    <EditText
+                        android:id="@+id/max_trainees"
+                        android:layout_width="329dp"
+                        android:layout_height="53dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:background="@drawable/edittext"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/mainColor" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="40dp"
+                    android:text="Start Time"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:id="@+id/starttimetv"
+                    android:translationY="10dp" />
+
+                <Button
+                    android:id="@+id/start_time"
+                    android:layout_width="329dp"
+                    android:layout_height="57dp"
+                    android:onClick="popTimePicker1"
+                    android:layout_marginHorizontal="40dp"
+                    android:background="@drawable/edittext"
+                    android:drawableEnd="@drawable/icons8_down_button_32"
+                    android:drawablePadding="12dp"
+                    android:padding="12dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="40dp"
+                    android:text="End Time"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:id="@+id/eendtimetv"
+                    android:translationY="10dp" />
+
+                <Button
+                    android:id="@+id/end_time"
+                    android:layout_width="329dp"
+                    android:layout_height="57dp"
+                    android:layout_marginHorizontal="40dp"
+                    android:onClick="popTimePicker2"
+                    android:background="@drawable/edittext"
+                    android:drawableEnd="@drawable/icons8_down_button_32"
+                    android:drawablePadding="12dp"
+                    android:padding="12dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:text="Days"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:id="@+id/daystv"
+                        android:translationY="10dp" />
+
+                    <TextView
+                        android:id="@+id/days_list"
+                        android:layout_width="329dp"
+                        android:layout_height="53dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:background="@drawable/edittext"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/black"
+                        android:drawableEnd="@drawable/icons8_down_button_32"
+                        android:textColorHint="@color/mainColor" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:text="Room"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:id="@+id/roomtv"
+                        android:translationY="10dp" />
+
+                    <TextView
+                        android:id="@+id/room_list"
+                        android:layout_width="329dp"
+                        android:layout_height="53dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:background="@drawable/edittext"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/black"
+                        android:drawableEnd="@drawable/icons8_down_button_32"
+                        android:textColorHint="@color/mainColor" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/add_the_section"
+                    android:layout_width="329dp"
+
+                    android:layout_height="70dp"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="40dp"
+                    android:background="@drawable/round_buttons2"
+                    android:text="Add"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/mainColor"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

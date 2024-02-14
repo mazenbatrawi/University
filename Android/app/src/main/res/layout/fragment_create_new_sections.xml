@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateNewSections">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:id="@+id/scrollView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/instructortv"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:text="Instructor Email"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:translationY="10dp" />
+
+                    <Button
+                        android:id="@+id/instructor_email"
+                        android:layout_width="329dp"
+                        android:layout_height="53dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:ems="10"
+                        android:textColor="@color/white"
+                        android:drawableEnd="@drawable/dropdown_menu_background"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/maxtv"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:text="Max Trainees"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:translationY="10dp" />
+
+                    <EditText
+                        android:id="@+id/max_trainees"
+                        android:layout_width="329dp"
+                        android:layout_height="53dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/white"
+                         />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/starttimetv"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="40dp"
+                    android:text="Start Time"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:translationY="10dp" />
+
+                <Button
+                    android:id="@+id/start_time"
+                    android:layout_width="329dp"
+                    android:layout_height="53dp"
+                    android:layout_marginHorizontal="40dp"
+                    android:ems="10"
+                    android:textColor="@color/white"
+                    android:drawableEnd="@drawable/dropdown_menu_background"
+                    />
+
+                <TextView
+                    android:id="@+id/eendtimetv"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="40dp"
+                    android:text="End Time"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:translationY="10dp" />
+
+                <Button
+                    android:id="@+id/end_time"
+                    android:layout_width="329dp"
+                    android:layout_height="53dp"
+                    android:layout_marginHorizontal="40dp"
+                    android:ems="10"
+                    android:textColor="@color/white"
+                    android:drawableEnd="@drawable/dropdown_menu_background"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/daystv"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:text="Days"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:translationY="10dp" />
+
+                    <Button
+                        android:id="@+id/days_list"
+                        android:layout_width="329dp"
+                        android:layout_height="53dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:ems="10"
+                        android:textColor="@color/white"
+                        android:drawableEnd="@drawable/dropdown_menu_background"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/roomtv"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:text="Room"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:translationY="10dp" />
+
+                    <Button
+                        android:id="@+id/room_list"
+                        android:layout_width="329dp"
+                        android:layout_height="53dp"
+                        android:layout_marginHorizontal="40dp"
+                        android:ems="10"
+                        android:textColor="@color/white"
+                        android:drawableEnd="@drawable/dropdown_menu_background"
+                        />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/add_the_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginVertical="20dp"
+                    android:text="Add Section" />
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</FrameLayout>
