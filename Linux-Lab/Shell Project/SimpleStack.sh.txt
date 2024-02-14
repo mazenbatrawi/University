@@ -1,0 +1,313 @@
+#!/bin/bash
+
+end="final" # The variable entered by the user
+choice="choice" # The user's choice of entering inputs through terminal or file
+Commands() { #creating a function called command.
+  	echo -n "> "
+	if [ "$end" = "&" ] ; then
+		index=$((index+1)) #Stack equals stack after
+		st[$index]=$end #entering & to the stack.
+		i=$index
+		while [ $i -ge 1 ]
+		do #printing & to show what operation was used.
+			echo -n "${st[$i]} "
+			i=$((i-1))
+		done
+		echo
+
+	elif [ "$end" = "|" ] ; then
+		index=$((index+1)) #Stack equals stack after
+		st[$index]=$end #entering | to the stack.
+		i=$index
+		while [ $i -ge 1 ]
+		do #printing | to show what operation was used.
+			echo -n "${st[$i]} "
+			i=$((i-1))
+		done
+		echo
+		
+	elif [ "$end" = "^" ] ; then
+		index=$((index+1)) #Stack equals stack after
+		st[$index]=$end #entering & to the stack.
+		i=$index
+		while [ $i -ge 1 ]
+		do #printing & to show what operation was used.
+			echo -n "${st[$i]} "
+			i=$((i-1))
+		done
+		echo
+
+	elif [ "$end" = "s" ]  ; then # Inserting s to the stack and printing it after
+		index=$((index+1)) #Stack equals the stack after.
+		st[$index]=$end #enter S to the stack in the (index+1) place.
+		i=$index 
+		while [ $i -ge 1 ]
+		do #printing the 's' to show its the used operation.
+			echo -n "${st[$i]} "
+			i=$((i-1))
+		done
+		echo #print a new line, to show the stack before and after.
+
+	elif [ "$end" = "+" ]  ; then # Inserting + to the stack and printing it after
+		index=$((index+1)) #Stack equals stack after
+		st[$index]=$end #entering + to the stack.
+		i=$index
+		while [ $i -ge 1 ]
+		do #printing + to show what operation was used.
+			echo -n "${st[$i]} "
+			i=$((i-1))
+		done
+		echo
+
+	elif [ "$end" = "d" ] ; then # Inserting d to the stack and printing it after
+		index=$((index+1))
+		st[$index]=$end #entering d to the stack
+		i=$index
+		while [ $i -ge 1 ]
+		do #printing d to show the command used.
+			echo -n "${st[$i]} "
+			i=$((i-1))
+		done
+		echo
+
+	
+	elif [ "$end" = "p" ] ; then # Inserting p to the stack and printing it after
+		index=$((index+1)) #p enters the stack
+		st[$index]=$end
+		i=$index
+		while [ $i -ge 1 ]
+		do #Print p to show its the command used.
+			echo -n "${st[$i]} "
+			i=$((i-1))
+		done
+		echo
+		index=$((index-1))
+		i=$index
+		while [ $i -ge 1 ]
+		do
+			echo -n "${st[$i]} "
+			i=$((i-1))
+		done
+		echo
+
+	elif [ "$end" = "e" ]  ; then # Inserting e to the stack and performing opearations based on the top of the stack
+		index=$((index+1))
+		st[$index]=$end
+		i=$index
+		while [ $i -ge 1 ]
+		do
+			echo -n "${st[$i]} "
+			i=$((i-1))
+		done
+		echo
+		index=$((index-1))
+		c=${st[$index]}
+		if [ "$c" = "+" ] ; then # If all of the conditions are satisfied, then the last two numbers are added and deleted, and their sum is placed on the top of the stack
+			index=$((index-1)) #since + is the last piece added to the stack, we take it out, and then take the stack before it and set it with "prev_index" to make the calculation easier.
+			prev_index=$((index-1))
+			if [[ -n ${st[$index]//[0-9]/} ]]; then #Making sure the last two are digits.
+				echo The last two elements contain non numerical digits
+				index=$((index+1))
+			elif [[ -n ${st[$prev_index]//[0-9]/} ]]; then #Making sure the last two are digits.
+				echo The last two elements contain non numerical digits 
+				index=$((index+1))
+			elif [ "$index" -le 1 ] ; then
+				echo "There are no two numbers in the stack"
+				index=$((index+1))
+			else
+				tmp=$((st[$index]+st[$prev_index])) #temp equals index | prev index.
+				index=$prev_index
+				st[$index]=$tmp
+			fi
+		elif [ "$c" = "s" ] ; then # If all of the conditions are satisfied, then the last two numbers are swapped
+			index=$((index-1)) #index (which is S now) equals the previous index, and the prev_index equals the one before since we are switching it.
+			prev_index=$((index-1))
+			if [ "$index" -le 1 ] ; then
+				echo "There are no two elements in the stack"
+				index=$((index+1))
+			else
+				#simple calculation to switch the 2 integers
+				tmp=${st[prev_index]}
+				st[prev_index]=${st[index]}
+				st[index]=$tmp
+			fi
+		elif [ "$c" = "d" ] ; then # If all of the conditions are satisfied, then the last number is deleted
+			if [ "$index" -le 1 ] ; then
+				echo "There are no two elements in the stack"
+				index=$((index+1))
+			else
+				index=$((index-2)) #index equals the 2 before it since d was added to the stack, which deletes them ( both d and the integer before it).
+			fi
+			
+		elif [ "$c" = "&" ] ; then # If all of the conditions are satisfied, then the last two numbers are added and deleted, and their sum is placed on the top of the stack
+			index=$((index-1)) #since + is the last piece added to the stack, we take it out, and then take the stack before it and set it with "prev_index" to make the calculation easier.
+			prev_index=$((index-1))
+			if [[ -n ${st[$index]//[0-9]/} ]]; then # checking if last two stacks are digits.
+				echo The last two elements contain non numerical digits
+				index=$((index+1))
+			elif [[ -n ${st[$prev_index]//[0-9]/} ]]; then
+				echo The last two elements contain non numerical digits 
+				index=$((index+1))
+			elif [ "$index" -le 1 ] ; then
+				echo "There are no two numbers in the stack"
+				index=$((index+1))
+			else
+				tmp=$((st[$index]&st[$prev_index])) #temp equals index | prev index.
+				index=$prev_index
+				st[$index]=$tmp
+			fi
+
+			i=$index
+			while [ $i -ge 1 ] #printing all.
+			do
+				echo -n "${st[$i]} "
+				i=$((i-1))
+			done
+			echo
+		
+		elif [ "$c" = "^" ] ; then # If all of the conditions are satisfied, then the last two numbers are added and deleted, and their sum is placed on the top of the stack
+			index=$((index-1)) #since + is the last piece added to the stack, we take it out, and then take the stack before it and set it with "prev_index" to make the calculation easier.
+			prev_index=$((index-1))
+		
+			if [[ -n ${st[$index]//[0-9]/} ]]; then #making sure last two are integers.
+				echo The last two elements contain non numerical digits
+				index=$((index+1))
+			elif [[ -n ${st[$prev_index]//[0-9]/} ]]; then
+				echo The last two elements contain non numerical digits 
+				index=$((index+1))
+			elif [ "$index" -le 1 ] ; then
+				echo "There are no two numbers in the stack"
+				index=$((index+1))
+			else
+				tmp=$((st[$index]^st[$prev_index])) #temp equals index | prev index.
+				index=$prev_index
+				st[$index]=$tmp
+			fi
+
+			i=$index
+			while [ $i -ge 1 ] #prinitng all.
+			do
+				echo -n "${st[$i]} "
+				i=$((i-1))
+			done
+			echo
+		
+		elif [ "$c" = "|" ] ; then # If all of the conditions are satisfied, then OR occurs to the last two numbers and the result is displayed.
+			index=$((index-1)) #since | is the last piece added to the stack, we take it out, and then take the stack before it and set it with "prev_index" to make the calculation easier.
+			prev_index=$((index-1))
+			if [[ -n ${st[$index]//[0-9]/} ]]; then
+				echo The last two elements contain non numerical digits
+				index=$((index+1))
+			elif [[ -n ${st[$prev_index]//[0-9]/} ]]; then
+				echo The last two elements contain non numerical digits 
+				index=$((index+1))
+			elif [ "$index" -le 1 ] ; then
+				echo "There are no two numbers in the stack"
+				index=$((index+1))
+			else
+				tmp=$((st[$index]|st[$prev_index])) #temp equals index | prev index.
+				index=$prev_index
+				st[$index]=$tmp
+			fi
+
+			i=$index
+			while [ $i -ge 1 ]
+			do
+				echo -n "${st[$i]} "
+				i=$((i-1))
+			done
+			echo
+		fi
+		i=$index
+		while [ $i -ge 1 ]
+		do #printing & to show what operation was used.
+			echo -n "${st[$i]} "
+			i=$((i-1))
+		done
+		echo
+
+	elif [ "$end" = "x" ]  ; then # Quiting the program when the user enters x
+		exit
+	elif [ "$end" = "u" ] ; then # This operation is allowed only when reading from terminal, we restore the previous stack. ( We undo the previous command)
+		if [ "$choice" = "F" ] ; then
+			echo You cant undo while reading from file
+		else
+			
+			sed -i '$ d' stacks.txt # This command removes the last stack in the file that stores the stacks
+			tag=$( tail -n 1 stacks.txt ) # The last stack is stored in tag variable
+			rm split.txt
+			i=0
+			for word in $tag; do echo $word >> split.txt; i=$((i+1)); done
+			index=$i
+			word="word"
+			while read word; # We restore the stack from the file split.txt
+			do
+				st[$i]=$word
+				i=$((i-1))
+			done < split.txt
+			
+			i=$index
+			while [ $i -ge 1 ] # Printing the stack
+			do
+				echo -n "${st[$i]} "
+				i=$((i-1))
+			done
+			echo
+
+		fi
+		return
+		
+
+	elif [[ -n ${end//[0-9]/} ]]; then # making sure the entered value is correct, for example if the user enters "12D5" cant be accepted.
+	  	echo "Number entered contains non numerical digits"
+	else 
+		index=$((index+1)) #Stack equals stack after
+		st[$index]=$end #entering & to the stack.
+		i=$index
+		while [ $i -ge 1 ]
+		do #printing & to show what operation was used.
+			echo -n "${st[$i]} "
+			i=$((i-1))
+		done
+		echo
+	fi
+	i=$index
+	while [ $i -ge 1 ]
+	do 
+		echo -n "${st[$i]} " >> stacks.txt
+		i=$((i-1))
+	done
+	echo >> stacks.txt 
+	
+}
+
+rm stacks.txt
+$(declare -a st) # Defining the stack that will store the data entered in the file.
+index=0 # The current size of the stack
+
+
+echo "Do you wish to read from File or terminal? (T for terminal and F for File): "
+
+read choice
+ # checking where the user wants to insert his choice.
+while [ "$choice" != "T" -a "$choice" != "F" ] 
+do
+	echo Invalid selection
+	echo T for terminal and F for File
+	read choice
+done
+ # if its a File then read from it.
+if [ "$choice" = "F" ] ; then
+	while read end;
+	do
+		Commands
+	done < OS.txt
+else 
+	while [ "$end" != "x" ]
+	do
+		read end
+		Commands
+	done
+	
+fi
+		
