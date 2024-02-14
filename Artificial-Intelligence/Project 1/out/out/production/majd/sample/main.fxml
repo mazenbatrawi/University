@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Main">
+   <children>
+      <ImageView fx:id="logo" fitHeight="266.0" fitWidth="860.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true">
+         <image>
+            <Image url="@logo.jpg" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="1.0" layoutY="267.0" prefHeight="391.0" prefWidth="860.0" style="-fx-background-color: #f1faee;">
+         <children>
+            <VBox layoutX="21.0" layoutY="19.0" prefHeight="380.0" prefWidth="300.0" spacing="30.0">
+               <children>
+                  <RadioButton fx:id="emp_interface" mnemonicParsing="false" prefHeight="35.0" prefWidth="301.0" text="Employee  Interface">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="tg" />
+                     </toggleGroup>
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="sec_interface" mnemonicParsing="false" text="Section Interface" toggleGroup="$tg">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="prod_interface" mnemonicParsing="false" text="Product Interface" toggleGroup="$tg">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="bill_interface" mnemonicParsing="false" text="Bill Interface" toggleGroup="$tg">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="selling_interface" mnemonicParsing="false" text="Selling Point Interface" toggleGroup="$tg">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </RadioButton>
+               </children>
+            </VBox>
+            <VBox layoutX="462.0" layoutY="19.0" prefHeight="228.0" prefWidth="357.0" spacing="20.0">
+               <children>
+                  <HBox prefHeight="67.0" prefWidth="441.0" spacing="20.0">
+                     <children>
+                        <ImageView fx:id="owner" fitHeight="48.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@owner.png" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Yazan Maree">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="10.0" prefHeight="62.0" prefWidth="384.0" spacing="20.0">
+                     <children>
+                        <ImageView fx:id="phone" fitHeight="49.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@phone.png" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="0569403393" wrappingWidth="313.3566288948059">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="110.0" prefHeight="61.0" prefWidth="384.0" spacing="20.0">
+                     <children>
+                        <ImageView fx:id="location" fitHeight="49.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@location.png" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Jenin - Ya'bad">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <Button layoutX="459.0" layoutY="337.0" mnemonicParsing="false" onAction="#stats" prefHeight="47.0" prefWidth="314.0" text="Statistics" />
+            <Button layoutX="460.0" layoutY="272.0" mnemonicParsing="false" onAction="#chooseInterface" prefHeight="47.0" prefWidth="313.0" text="Go To Interface" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

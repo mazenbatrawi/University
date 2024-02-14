@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="728.0" prefWidth="875.0" styleClass="bodybg1" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.BFS_INFO">
+   <children>
+      <Label alignment="TOP_LEFT" prefHeight="728.0" prefWidth="875.0" styleClass="back" stylesheets="@style.css" text="&#10;&#10;&#10;&#10;&#9;&#9;- BFS algorithm is an uninformed searching algorithm for &#10;&#9;&#9;searching a tree data structure for a node that satisfies a given &#10;&#9;&#9;property. It starts at the tree root and explores all nodes at the &#10;&#9;&#9;present depth prior to moving on to the nodes at the next depth &#10;&#9;&#9;level.&#10;&#10;&#9;&#9;- Idea: Expand shallowest unexpanded node.&#10;&#9;&#9;&#10;&#9;&#9;- Uses a FIFO queue.&#10;&#9;&#9;&#10;&#9;&#9;- Properities:&#10;            &#9;&#9;&#9;1) Complete for finite branching factor b&#10;&#9;       &#9;&#9;&#9;2) Optimal if cost = 1 per step&#10;&#9;       &#9;&#9;&#9;3) Space complexity: O(b^d) &#10;&#9;       &#9;&#9;&#9;4) Time complexity: O(b^d)&#10;" wrapText="true">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="70.0" layoutY="59.0" prefHeight="54.0" prefWidth="790.0" text="Information About BFS Searching Algorithm" textFill="#d47d7d">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="33.0" fitWidth="34.0" layoutX="29.0" layoutY="14.0" onMouseClicked="#back" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@home.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="14.0" layoutY="50.0" text="Home page" />
+   </children>
+</AnchorPane>

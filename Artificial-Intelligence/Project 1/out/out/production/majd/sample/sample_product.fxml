@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="500.0" prefWidth="948.0" style="-fx-background-color: #f1faee;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ProductInterface">
+   <children>
+      <TableView fx:id="table" layoutX="39.0" layoutY="66.0" prefHeight="327.0" prefWidth="875.0">
+         <columns>
+            <TableColumn fx:id="barcode" prefWidth="103.20001220703125" text="Barcode" />
+            <TableColumn fx:id="name" prefWidth="87.20001220703125" text="Name" />
+            <TableColumn fx:id="company_id" prefWidth="78.4000244140625" text="Company ID" />
+            <TableColumn fx:id="section_id" prefWidth="92.0" text="Section ID" />
+            <TableColumn fx:id="price" prefWidth="73.5999755859375" text="Price" />
+            <TableColumn fx:id="quantity" prefWidth="82.39996337890625" text="Quantity" />
+            <TableColumn fx:id="production_date" prefWidth="122.39996337890625" text="Production Date" />
+            <TableColumn fx:id="expire_date" prefWidth="114.39984130859375" text="Expire Date" />
+            <TableColumn fx:id="selling_price" prefWidth="118.400146484375" text="Selling Price" />
+         </columns>
+      </TableView>
+      <Text layoutX="386.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Products Table">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Text>
+      <Button layoutX="111.0" layoutY="404.0" mnemonicParsing="false" onAction="#add" prefHeight="26.0" prefWidth="120.0" text="Add new product" />
+      <Button layoutX="316.0" layoutY="404.0" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="120.0" text="Search products" />
+      <Button layoutX="532.0" layoutY="404.0" mnemonicParsing="false" onAction="#update" prefHeight="26.0" prefWidth="120.0" text="Update products" />
+      <Button layoutX="718.0" layoutY="404.0" mnemonicParsing="false" onAction="#something" prefHeight="26.0" prefWidth="120.0" text="Queries" />
+      <ImageView fx:id="add_image" fitHeight="26.0" fitWidth="33.0" layoutX="154.0" layoutY="440.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@add.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="search_image" fitHeight="26.0" fitWidth="33.0" layoutX="360.0" layoutY="440.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@search.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="update_image" fitHeight="26.0" fitWidth="33.0" layoutX="579.0" layoutY="440.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@update.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="queries_image" fitHeight="26.0" fitWidth="33.0" layoutX="761.0" layoutY="440.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@question.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="home_page_image" fitHeight="57.0" fitWidth="78.0" layoutX="12.0" layoutY="9.0" onMouseClicked="#homePage" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@home.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

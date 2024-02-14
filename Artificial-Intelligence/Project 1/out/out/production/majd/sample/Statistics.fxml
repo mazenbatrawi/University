@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.AreaChart?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="611.0" prefWidth="892.0" style="-fx-background-color: #f1faee;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Statistics">
+   <children>
+      <AreaChart fx:id="chart" layoutX="542.0" layoutY="24.0" prefHeight="272.0" prefWidth="336.0" title="Total Income">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </AreaChart>
+      <Text fx:id="total_income" layoutX="14.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="441.3367233276367">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <TableView fx:id="table" layoutX="595.0" layoutY="397.0" prefHeight="200.0" prefWidth="250.0">
+        <columns>
+          <TableColumn fx:id="name" prefWidth="149.5999755859375" text="Name" />
+          <TableColumn fx:id="salary" prefWidth="97.60009765625" text="Salary" />
+        </columns>
+      </TableView>
+      <Text layoutX="675.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Salaries" wrappingWidth="90.93670654296875">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="profit_text" layoutX="14.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="441.3367233276367">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="prof_percentage" layoutX="14.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="441.3367233276367">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <BarChart fx:id="bchart" layoutX="14.0" layoutY="289.0" prefHeight="308.0" prefWidth="500.0" title="Total Sold">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </BarChart>
+      <ImageView fx:id="home_image" fitHeight="32.0" fitWidth="36.0" layoutX="14.0" layoutY="8.0" onMouseClicked="#home" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@home.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

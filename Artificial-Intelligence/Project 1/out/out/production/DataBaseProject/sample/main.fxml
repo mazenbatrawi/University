@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="728.0" prefWidth="875.0" styleClass="mainback" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Main">
+   <children>
+      <ImageView fx:id="img" fitHeight="689.0" fitWidth="572.0" layoutX="599.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@maps.png" />
+         </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
+      </ImageView>
+      <RadioButton fx:id="gaza" layoutX="665.0" layoutY="316.0" mnemonicParsing="false" text="Gaza">
+         <toggleGroup>
+            <ToggleGroup fx:id="tg1" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="hebron" layoutX="718.0" layoutY="362.0" mnemonicParsing="false" text="Hebron" toggleGroup="$tg1" />
+      <RadioButton fx:id="betlehem" layoutX="741.0" layoutY="344.0" mnemonicParsing="false" text="Bethlehem" toggleGroup="$tg1" />
+      <RadioButton fx:id="jafa" layoutX="689.0" layoutY="257.0" mnemonicParsing="false" text="Jaffa" toggleGroup="$tg1" />
+      <RadioButton fx:id="ramallah" layoutX="741.0" layoutY="275.0" mnemonicParsing="false" text="Ramallah" toggleGroup="$tg1" />
+      <RadioButton fx:id="jerusalem" layoutX="734.0" layoutY="299.0" mnemonicParsing="false" text="Jerusalem" toggleGroup="$tg1" />
+      <RadioButton fx:id="jericho" layoutX="776.0" layoutY="316.0" mnemonicParsing="false" text="Jericho" toggleGroup="$tg1" />
+      <RadioButton fx:id="salfit" layoutX="729.0" layoutY="239.0" mnemonicParsing="false" text="Salfit" toggleGroup="$tg1" />
+      <RadioButton fx:id="nablus" layoutX="748.0" layoutY="221.0" mnemonicParsing="false" text="Nablus" toggleGroup="$tg1" />
+      <RadioButton fx:id="jenin" layoutX="798.0" layoutY="184.0" mnemonicParsing="false" text="Jenin" toggleGroup="$tg1" />
+      <RadioButton fx:id="qalqilya" layoutX="739.0" layoutY="194.0" mnemonicParsing="false" text="Qalqilya" toggleGroup="$tg1" />
+      <RadioButton fx:id="tulkarm" layoutX="749.0" layoutY="167.0" mnemonicParsing="false" text="Tulkarm" toggleGroup="$tg1" />
+      <RadioButton fx:id="acre" layoutX="739.0" layoutY="96.0" mnemonicParsing="false" text="Acre" toggleGroup="$tg1" />
+      <RadioButton fx:id="haifa" layoutX="728.0" layoutY="141.0" mnemonicParsing="false" text="Haifa" toggleGroup="$tg1" />
+      <RadioButton fx:id="tiberias" layoutX="798.0" layoutY="105.0" mnemonicParsing="false" text="Tiberias" toggleGroup="$tg1" />
+      <RadioButton fx:id="ramla" layoutX="675.0" layoutY="290.0" mnemonicParsing="false" text="Ramla" toggleGroup="$tg1" />
+      <RadioButton fx:id="nazareth" layoutX="772.0" layoutY="123.0" mnemonicParsing="false" text="Nazareth" toggleGroup="$tg1" />
+      <RadioButton fx:id="safed" layoutX="779.0" layoutY="68.0" mnemonicParsing="false" text="Safed" toggleGroup="$tg1" />
+      <RadioButton fx:id="sheva" layoutX="704.0" layoutY="404.0" mnemonicParsing="false" text="Be'er-Sheva" toggleGroup="$tg1" />
+      <RadioButton fx:id="rafah" layoutX="660.0" layoutY="344.0" mnemonicParsing="false" text="Rafah" toggleGroup="$tg1" />
+      <Button fx:id="start" layoutX="66.0" layoutY="358.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMousePressed="#selectStart" prefHeight="42.0" prefWidth="170.0" text="Select Start City">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+      <Button fx:id="goal" layoutX="353.0" layoutY="358.0" mnemonicParsing="false" onMousePressed="#selectGoal" prefHeight="42.0" prefWidth="170.0" text="Select Goal City">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+      <Button fx:id="run" layoutX="66.0" layoutY="615.0" mnemonicParsing="false" onMousePressed="#runAlg" prefHeight="52.0" prefWidth="458.0" text="Run">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Button>
+      <AnchorPane layoutX="74.0" layoutY="21.0" prefHeight="324.0" prefWidth="467.0" styleClass="ground2" />
+      <RadioButton fx:id="bfs_button" layoutX="66.0" layoutY="481.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="276.0" text="Breadth First Searching Algorithm">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="tg2" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="uc_button" layoutX="66.0" layoutY="517.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="257.0" text="Uniform Cost Search Algorithm" toggleGroup="$tg2">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="as_button" layoutX="66.0" layoutY="554.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="245.0" text="A* Searching Algorithm" toggleGroup="$tg2">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </RadioButton>
+      <Label layoutX="66.0" layoutY="432.0" prefHeight="36.0" prefWidth="328.0" text="Select a searching algorithm">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

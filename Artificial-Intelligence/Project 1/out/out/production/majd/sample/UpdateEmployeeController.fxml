@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="948.0" style="-fx-background-color: #f1faee;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.UpdateEmployee">
+   <children>
+      <Text layoutX="281.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update Employee">
+         <font>
+            <Font size="49.0" />
+         </font>
+      </Text>
+      <Text layoutX="10.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search By">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="3.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Values">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <Button layoutX="88.0" layoutY="393.0" mnemonicParsing="false" onMouseClicked="#backClick" prefHeight="26.0" prefWidth="112.0" text="Back" />
+      <Button layoutX="395.0" layoutY="309.0" mnemonicParsing="false" onMouseClicked="#update" prefHeight="26.0" prefWidth="112.0" text="Update " />
+      <TextField fx:id="sid" layoutX="81.0" layoutY="98.0" prefHeight="26.0" prefWidth="86.0" promptText="ID" />
+      <TextField fx:id="sname" layoutX="175.0" layoutY="98.0" prefHeight="26.0" prefWidth="86.0" promptText="Name" />
+      <TextField fx:id="snational_id" layoutX="273.0" layoutY="98.0" prefHeight="26.0" prefWidth="86.0" promptText="National ID" />
+      <TextField fx:id="sphone" layoutX="369.0" layoutY="98.0" prefHeight="26.0" prefWidth="86.0" promptText="Phone " />
+      <TextField fx:id="ssection" layoutX="464.0" layoutY="98.0" prefHeight="26.0" prefWidth="86.0" promptText="Section " />
+      <TextField fx:id="ssalary" layoutX="562.0" layoutY="97.0" prefHeight="26.0" prefWidth="86.0" promptText="Salary " />
+      <TextField fx:id="shire_date" layoutX="664.0" layoutY="98.0" prefHeight="26.0" prefWidth="86.0" promptText="Hire Date " />
+      <TextField fx:id="sshift" layoutX="762.0" layoutY="98.0" prefHeight="26.0" prefWidth="86.0" promptText="Shift" />
+      <TextField fx:id="id" layoutX="88.0" layoutY="209.0" prefHeight="26.0" prefWidth="86.0" promptText="ID" />
+      <TextField fx:id="name" layoutX="182.0" layoutY="209.0" prefHeight="26.0" prefWidth="86.0" promptText="Name" />
+      <TextField fx:id="national_id" layoutX="280.0" layoutY="209.0" prefHeight="26.0" prefWidth="86.0" promptText="National ID" />
+      <TextField fx:id="phone" layoutX="376.0" layoutY="209.0" prefHeight="26.0" prefWidth="86.0" promptText="Phone " />
+      <TextField fx:id="section" layoutX="471.0" layoutY="209.0" prefHeight="26.0" prefWidth="86.0" promptText="Section " />
+      <TextField fx:id="salary" layoutX="569.0" layoutY="208.0" prefHeight="26.0" prefWidth="86.0" promptText="Salary " />
+      <TextField fx:id="hire_date" layoutX="671.0" layoutY="209.0" prefHeight="26.0" prefWidth="86.0" promptText="Hire Date " />
+      <TextField fx:id="shift" layoutX="769.0" layoutY="209.0" prefHeight="26.0" prefWidth="86.0" promptText="Shift" />
+      <TextField fx:id="spassword" layoutX="855.0" layoutY="98.0" prefHeight="26.0" prefWidth="86.0" promptText="Password" />
+      <TextField fx:id="password" layoutX="861.0" layoutY="209.0" prefHeight="26.0" prefWidth="86.0" promptText="Password" />
+      <ImageView fx:id="back_image" fitHeight="26.0" fitWidth="36.0" layoutX="38.0" layoutY="393.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@back.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="update_image" fitHeight="26.0" fitWidth="36.0" layoutX="527.0" layoutY="309.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@update.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

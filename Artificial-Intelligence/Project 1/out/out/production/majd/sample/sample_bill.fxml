@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="468.0" prefWidth="822.0" style="-fx-background-color: #f1faee;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.BillInterface">
+   <children>
+      <TableView fx:id="table" layoutX="56.0" layoutY="72.0" onMousePressed="#handleRowSelect" prefHeight="348.0" prefWidth="710.0">
+         <columns>
+            <TableColumn fx:id="barcode" prefWidth="133.60000228881836" text="ID" />
+            <TableColumn fx:id="emp_id" prefWidth="156.8000030517578" text="Employee ID" />
+            <TableColumn fx:id="date" prefWidth="223.2000732421875" text="Date" />
+            <TableColumn fx:id="cost" prefWidth="197.5999755859375" text="Cost" />
+         </columns>
+      </TableView>
+      <Text layoutX="356.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bills Table">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Text>
+      <Button layoutX="301.0" layoutY="427.0" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="120.0" text="Search " />
+      <ImageView fx:id="search_image" fitHeight="26.0" fitWidth="37.0" layoutX="442.0" layoutY="427.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@search.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="home_page_image" fitHeight="45.0" fitWidth="47.0" layoutX="14.0" layoutY="10.0" onMouseClicked="#homePage" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@home.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

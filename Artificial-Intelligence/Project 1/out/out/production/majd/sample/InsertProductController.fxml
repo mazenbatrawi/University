@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="365.0" style="-fx-background-color: #f1faee;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.InsertProduct">
+   <children>
+      <TextField fx:id="barcode" layoutX="182.0" layoutY="86.0" promptText="Barcode" />
+      <TextField fx:id="name" layoutX="182.0" layoutY="127.0" promptText="Name" />
+      <TextField fx:id="company_id" layoutX="182.0" layoutY="169.0" promptText="Company ID" />
+      <TextField fx:id="price" layoutX="182.0" layoutY="255.0" promptText="Price" />
+      <TextField fx:id="section_id" layoutX="182.0" layoutY="209.0" promptText="Section ID" />
+      <TextField fx:id="quantity" layoutX="182.0" layoutY="296.0" promptText="Quantity" />
+      <TextField fx:id="production_date" layoutX="182.0" layoutY="334.0" promptText="Production Date" />
+      <Button layoutX="44.0" layoutY="481.0" mnemonicParsing="false" onAction="#back" prefHeight="30.0" prefWidth="101.0" text="Back" />
+      <Button layoutX="211.0" layoutY="481.0" mnemonicParsing="false" onAction="#insert" onMousePressed="#insert" prefHeight="30.0" prefWidth="92.0" text="Add" />
+      <Text layoutX="44.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Barcode" wrappingWidth="70.78302955627441" />
+      <Text layoutX="44.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="63.583078384399414" />
+      <Text layoutX="44.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Company ID" wrappingWidth="70.78302955627441" />
+      <Text layoutX="44.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Section ID" wrappingWidth="63.583078384399414" />
+      <Text layoutX="44.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" wrappingWidth="63.583078384399414" />
+      <Text layoutX="44.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity" wrappingWidth="63.583078384399414" />
+      <Text layoutX="44.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Production Date" wrappingWidth="92.0" />
+      <Text layoutX="61.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Details">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <TextField fx:id="expire_date" layoutX="182.0" layoutY="374.0" promptText="Expire Date" />
+      <Text layoutX="44.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Expire Date" wrappingWidth="92.0" />
+      <ImageView fx:id="back_image" fitHeight="30.0" fitWidth="39.0" layoutX="75.0" layoutY="521.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@back.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="add_image" fitHeight="30.0" fitWidth="39.0" layoutX="237.0" layoutY="521.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@add.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="selling_price" layoutX="182.0" layoutY="418.0" promptText="Selling Price" />
+      <Text layoutX="44.0" layoutY="436.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Selling Price" wrappingWidth="92.0" />
+   </children>
+</AnchorPane>

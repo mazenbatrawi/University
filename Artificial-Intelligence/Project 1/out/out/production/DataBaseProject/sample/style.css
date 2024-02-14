@@ -1,0 +1,19 @@
+.bodybg{
+	-fx-background-image: url("BFS_PHOTO.png");
+	-fx-background-size: 100% 100%;
+}
+
+.back{
+	-fx-background-image: url("ALGO_BACK.png");
+	-fx-background-size: 100% 100%;
+}
+
+.mainback{
+	-fx-background-image: url("MAIN_BACK.png");
+	-fx-background-size: 100% 100%;
+}
+
+.ground2{
+	-fx-background-image: url("mainback2.png");
+	-fx-background-size: 100% 100%;
+}

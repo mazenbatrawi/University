@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="728.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.UCINFO">
+   <children>
+      <Label alignment="TOP_LEFT" prefHeight="728.0" prefWidth="875.0" styleClass="back" stylesheets="@style.css" text="&#10;&#10;&#10;&#9;- Uniform cost algorithm is an uninformed searching algorithm used to &#10;&#9;   search for shortest path between initial and final states (with no&#10;&#9;   calculations for the heuristic). &#10;&#9;- Uses a priority queue.&#10;&#9;- Idea: Expands least-cost unexpanded node.&#10;&#9;- Equivalent to breadth-first if step costs all equal.&#10;&#9;- Properities:&#10;&#9;&#9; 1) Complete, if step cost is greater than some positive constant ε &#10;&#9;&#9;     (we don’t want infinite sequences of steps that have a finite &#10;&#9;&#9;      total cost)&#10;&#9;     &#9; 2) Optimal, since it expands the least cost solution&#10;&#9;         3) Space complexity: O(b^(C*/ ε))&#10;&#9;      &#9; 4) Time complexity: Number of nodes with path cost ≤ cost of &#10;&#9;&#9;     optimal solution  (C*), O(b^(C*/ ε)). This can be greater than &#10;&#9;&#9;     O(bd): the search can explore long paths consisting of small &#10;&#9;&#9;     steps before exploring shorter paths consisting of larger steps &#10;" wrapText="true">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="29.0" fitWidth="28.0" layoutX="16.0" layoutY="8.0" onMouseClicked="#back" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@home.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="30.0" layoutY="45.0" prefHeight="54.0" prefWidth="815.0" text="Information About Uniform Cost Searching Algorithm" textFill="#d47d7d">
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+      </Label>
+      <Label layoutX="16.0" layoutY="36.0" prefHeight="18.0" prefWidth="92.0" text="Home Page" />
+   </children>
+</AnchorPane>
