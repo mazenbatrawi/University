@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="728.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ASTAR_INFO">
+   <children>
+      <Label alignment="TOP_LEFT" prefHeight="728.0" prefWidth="875.0" styleClass="back" stylesheets="@style.css" text="&#10;&#10;&#10;&#10;&#9;- A* algorithm is an informed searching algorithm used to search for &#10;&#9;shortest path between initial and final states. &#10;&#9;&#10;&#9;- Uses a priority queue.&#10;&#9;- Idea: avoids expanding paths that are already expensive.&#10;&#9;- The evaluation function f(n) is the estimated total cost of the path &#10;&#9;through node n to the goal: f(n) = g(n) + h(n)&#10;&#9;&#10;&#9;g(n): cost so far to reach n (path cost)&#9;&#10;&#9;h(n): estimated cost from n to goal (heuristic)&#10;&#9;&#10;&#9;- Properities: &#10;&#9;&#9;1) Complete for finite number of nodes&#10;&#9;&#9;2) Optimal if h(n) is admissible &#10;&#9;&#9;3) Space complexity: exponential &#10;&#9;&#9;4) Time complexity: exponential&#10;" wrapText="true">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="29.0" fitWidth="28.0" layoutX="32.0" layoutY="14.0" onMouseClicked="#back" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@home.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="71.0" layoutY="61.0" prefHeight="54.0" prefWidth="733.0" text="Information About A* Searching Algorithm" textFill="#d47d7d">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="43.0" prefHeight="18.0" prefWidth="92.0" text="Home Page" />
+   </children>
+</AnchorPane>
