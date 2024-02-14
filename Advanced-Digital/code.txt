@@ -1,0 +1,733 @@
+-- 1190102
+-- Mazen Batrawi
+
+---------------------------------------------------- Gates and dffs definitions -------------------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all;
+
+-- Each of the 3 outputs were connected to a D - Flip Flop, and all of the 3 flip flops are connected to the same clock.
+
+entity dff is
+	port(
+		clock, reset, d: in std_logic;
+		q: out std_logic := '0'
+	);
+end;
+
+architecture agtb of dff is -- An architecture holding the result of a > b
+begin
+	process(clock) begin
+		if(reset = '1') then
+			q <= '0';
+		elsif(rising_edge(clock)) then
+			q <= d;
+		end if;
+	end process;
+end architecture agtb;
+
+architecture bgta of dff is -- An architecture holding the result of b > a
+begin
+	process(clock) begin
+		if(reset = '1') then
+			q <= '0';
+		elsif(rising_edge(clock)) then
+			q <= d;
+		end if;
+	end process;
+end architecture bgta;
+
+architecture eq of dff is -- An architecture holding the result of a = b
+begin
+	process(clock) begin
+		if(reset = '1') then
+			q <= '0';
+		elsif(rising_edge(clock)) then
+			q <= d;
+		end if;
+	end process;
+end architecture eq;
+
+------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity and2 is
+	port(
+		a, b: in std_logic;
+		c: out std_logic := '0'
+	);
+end;
+
+architecture simple of and2 is
+begin
+	c <= a and b after 7ns;
+end architecture simple; 
+
+-------------------------------------------------------------------	
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity or2 is
+	port(
+		a, b: in std_logic;
+		c: out std_logic := '0'
+	);
+end;
+
+architecture simple of or2 is
+begin
+	c <= a or b after 7 ns;
+end architecture simple; 
+
+-------------------------------------------------------------------	 
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity and3 is
+	port(
+		a, b, c: in std_logic;
+		d: out std_logic := '0'
+	);
+end;
+
+architecture simple of and3 is
+begin
+	d <= a and b and c after 7 ns;
+end architecture simple; 
+
+-------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity or3 is
+	port(
+		a, b, c: in std_logic;
+		d: out std_logic := '0'
+	);
+end;
+
+architecture simple of or3 is
+begin
+	d <= a or b or c after 7 ns;
+end architecture simple;
+
+---------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity and4 is
+	port(
+		a, b, c, d: in std_logic;
+		e: out std_logic := '0'
+	);
+end;
+
+architecture simple of and4 is
+begin
+	e <= a and b and c and d after 7 ns;
+end architecture simple; 
+
+-------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity and5 is
+	port(
+		a, b, c, d, e: in std_logic;
+		f: out std_logic := '0'
+	);
+end;
+
+architecture simple of and5 is
+begin
+	f <= a and b and c and d and e after 7 ns;
+end architecture simple; 
+
+-------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity and6 is
+	port(
+		a, b, c, d, e, f: in std_logic;
+		g: out std_logic := '0'
+	);
+end;
+
+architecture simple of and6 is
+begin
+	g <= a and b and c and d and e and f after 7 ns;
+end architecture simple; 
+
+-------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity and7 is
+	port(
+		a, b, c, d, e, f, g: in std_logic;
+		h: out std_logic := '0'
+	);
+end;
+
+architecture simple of and7 is
+begin
+	h <= a and b and c and d and e and f and g after 7 ns;
+end architecture simple; 
+
+-------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity and8 is
+	port(
+		a, b, c, d, e, f, g, h: in std_logic;
+		i: out std_logic := '0'
+	);
+end;
+
+architecture simple of and8 is
+begin
+	i <= a and b and c and d and e and f and g and h after 7 ns;
+end architecture simple;
+
+--------------------------------------------------------------------- 
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity or8 is
+	port(
+		a, b, c, d, e, f, g, h: in std_logic;
+		i: out std_logic := '0'
+	);
+end;
+
+architecture simple of or8 is
+begin
+	i <= a or b or c or d or e or f or g or h after 7 ns;
+end architecture simple;
+
+---------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity xnor2 is
+	port(
+		a, b: in std_logic;
+		c: out std_logic := '0'
+	);
+end;
+
+architecture simple of xnor2 is
+begin
+	c <= a xnor b after 9 ns;
+end architecture simple; 
+
+-------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity xor2 is
+	port(
+		a, b: in std_logic;
+		c: out std_logic := '0'
+	);
+end;
+
+architecture simple of xor2 is
+begin
+	c <= a xor b after 12 ns;
+end architecture simple;
+
+-----------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity invert is
+	port(
+		a: in std_logic;
+		b: out std_logic := '0'
+	);
+end;
+
+architecture simple of invert is
+begin
+	b <= not a after 2 ns;
+end architecture simple;
+
+--------------------------------------------------------------- Stage 1 --------------------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity adder is -- One bit adder
+	port(
+		x, y: in std_logic := '0';
+		cin: in std_logic := '0';
+		sum: out std_logic := '0';
+		carry: out std_logic := '0'
+	);
+end; 
+
+architecture simple of adder is
+signal w1, w2, w3, w4: std_logic := '0';
+begin
+	g1: entity work.xor2(simple) port map(x, y, w1);
+	g2: entity work.xor2(simple) port map(w1, cin, sum);
+	g3: entity work.and2(simple) port map(x, y, w2);
+	g4: entity work.and2(simple) port map(x, cin, w3);
+	g5: entity work.and2(simple) port map(y, cin, w4);
+	g6: entity work.or3(simple) port map(w2, w3, w4, carry);
+end architecture simple;
+
+----------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+use ieee.std_logic_signed.all;
+
+entity eight_bit_subtractor is -- 8 bit subtractor 
+	port(
+		a, b: in std_logic_vector(7 downto 0);
+		sum: out std_logic_vector(7 downto 0) := "00000000";
+		carry, ovf: out std_logic := '0'
+	);					   
+end;  
+
+architecture simple of eight_bit_subtractor is
+signal newB: std_logic_vector(7 downto 0) := b;
+signal cout: std_logic_vector(7 downto 0) := "00000000";
+begin
+	g1: for i in 0 to 7 generate
+        	g2: entity work.invert(simple) port map(b(i), newB(i));
+   	end generate g1;
+	
+	g3: entity work.adder(simple) port map(a(0), newB(0), '1', sum(0), cout(0));
+	g4: for i in 1 to 7 generate
+        	g5: entity work.adder(simple) port map(a(i), newB(i), cout(i - 1), sum(i), cout(i));
+   	end generate g4;
+	
+	g6: entity work.xor2(simple) port map(cout(6), cout(7), ovf);
+	g7: entity work.xor2(simple) port map(cout(7), '0', carry);
+end architecture simple;
+
+----------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all;
+
+-- This entity stores in d the value of the sign bit
+-- It takes the overflow and the carry and the last bit in sum as an input
+-- So the sign bit is equal to the carry if there is an overflow
+-- Otherwise it is equal to the last bit in sum
+-- (ovf & carry) or (not ovf & sum(7))
+
+entity get3 is
+	port(
+		a, b, c: in std_logic;
+		d: out std_logic := '0'
+	);
+end;
+
+architecture simple of get3 is 
+signal n1, n2, n3: std_logic := '0';
+begin
+	g1: entity work.invert(simple) port map(a, n1);
+	g2: entity work.and2(simple) port map(n1, c, n2);
+	g3: entity work.and2(simple) port map(a, b, n3);
+	g4: entity work.or2(simple) port map(n2, n3, d);
+end architecture simple;
+
+----------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+use ieee.std_logic_signed.all;
+
+entity comp is
+	port(
+		clock, reset: in std_logic;
+		a, b: in std_logic_vector(7 downto 0);
+		a_greater, equal, b_greater: out std_logic := '0'
+	);
+end;
+
+architecture simple of comp is
+signal sum: std_logic_vector(7 downto 0) := "00000000";
+signal carry, ovf, sign_bit, sum_is_0, inv_sign_bit: std_logic := '0';
+signal temp_a_greater, temp_b_greater, temp_equal: std_logic := '0';
+
+begin
+	g1: entity work.eight_bit_subtractor(simple) port map(a, b, sum, carry, ovf);
+	-- ORing all of the digits to check if the sum is 0 or not
+	g2: entity work.or8(simple) port map(sum(0), sum(1), sum(2), sum(3), sum(4), sum(5), sum(6), sum(7), sum_is_0);
+	-- getting the value of the sign bit
+	g3: entity work.get3(simple) port map(ovf, carry, sum(7), sign_bit);
+	g4: entity work.xor2(simple) port map(sign_bit, '1', inv_sign_bit);
+	-- A > B when the sign bit is 0 and sum is not 0
+	g5: entity work.and2(simple) port map(inv_sign_bit, sum_is_0, temp_a_greater);
+	-- A = B when the sum is 0
+	g6: entity work.xor2(simple) port map(sum_is_0, '1', temp_equal);
+	-- A < B when the sign bit is 1 and the sum is not 0
+	g7: entity work.and2(simple) port map(sign_bit, sum_is_0, temp_b_greater);
+	-- Deriving the outputs using the DFFs	
+	ans1: entity work.dff(agtb) port map(clock, reset, temp_a_greater, a_greater);
+	ans2: entity work.dff(bgta) port map(clock, reset, temp_b_greater, b_greater);
+	ans3: entity work.dff(eq) port map(clock, reset, temp_equal, equal);
+end architecture simple;
+
+------------------------------------------------------------------------------------	
+
+library ieee;
+use ieee.std_logic_1164.all; 
+use ieee.std_logic_signed.all;
+use ieee.std_logic_arith.all;
+
+entity test_generator1 is -- Test generator that generates all possible vector combinations for a and b to compare them
+	port(
+		clock: in std_logic;
+		a, b: out std_logic_vector(7 downto 0) := "00000000";
+		a_greater, equal, b_greater: out std_logic := '0'
+	);
+end;
+
+architecture simple of test_generator1 is
+signal newA, newB: std_logic_vector(7 downto 0) := "00000000";
+signal a_greater1, b_greater1, equal1: std_logic := '0';
+begin
+	a <= newA;
+	b <= newB;
+	a_greater <= a_greater1;
+	b_greater <= b_greater1;
+	equal <= equal1;
+	process(clock, newA, newB) begin -- Comparing the values of a and b behaviorally
+		if(rising_edge(clock)) then
+			if(newA > newB) then
+				a_greater1 <= '1' after 131 ns;
+				b_greater1 <= '0' after 131 ns;
+				equal1 <= '0' after 131 ns;
+			elsif(newB > newA) then
+				a_greater1 <= '0' after 131 ns;
+				b_greater1 <= '1' after 131 ns;
+				equal1 <= '0' after 131 ns;
+			else
+				a_greater1 <= '0' after 131 ns;
+				b_greater1 <= '0' after 131 ns;
+				equal1 <= '1' after 131 ns;
+			end if;
+		end if;
+	end process;
+	process begin
+		for i in -128 to 127 loop
+			for j in -128 to 127 loop
+				newA <= conv_std_logic_vector(i, 8);
+				newB <= conv_std_logic_vector(j, 8);
+				wait until rising_edge(clock);
+			end loop;
+		end loop;
+		wait;
+	end process;
+end architecture simple;
+
+---------------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+use ieee.std_logic_signed.all;
+
+entity analyser is -- Checks if the given corresponding values are equal
+	port(
+		clock, my_a_greater, my_b_greater, my_equal, correct_a_greater, correct_b_breater, correct_equal: in std_logic
+	);
+end;
+
+architecture simple of analyser is
+begin
+	process begin
+		assert(my_a_greater = correct_a_greater and my_b_greater = correct_b_breater and my_equal = correct_equal)
+		report "There is an error"
+		severity error;
+		wait until rising_edge(clock);
+	end process;
+end;
+
+--------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+use ieee.std_logic_signed.all;
+
+entity test_bench1 is
+end;
+
+architecture test of test_bench1 is
+signal clock, reset, my_a_greater, my_equal, correct_a_greater, correct_b_breater, correct_equal: std_logic := '0';
+signal my_b_greater: std_logic := '0';
+signal a, b: std_logic_vector(7 downto 0) := "00000000";
+begin
+	clock <= not clock after 131 ns;
+	g1: entity work.test_generator1(simple) port map(clock, a, b, correct_a_greater, correct_equal, correct_b_breater);
+	g2: entity work.comp(simple) port map(clock, reset, a, b, my_a_greater, my_equal, my_b_greater);
+	g3: entity work.analyser(simple) port map(clock, my_a_greater, my_b_greater, my_equal, correct_a_greater, correct_b_breater, correct_equal); 
+end architecture test; 
+
+------------------------------------------------------------ Stage 2 ----------------------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity get1 is -- returns 1 if a is 1 and b is 0
+	port(
+		a, b: in std_logic;
+		c: out std_logic := '0'
+	);
+end;
+
+architecture simple of get1 is
+signal newB: std_logic := '0';
+begin
+	g0: entity work.invert(simple) port map(b, newB);
+	g1: entity work.and2(simple) port map(a, newB, c);
+end architecture simple;
+
+--------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity get2 is -- returns 1 if a is 0 and b is 1
+	port(
+		a, b: in std_logic;
+		c: out std_logic := '0'
+	);
+end;
+
+architecture simple of get2 is
+signal newA: std_logic := '0';
+begin
+	g0: entity work.invert(simple) port map(a, newA);
+	g1: entity work.and2(simple) port map(newA, b, c);
+end architecture simple;
+
+--------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity get4 is -- returns 1 if a is 0 and b is 0
+	port(
+		a, b: in std_logic;
+		c: out std_logic := '0'
+	);
+end;
+
+architecture simple of get4 is
+signal newA, newB: std_logic := '0';
+begin
+	g0: entity work.invert(simple) port map(a, newA);
+	g2: entity work.invert(simple) port map(b, newB);
+	g1: entity work.and2(simple) port map(newA, newB, c);
+end architecture simple;
+
+--------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+
+entity get5 is -- returns 1 if a is 1 and b is 1
+	port(
+		a, b: in std_logic;
+		c: out std_logic := '0'
+	);
+end;
+
+architecture simple of get5 is
+begin
+	g1: entity work.and2(simple) port map(a, b, c);
+end architecture simple;
+
+--------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+use ieee.std_logic_signed.all;
+
+entity eight_bit_signed_comparator is
+	port(
+		clock, reset: in std_logic;
+		a, b: in std_logic_vector(7 downto 0);
+		a_greater, equal, b_greater: out std_logic := '0'
+	);	
+end;
+
+-- The basic logic I used was the following
+-- A > B when the sign bit in A is 0 and 1 in B, or when the sign bit is equal and the comparison of the bits without
+-- the sign bit results that A is greater.
+-- The same goes for B > A but the sign bit in A is 1 and 0 in B
+-- And they are equal if the xnor of all pairs is 1, since the xnor of 2 values is 1 when they're equal
+
+architecture structural of eight_bit_signed_comparator is
+signal is00, is01, is10, is11: std_logic := '0';
+signal temp_a_greater, temp_b_greater, temp_equal: std_logic := '0';
+signal newA: std_logic_vector(7 downto 0) := a;
+signal newB: std_logic_vector(7 downto 0) := b;
+signal a_gt_b: std_logic_vector(6 downto 0) := "0000000";
+signal a_lt_b: std_logic_vector(6 downto 0) := "0000000"; 
+signal a_eq_b: std_logic_vector(7 downto 0) := "00000000";
+signal check1, check2, check3, check4, check5, check6, check7, check8, not_equal: std_logic := '0';
+
+begin
+	
+	h1: for i in 0 to 7 generate -- inverting A
+        	h2: entity work.invert(simple) port map(a(i), newA(i));
+   	end generate h1;
+		
+	h3: for i in 0 to 7 generate -- inverting B
+        	h4: entity work.invert(simple) port map(b(i), newB(i));
+   	end generate h3;
+	   
+	h5: for i in 0 to 7 generate -- XNORing every pair to check if they're equal
+        	h6: entity work.xnor2(simple) port map(b(i), a(i), a_eq_b(i));
+   	end generate h5;
+	
+	-- A > B when the this happens for one of the bits: ith bit in A is greater than the ith bit in B
+	-- and all of the previous bits are equal
+	g0: entity work.and2(simple) port map(a(6), newB(6), a_gt_b(6));
+	g1: entity work.and3(simple) port map(a(5), newB(5), a_eq_b(6), a_gt_b(5));
+	g2: entity work.and4(simple) port map(a(4), newB(4), a_eq_b(6), a_eq_b(5), a_gt_b(4));
+	g3: entity work.and5(simple) port map(a(3), newB(3), a_eq_b(6), a_eq_b(5), a_eq_b(4), a_gt_b(3));
+	g4: entity work.and6(simple) port map(a(2), newB(2), a_eq_b(6), a_eq_b(5), a_eq_b(4), a_eq_b(3), a_gt_b(2));
+	g5: entity work.and7(simple) port map(a(1), newB(1), a_eq_b(6), a_eq_b(5), a_eq_b(4), a_eq_b(3), a_eq_b(2), a_gt_b(1));
+	g6: entity work.and8(simple) port map(a(0), newB(0), a_eq_b(6), a_eq_b(5), a_eq_b(4), a_eq_b(3), a_eq_b(2), a_eq_b(1), a_gt_b(0));
+	
+	-- A < B when the this happens for one of the bits: ith bit in A is less than the ith bit in B
+	-- and all of the previous bits are equal
+	f0: entity work.and2(simple) port map(newA(6), b(6), a_lt_b(6));
+	f1: entity work.and3(simple) port map(newA(5), b(5), a_eq_b(6), a_lt_b(5));
+	f2: entity work.and4(simple) port map(newA(4), b(4), a_eq_b(6), a_eq_b(5), a_lt_b(4));
+	f3: entity work.and5(simple) port map(newA(3), b(3), a_eq_b(6), a_eq_b(5), a_eq_b(4), a_lt_b(3));
+	f4: entity work.and6(simple) port map(newA(2), b(2), a_eq_b(6), a_eq_b(5), a_eq_b(4), a_eq_b(3), a_lt_b(2));
+	f5: entity work.and7(simple) port map(newA(1), b(1), a_eq_b(6), a_eq_b(5), a_eq_b(4), a_eq_b(3), a_eq_b(2), a_lt_b(1));
+	f6: entity work.and8(simple) port map(newA(0), b(0), a_eq_b(6), a_eq_b(5), a_eq_b(4), a_eq_b(3), a_eq_b(2), a_eq_b(1), a_lt_b(0));
+	
+	-- checking all of the possible situations for the sign bits
+	cc0: entity work.get4(simple) port map(a(7), b(7), is00);
+	cc1: entity work.get2(simple) port map(a(7), b(7), is01);
+	cc2: entity work.get1(simple) port map(a(7), b(7), is10);
+	cc3: entity work.get5(simple) port map(a(7), b(7), is11);
+	
+	-- A = B when all of the bits are equal
+	y1: entity work.and8(simple) port map(a_eq_b(0), a_eq_b(1), a_eq_b(2), a_eq_b(3), a_eq_b(4), a_eq_b(5), a_eq_b(6), a_eq_b(7), temp_equal);
+	y2: entity work.invert(simple) port map(temp_equal, not_equal);	
+	
+	-- A > B when the sign bit in A is 0 and 1 in B, or when the sign bit is equal and the comparison of the bits without
+	-- the sign bit results that A is greater.
+	t1: entity work.or2(simple) port map('0', is01, check1);
+	t2: entity work.or2(simple) port map(is00, is11, check2);
+	t3: entity work.or8(simple) port map(a_gt_b(0), a_gt_b(1), a_gt_b(2), a_gt_b(3), a_gt_b(4), a_gt_b(5), a_gt_b(6), '0', check3);
+	t4: entity work.and2(simple) port map(check2, check3, check4);
+	t5: entity work.or2(simple) port map(check4, check1, temp_a_greater);
+	
+	-- The same goes for B > A but the sign bit in A is 1 and 0 in B
+	t6: entity work.or2(simple) port map('0', is10, check5);
+	t7: entity work.or2(simple) port map(is00, is11, check6);
+	t8: entity work.or8(simple) port map(a_lt_b(0), a_lt_b(1), a_lt_b(2), a_lt_b(3), a_lt_b(4), a_lt_b(5), a_lt_b(6), '0', check7);
+	t9: entity work.and2(simple) port map(check6, check7, check8);
+	t10: entity work.or2(simple) port map(check8, check5, temp_b_greater);
+	
+	-- Deriving the outputs using the DFFs
+	ans1: entity work.dff(agtb) port map(clock, reset, temp_a_greater, a_greater);
+	ans2: entity work.dff(bgta) port map(clock, reset, temp_b_greater, b_greater);
+	ans3: entity work.dff(eq) port map(clock, reset, temp_equal, equal);
+
+		
+end architecture structural;
+
+--------------------------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+use ieee.std_logic_signed.all;
+use ieee.std_logic_arith.all;
+
+entity test_generator2 is -- Same test generator in stage 1 but different latency time
+	port(
+		clock: in std_logic;
+		a, b: out std_logic_vector(7 downto 0) := "00000000";
+		a_greater, equal, b_greater: out std_logic := '0'
+	);
+end;
+
+architecture simple of test_generator2 is
+signal newA, newB: std_logic_vector(7 downto 0) := "00000000";
+signal a_greater1, b_greater1, equal1: std_logic := '0';
+begin
+	a <= newA;
+	b <= newB;
+	a_greater <= a_greater1;
+	b_greater <= b_greater1;
+	equal <= equal1;
+	process(clock, newA, newB) begin
+		if(rising_edge(clock)) then
+			if(newA > newB) then
+				a_greater1 <= '1' after 66 ns;
+				b_greater1 <= '0' after 66 ns;
+				equal1 <= '0' after 66 ns;
+			elsif(newB > newA) then
+				a_greater1 <= '0' after 66 ns;
+				b_greater1 <= '1' after 66 ns;
+				equal1 <= '0' after 66 ns;
+			else
+				a_greater1 <= '0' after 66 ns;
+				b_greater1 <= '0' after 66 ns;
+				equal1 <= '1' after 66 ns;
+			end if;
+		end if;
+	end process;
+	process begin
+		for i in -128 to 127 loop
+			for j in -128 to 127 loop
+				newA <= conv_std_logic_vector(i, 8);
+				newB <= conv_std_logic_vector(j, 8);
+				wait until rising_edge(clock);
+			end loop;
+		end loop;
+		wait;
+	end process;
+end architecture simple;
+
+---------------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all; 
+use ieee.std_logic_signed.all;
+
+entity test_bench2 is
+end;
+
+architecture test of test_bench2 is
+signal clock, reset, my_a_greater, my_equal, correct_a_greater, correct_b_breater, correct_equal: std_logic := '0';
+signal my_b_greater: std_logic := '0';
+signal a, b: std_logic_vector(7 downto 0) := "00000000";
+begin
+	clock <= not clock after 66 ns;
+	g1: entity work.test_generator(simple) port map(clock, a, b, correct_a_greater, correct_equal, correct_b_breater);
+	g2: entity work.eight_bit_signed_comparator(structural) port map(clock, reset, a, b, my_a_greater, my_equal, my_b_greater);
+	g3: entity work.analyser(simple) port map(clock, my_a_greater, my_b_greater, my_equal, correct_a_greater, correct_b_breater, correct_equal); 
+end architecture test; 
+
+--------------------------------------------------------------------------
